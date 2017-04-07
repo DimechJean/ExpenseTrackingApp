@@ -1,0 +1,52 @@
+﻿@model IEnumerable<ExpenseTrackingApp.Models.UserAccount>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.EmailAcc)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PasswordAcc)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NameAcc)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SurnameAcc)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.EmailAcc)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PasswordAcc)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NameAcc)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SurnameAcc)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.ID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.ID })
+        </td>
+    </tr>
+}
+
+</table>
