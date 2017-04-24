@@ -24,13 +24,14 @@ namespace ExpenseTrackingApp.Models
         [StringLength(150)]
         [EmailAddress]
         [Display(Name ="Email Address")]
-        //[Remote("EmailAddressDB","UserAccounts", HttpMethod = "POST",ErrorMessage = "An Account with the Email Address already exists")]
+        [Remote("EmailAddressDB","UserAccounts", HttpMethod = "POST",ErrorMessage = "An Account with the Email Address already exists")]
         public string EmailAcc { get; set; }
 
         [Required]
-        [StringLength(150)]
+        [StringLength(150,ErrorMessage = "The {0} must be at least {2} characters long.",MinimumLength = 6)]
         [DataType(DataType.Password)]
         [Display(Name ="Password")]
+        [Remote("PasswordDB","UserAccounts",HttpMethod ="POST",ErrorMessage = "Password must have at least one upper case letter and a number")]
         public string PasswordAcc { get; set; }
 
         [StringLength(50)]
