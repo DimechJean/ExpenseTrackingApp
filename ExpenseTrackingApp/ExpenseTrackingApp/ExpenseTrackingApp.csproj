@@ -134,8 +134,11 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\AddCategoryController.cs" />
+    <Compile Include="Controllers\AddTransactionController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\UserAccountsController.cs" />
+    <Compile Include="Controllers\ViewController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -193,6 +196,11 @@
     <Content Include="Views\UserAccounts\UserExist.cshtml" />
     <Content Include="Views\UserAccounts\Login.cshtml" />
     <Content Include="Views\UserAccounts\UserNotExist.cshtml" />
+    <Content Include="Views\AddTransaction\Index.cshtml" />
+    <Content Include="Views\AddTransaction\Add.cshtml" />
+    <Content Include="Views\AddCategory\Add.cshtml" />
+    <Content Include="Views\View\TransactionCategories.cshtml" />
+    <Content Include="Views\View\Transactions.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -201,7 +209,9 @@
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
-    <Content Include="packages.config" />
+    <Content Include="packages.config">
+      <SubType>Designer</SubType>
+    </Content>
     <None Include="Project_Readme.html" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
