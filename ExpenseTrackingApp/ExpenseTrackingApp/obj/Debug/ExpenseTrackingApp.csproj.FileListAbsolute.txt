@@ -94,3 +94,5 @@ C:\Users\Jean\Downloads\ExpenseTrackingApp-master\ExpenseTrackingApp-master\Expe
 C:\Users\Jean\Downloads\ExpenseTrackingApp-master\ExpenseTrackingApp-master\ExpenseTrackingApp\ExpenseTrackingApp\obj\Debug\ExpenseTrackingApp.csprojResolveAssemblyReference.cache
 C:\Users\Jean\Downloads\ExpenseTrackingApp-master\ExpenseTrackingApp-master\ExpenseTrackingApp\ExpenseTrackingApp\obj\Debug\ExpenseTrackingApp.dll
 C:\Users\Jean\Downloads\ExpenseTrackingApp-master\ExpenseTrackingApp-master\ExpenseTrackingApp\ExpenseTrackingApp\obj\Debug\ExpenseTrackingApp.pdb
+C:\Users\Jean\Downloads\ExpenseTrackingApp-master\ExpenseTrackingApp-master\ExpenseTrackingApp\ExpenseTrackingApp\bin\Facebook.dll
+C:\Users\Jean\Downloads\ExpenseTrackingApp-master\ExpenseTrackingApp-master\ExpenseTrackingApp\ExpenseTrackingApp\bin\Facebook.xml
