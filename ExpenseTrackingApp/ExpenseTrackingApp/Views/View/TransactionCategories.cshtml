@@ -1,0 +1,21 @@
+﻿@model ExpenseTrackingApp.Models.TransactionCategory
+
+@{
+    ViewBag.Title = "TransactionCategories";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    List<ExpenseTrackingApp.Models.TransactionCategory> categories = ViewData["CatList"] as List<ExpenseTrackingApp.Models.TransactionCategory>;
+}
+
+<h2>TransactionCategories</h2>
+
+<div>
+    <h4>TransactionCategory</h4>
+    <hr />
+    <div>
+        @foreach (var category in categories)
+        {
+            <p> @category.NameCat </p>
+        }
+    </div>
+
+</div>
