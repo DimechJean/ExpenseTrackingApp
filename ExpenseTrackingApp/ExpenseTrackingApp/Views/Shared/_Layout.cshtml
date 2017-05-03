@@ -6,65 +6,135 @@
     <title>@ViewBag.Title - My ASP.NET Application</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
-    
+	@Scripts.Render("~/bundles/scripts")
+
+	<script>function myFunction() {
+	var $this = $(this);
+
+	$('#fh5co-offcanvass').toggleClass('fh5co-awake');
+	if ($(window).width() < 1600){
+		$('#fh5co-page, #fh5co-menu').toggleClass('fh5co-sleep');
+	}
+
+	if ($('#fh5co-offcanvass').hasClass('fh5co-awake')) {
+		$this.addClass('active');
+	} else {
+		$this.removeClass('active');
+	}
+}
+	</script>
+
 </head>
-<body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container-fluid">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                @Html.ActionLink("Expense Tracking", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
-            </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li>@Html.ActionLink("About", "About", "Home")</li>
-                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
-                </ul>
-                <ul class="nav navbar-nav navbar-right">
-                    @{
-                        if (Request.Cookies["auth"] != null)
-                        {
-                            HttpCookie auth = Request.Cookies["auth"];
-                            string namesurname = auth.Values.Get("namesurname");
-                            <li class="dropdown">
-                                <a class="dropdown-toggle" data-toggle="dropdown" href="/UserAccounts/Edit">Hello @(namesurname)</a>
-                                <ul class="dropdown-menu">
-                                    <li>@Html.ActionLink("Edit","Edit","UserAccounts",routeValues:null, htmlAttributes: new { title = "Edit Account" })</li>
-                                    <li>@Html.ActionLink("Delete", "Delete", "UserAccounts", routeValues: null, htmlAttributes: new { title = "Remove Account" })</li>
-                                </ul>
-                            </li>
-                        <li>@Html.ActionLink("Sign Out", "LogOff", "UserAccounts");</li>
+<body>	
+	<div id="fh5co-offcanvass" style="margin-right: 30px; padding-right: 100px;">
+		<ul>
+			<li class="active"><a href="@Url.Action("Index", "Home")" data-nav-section="home">Home</a></li>
+			<li><a href="@Url.Action("Transactions", "View")" data-nav-section="transactions">Transactions</a></li>
+			<li><a href="@Url.Action("TransactionCategories", "View")" data-nav-section="addcat">Categories</a></li>
+			<li><a href="#" data-nav-section="testimonies">Testimonies</a></li>
+			<li><a href="#" data-nav-section="products">Products</a></li>
+			<li><a href="#" data-nav-section="benefits">Benefits</a></li>
+			<li><a href="#" data-nav-section="pricing">Pricing</a></li>
+			<li><a href="#" data-nav-section="faqs">FAQs</a></li>
+			<li>
+				@{
+					if (Request.Cookies["auth"] != null)
+					{
+						HttpCookie auth = Request.Cookies["auth"];
+						string namesurname = auth.Values.Get("namesurname");
+				<li class="dropdown">
+					<a class="dropdown-toggle" data-toggle="dropdown" href="/UserAccounts/Edit">Hello @(namesurname)</a>
+					<ul class="dropdown-menu">
+						<li>@Html.ActionLink("Edit", "Edit", "UserAccounts", routeValues: null, htmlAttributes: new { title = "Edit Account" })</li>
+						<li>@Html.ActionLink("Delete", "Delete", "UserAccounts", routeValues: null, htmlAttributes: new { title = "Remove Account" })</li>
+					</ul>
+				</li>
+			    <li>@Html.ActionLink("Sign Out", "LogOff", "UserAccounts")</li>
 
-                        }
+					}
 
-                        else
+					else
 
-                        {
-                            <li>@Html.ActionLink("Register", "Create", "UserAccounts");</li>
-                            <li>@Html.ActionLink("Login", "Login", "UserAccounts");</li>
-                        }
-                    }
-                </ul>
+					{
+					<li>@Html.ActionLink("Register", "Create", "UserAccounts")</li>
+					<li>@Html.ActionLink("Login", "Login", "UserAccounts")</li>
+					}
+			}	
+			</li>
+		</ul>
+	</div>
+	
+<div id="fh5co-menu" class="navbar">
+		<div class="move" style="margin-right: 30px">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12">
+					<a href="#" class="js-
+					    fh5co-nav-toggle" data-toggle="collapse" data-target="#fh5co-navbar" aria-expanded="false" aria-controls="navbar"><span onclick="myFunction()" style="color: #6A6A6A"> Menu <i style="background: #6A6A6A"> </i></span></a>
+					<a href="#" class="navbar-brand"><span style="color: #6A6A6A">Cache</span></a>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
 
 
+	<div class="container body-content" >
+		<div id="fh5co-page" class="active" style="padding-top: 50px">
+			@RenderBody()
+			<hr />
+		</div>
+	</div>
 
-            </div>
-        </div>
-    </div>
-    <div class="container body-content">
-        @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
-        </footer>
-    </div>
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
-    @RenderSection("scripts", required: false)
+	<div id="fh5co-page">
+		<footer id="fh5co-footer" style="position: relative">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-3 col-sm-4 col-md-push-3">
+						<h3 class="fh5co-lead">About</h3>
+						<ul>
+							<li><a href="#">Tour</a></li>
+							<li><a href="#">Company</a></li>
+							<li><a href="#">Jobs</a></li>
+							<li><a href="#">Blog</a></li>
+							<li><a href="#">New Features</a></li>
+							<li><a href="#">Contact Us</a></li>
+						</ul>
+					</div>
+					<div class="col-md-3 col-sm-4 col-md-push-3">
+						<h3 class="fh5co-lead">Support</h3>
+						<ul>
+							<li><a href="#">Help Center</a></li>
+							<li><a href="#">Terms of Service</a></li>
+							<li><a href="#">Security</a></li>
+							<li><a href="#">Privacy Policy</a></li>
+							<li><a href="#">Careers</a></li>
+							<li><a href="#">More Apps</a></li>
+						</ul>
+					</div>
+					<div class="col-md-3 col-sm-4 col-md-push-3">
+						<h3 class="fh5co-lead">More Links</h3>
+						<ul>
+							<li><a href="#">Feedback</a></li>
+							<li><a href="#">Frequently Ask Questions</a></li>
+							<li><a href="#">Terms of Service</a></li>
+							<li><a href="#">Privacy Policy</a></li>
+							<li><a href="#">Careers</a></li>
+							<li><a href="#">More Apps</a></li>
+						</ul>
+					</div>
+
+					<div class="col-md-3 col-sm-12 col-md-pull-9">
+						<div class="fh5co-footer-logo"><a href="index.html">Cache</a></div></div>
+
+				</div>
+			</div>>
+		</footer>
+	</div>
+	@Scripts.Render("~/bundles/scripts")
+	@Scripts.Render("~/bundles/jquery")
+	@Scripts.Render("~/bundles/bootstrap")
+	@RenderSection("scripts", required: false)
 </body>
+
 </html>

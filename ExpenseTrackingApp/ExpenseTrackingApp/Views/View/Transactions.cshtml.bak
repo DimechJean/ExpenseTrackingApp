@@ -8,7 +8,6 @@
 
 <h2>Transactions</h2>
 
-@* Jean Changes *@
 <div>
     <h4>Transactions Personal</h4>
     <hr />
@@ -26,29 +25,5 @@
             </a>
             <br />
         }
-    </div>
-@* Axel Changes *@
-<div class="container">
-		<p>Here you will find all your transactions</p>
-		<table class="table">
-			<thead>
-				<tr>
-					<th>Amount</th>
-					<th>Description</th>
-					<th>Category</th>
-				</tr>
-			</thead>
-			<tbody>
-				@foreach (var transaction in transactions)
-				{
-					<tr>
-					<td> €@transaction.Amount </td>
-					<td> @transaction.TransactionDescription</td>
-					<td> @transaction.TransactionCategory </td>
-				    </tr>
-				}  
-			</tbody>
-	    </table>
-		<a href="@Url.Action("Add", "AddTransaction")" class="btn btn-primary btn-lg">Add Transaction &raquo;</a>
     </div>
 </div>

@@ -57,10 +57,6 @@ html {
       -ms-text-size-adjust: 100%;
 }
 
-move{
-	margin-right: 100px
-}
-
 body {
   margin: 0;
 }
