@@ -53,17 +53,18 @@ C:\Users\Jean\Downloads\ExpenseTrackingApp-master\ExpenseTrackingApp-master\Expe
 C:\Users\Jean\Downloads\ExpenseTrackingApp-master\ExpenseTrackingApp-master\ExpenseTrackingApp\ExpenseTrackingApp\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
 C:\Users\Jean\Downloads\ExpenseTrackingApp-master\ExpenseTrackingApp-master\ExpenseTrackingApp\ExpenseTrackingApp\bin\roslyn\Microsoft.CSharp.Core.targets
 C:\Users\Jean\Downloads\ExpenseTrackingApp-master\ExpenseTrackingApp-master\ExpenseTrackingApp\ExpenseTrackingApp\bin\roslyn\Microsoft.VisualBasic.Core.targets
+C:\Users\Jean\Downloads\ExpenseTrackingApp-master\ExpenseTrackingApp-master\ExpenseTrackingApp\ExpenseTrackingApp\bin\roslyn\System.Collections.Immutable.dll
 C:\Users\Jean\Downloads\ExpenseTrackingApp-master\ExpenseTrackingApp-master\ExpenseTrackingApp\ExpenseTrackingApp\bin\roslyn\System.Reflection.Metadata.dll
 C:\Users\Jean\Downloads\ExpenseTrackingApp-master\ExpenseTrackingApp-master\ExpenseTrackingApp\ExpenseTrackingApp\bin\roslyn\vbc.exe
 C:\Users\Jean\Downloads\ExpenseTrackingApp-master\ExpenseTrackingApp-master\ExpenseTrackingApp\ExpenseTrackingApp\bin\roslyn\VBCSCompiler.exe
 C:\Users\Jean\Downloads\ExpenseTrackingApp-master\ExpenseTrackingApp-master\ExpenseTrackingApp\ExpenseTrackingApp\bin\roslyn\VBCSCompiler.exe.config
-C:\Users\Jean\Downloads\ExpenseTrackingApp-master\ExpenseTrackingApp-master\ExpenseTrackingApp\ExpenseTrackingApp\bin\roslyn\System.Collections.Immutable.dll
 C:\Users\Jean\Downloads\ExpenseTrackingApp-master\ExpenseTrackingApp-master\ExpenseTrackingApp\ExpenseTrackingApp\bin\ExpenseTrackingApp.dll.config
 C:\Users\Jean\Downloads\ExpenseTrackingApp-master\ExpenseTrackingApp-master\ExpenseTrackingApp\ExpenseTrackingApp\bin\ExpenseTrackingApp.dll
 C:\Users\Jean\Downloads\ExpenseTrackingApp-master\ExpenseTrackingApp-master\ExpenseTrackingApp\ExpenseTrackingApp\bin\ExpenseTrackingApp.pdb
 C:\Users\Jean\Downloads\ExpenseTrackingApp-master\ExpenseTrackingApp-master\ExpenseTrackingApp\ExpenseTrackingApp\bin\Antlr3.Runtime.dll
 C:\Users\Jean\Downloads\ExpenseTrackingApp-master\ExpenseTrackingApp-master\ExpenseTrackingApp\ExpenseTrackingApp\bin\EntityFramework.dll
 C:\Users\Jean\Downloads\ExpenseTrackingApp-master\ExpenseTrackingApp-master\ExpenseTrackingApp\ExpenseTrackingApp\bin\EntityFramework.SqlServer.dll
+C:\Users\Jean\Downloads\ExpenseTrackingApp-master\ExpenseTrackingApp-master\ExpenseTrackingApp\ExpenseTrackingApp\bin\Facebook.dll
 C:\Users\Jean\Downloads\ExpenseTrackingApp-master\ExpenseTrackingApp-master\ExpenseTrackingApp\ExpenseTrackingApp\bin\Microsoft.AspNet.Identity.Core.dll
 C:\Users\Jean\Downloads\ExpenseTrackingApp-master\ExpenseTrackingApp-master\ExpenseTrackingApp\ExpenseTrackingApp\bin\Microsoft.AspNet.Identity.EntityFramework.dll
 C:\Users\Jean\Downloads\ExpenseTrackingApp-master\ExpenseTrackingApp-master\ExpenseTrackingApp\ExpenseTrackingApp\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
@@ -77,6 +78,7 @@ C:\Users\Jean\Downloads\ExpenseTrackingApp-master\ExpenseTrackingApp-master\Expe
 C:\Users\Jean\Downloads\ExpenseTrackingApp-master\ExpenseTrackingApp-master\ExpenseTrackingApp\ExpenseTrackingApp\bin\System.Web.WebPages.dll
 C:\Users\Jean\Downloads\ExpenseTrackingApp-master\ExpenseTrackingApp-master\ExpenseTrackingApp\ExpenseTrackingApp\bin\System.Web.WebPages.Razor.dll
 C:\Users\Jean\Downloads\ExpenseTrackingApp-master\ExpenseTrackingApp-master\ExpenseTrackingApp\ExpenseTrackingApp\bin\WebGrease.dll
+C:\Users\Jean\Downloads\ExpenseTrackingApp-master\ExpenseTrackingApp-master\ExpenseTrackingApp\ExpenseTrackingApp\bin\Facebook.xml
 C:\Users\Jean\Downloads\ExpenseTrackingApp-master\ExpenseTrackingApp-master\ExpenseTrackingApp\ExpenseTrackingApp\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
 C:\Users\Jean\Downloads\ExpenseTrackingApp-master\ExpenseTrackingApp-master\ExpenseTrackingApp\ExpenseTrackingApp\bin\System.Web.Helpers.xml
 C:\Users\Jean\Downloads\ExpenseTrackingApp-master\ExpenseTrackingApp-master\ExpenseTrackingApp\ExpenseTrackingApp\bin\System.Web.Mvc.xml
@@ -94,5 +96,3 @@ C:\Users\Jean\Downloads\ExpenseTrackingApp-master\ExpenseTrackingApp-master\Expe
 C:\Users\Jean\Downloads\ExpenseTrackingApp-master\ExpenseTrackingApp-master\ExpenseTrackingApp\ExpenseTrackingApp\obj\Debug\ExpenseTrackingApp.csprojResolveAssemblyReference.cache
 C:\Users\Jean\Downloads\ExpenseTrackingApp-master\ExpenseTrackingApp-master\ExpenseTrackingApp\ExpenseTrackingApp\obj\Debug\ExpenseTrackingApp.dll
 C:\Users\Jean\Downloads\ExpenseTrackingApp-master\ExpenseTrackingApp-master\ExpenseTrackingApp\ExpenseTrackingApp\obj\Debug\ExpenseTrackingApp.pdb
-C:\Users\Jean\Downloads\ExpenseTrackingApp-master\ExpenseTrackingApp-master\ExpenseTrackingApp\ExpenseTrackingApp\bin\Facebook.dll
-C:\Users\Jean\Downloads\ExpenseTrackingApp-master\ExpenseTrackingApp-master\ExpenseTrackingApp\ExpenseTrackingApp\bin\Facebook.xml

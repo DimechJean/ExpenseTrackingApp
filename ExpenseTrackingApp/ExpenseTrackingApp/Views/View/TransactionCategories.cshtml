@@ -15,6 +15,8 @@
         @foreach (var category in categories)
         {
             <p> @category.NameCat </p>
+            <a href="/Edit/Category/@category.ID"> edit </a>
+            <a href="/Delete/Category/@category.ID"> delete </a>
         }
     </div>
 

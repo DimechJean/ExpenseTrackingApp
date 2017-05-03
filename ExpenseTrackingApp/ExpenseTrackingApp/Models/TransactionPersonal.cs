@@ -22,5 +22,11 @@ namespace ExpenseTrackingApp.Models
         public decimal TransactionCategory { get; set; }
 
         public virtual TransactionCategory TransactionCategory1 { get; set; }
+
+        [Column(TypeName = "Date"), DataType(DataType.Date)]
+        public DateTime DateAdded { get; set; }
+
+        [Column(TypeName = "numeric")]
+        public decimal Account { get; set; }
     }
 }

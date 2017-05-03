@@ -6,8 +6,8 @@ namespace ExpenseTrackingApp.Models
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    [Table("TransactionPersonal")]
-    public partial class TransactionPersonal
+    [Table("TransactionOnline")]
+    public partial class TransactionOnline
     {
         [Column(TypeName = "numeric")]
         public decimal ID { get; set; }
@@ -23,7 +23,7 @@ namespace ExpenseTrackingApp.Models
 
         public virtual TransactionCategory TransactionCategory1 { get; set; }
 
-        [Column(TypeName = "DateTime"), DataType(DataType.Date)] //[Column(TypeName = "DateTime")]
+        [Column(TypeName = "DateTime"), DataType(DataType.Date)]
         public DateTime DateAdded { get; set; }
     }
 }

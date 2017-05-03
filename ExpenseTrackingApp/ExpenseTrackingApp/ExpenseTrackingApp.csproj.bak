@@ -143,7 +143,6 @@
     <Compile Include="Controllers\DeleteController.cs" />
     <Compile Include="Controllers\EditController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\ReportsController.cs" />
     <Compile Include="Controllers\UserAccountsController.cs" />
     <Compile Include="Controllers\ViewController.cs" />
     <Compile Include="Global.asax.cs">
@@ -153,7 +152,6 @@
     <Compile Include="Models\Model1.cs" />
     <Compile Include="Models\OnlineAccount.cs" />
     <Compile Include="Models\PersonalAccount.cs" />
-    <Compile Include="Models\Reports.cs" />
     <Compile Include="Models\TransactionCategory.cs" />
     <Compile Include="Models\TransactionOnline.cs" />
     <Compile Include="Models\TransactionPersonal.cs" />
@@ -215,8 +213,6 @@
     <Content Include="Views\Edit\Transaction.cshtml" />
     <Content Include="Views\View\AllTransactions.cshtml" />
     <Content Include="Views\Edit\TransactionOnline.cshtml" />
-    <Content Include="Views\Reports\Index.cshtml" />
-    <Content Include="Views\Reports\Report.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

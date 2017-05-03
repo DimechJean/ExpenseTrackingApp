@@ -52,9 +52,9 @@ namespace ExpenseTrackingApp.Controllers
         }
 
         /**
-         * Helper Method
+         * Helper Method TODO: PUT IN HELPER METHOD CLASS
          */
-        private bool CategoryExists(string catname)
+        public static bool CategoryExists(string catname)
         {
             using (Model1 db = new Model1())
             {

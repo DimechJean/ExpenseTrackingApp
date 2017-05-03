@@ -17,6 +17,12 @@
             <p> Amount: @transaction.Amount </p>
             <p> Description: @transaction.TransactionDescription</p>
             <p> Category: @transaction.TransactionCategory </p>
+            <p> Date: @transaction.DateAdded </p>
+            <a href="/Edit/Transaction/@transaction.ID"> edit </a>
+            <a href="/Delete/Transaction/@transaction.ID"> delete </a>
+            <a href="/AddTransaction/Starred/@transaction.ID">
+                <img src="~/Content/Images/gold_star_glyph.png" alt="Star" width="40" height="25" />
+            </a>
             <br />
         }
     </div>

@@ -19,11 +19,7 @@ namespace ExpenseTrackingApp.Controllers
         public ActionResult Add()
         {
             List<SelectListItem> categories = new List<SelectListItem>();
-            HttpCookie auth = Request.Cookies["auth"];
-            if(auth == null)
-            {
-                return RedirectToAction("Login","UserAccounts");
-            }
+
             using (Model1 db = new Model1())
             {
                 var table = db.TransactionCategory.ToArray();
@@ -35,15 +31,11 @@ namespace ExpenseTrackingApp.Controllers
                     newSLI.Value = Convert.ToString(cat.ID);
                     categories.Add(newSLI);
                 }
-                
-                    string email = auth.Values.Get("Email");
-                    var user = db.UserAccount.Where(m => m.EmailAcc.Equals(email)).ToList();
-                    UserAccount user2 = user.ElementAt(0);
-                    //Select all accounts where the user account is the one logged in
-                    ViewBag.AccountDescription = new SelectList(db.PersonalAccount.Where(u => u.UserAccount == user2.ID).ToList(), "ID", "AccountDescription");
-                    ViewData["Categ"] = new List<SelectListItem>(categories);
-                    return View();
             }
+
+            ViewData["Categ"] = new List<SelectListItem>(categories);
+
+            return View();
         }
 
         [HttpPost]
@@ -59,6 +51,7 @@ namespace ExpenseTrackingApp.Controllers
                         ID++;
                     }
                     transaction.ID = ID;
+
                     db.TransactionPersonal.Add(transaction);
                     db.SaveChanges();
                 }
@@ -136,7 +129,6 @@ namespace ExpenseTrackingApp.Controllers
                     newTransaction.TransactionDescription = oldTransaction.TransactionDescription;
                     newTransaction.DateAdded = oldTransaction.DateAdded;
                     newTransaction.TransactionCategory = oldTransaction.TransactionCategory;
-                    newTransaction.Account = oldTransaction.Account;
 
                     db.TransactionPersonal.Add(newTransaction);
                     db.SaveChanges();
@@ -146,7 +138,7 @@ namespace ExpenseTrackingApp.Controllers
             return RedirectToAction("AllTransactions", "View");
         }
 
-        /*public ActionResult StarredOnline(int? id)
+        public ActionResult StarredOnline(int? id)
         {
             if (ModelState.IsValid)
             {
@@ -173,6 +165,6 @@ namespace ExpenseTrackingApp.Controllers
                 ModelState.Clear();
             }
             return RedirectToAction("AllTransactions", "View");
-        }*/
+        }
     }
 }
