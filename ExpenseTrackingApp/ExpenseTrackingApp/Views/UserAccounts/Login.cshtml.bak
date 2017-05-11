@@ -39,14 +39,16 @@
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <input id="submit" type="submit" value="Login" class="btn btn-default" />
-            </div>
-        </div>
+				<input class="btn btn-default" type="button" value="Register" onclick =" location.href= '@Url.Action("Create", "UserAccounts")'" />
+				<div id="socialLoginList">
+					<p>
+						<button onclick="location.replace('../UserAccounts/Facebook');" type="submit" class="btn btn-sm" title="Register With Facebook ">Register With Facebook</button>
+					</p>
+				</div>
+			</div>
+        </div>														  
     </div>
 }
-
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

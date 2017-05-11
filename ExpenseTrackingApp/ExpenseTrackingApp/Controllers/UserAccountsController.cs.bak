@@ -311,12 +311,13 @@ namespace ExpenseTrackingApp.Controllers
             int id = Convert.ToInt32(db.UserAccount.OrderByDescending(i => i.ID).FirstOrDefault().ToString());
             if(user.ID != id)
             {
-                foreach(UserAccount user2 in db.UserAccount)
+                var AllUsers = db.UserAccount.ToList();
+                foreach(UserAccount user2 in AllUsers)
                 {
                     if(user2.ID > user.ID)
                     {
-                        user2.ID -= 1;
-                        db.Entry(user2).State = EntityState.Modified;
+                        decimal ID = user2.ID - 1;
+                        db.Database.ExecuteSqlCommand("Update [dbo].[UserAccount] set ID = " + ID + "Where ID = " + user2.ID);
                     }
                 }
             }

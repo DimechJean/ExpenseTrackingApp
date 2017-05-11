@@ -1,0 +1,29 @@
+﻿@model ExpenseTrackingApp.Models.TransactionOnline
+
+@{
+    ViewBag.Title = "TransactionsOnline";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    List<ExpenseTrackingApp.Models.TransactionOnline> transactions = ViewData["TransList"] as List<ExpenseTrackingApp.Models.TransactionOnline>;
+}
+
+<h2>TransactionsOnline</h2>
+
+<div>
+    <h4>Transactions Personal</h4>
+    <hr />
+    <div>
+        @foreach (var transaction in transactions)
+        {
+            <p> Amount: @transaction.Amount </p>
+            <p> Description: @transaction.TransactionDescription</p>
+            <p> Category: @transaction.TransactionCategory </p>
+            <p> Date: @transaction.DateAdded </p>
+            <a href="/Edit/TransactionOnline/@transaction.ID"> edit </a>
+            <a href="/Delete/TransactionOnline/@transaction.ID"> delete </a>
+            <a href="/AddTransaction/StarredOnline/@transaction.ID">
+                <img src="~/Content/Images/gold_star_glyph.png" alt="Star" width="40" height="25"/>
+            </a>
+            <br />
+        }
+    </div>
+</div>

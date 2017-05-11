@@ -109,6 +109,9 @@ sub {
   bottom: -0.25em;
 }
 
+.notice{
+	color: #4FD2C2;
+}
 img {
   border: 0;
 }

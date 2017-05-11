@@ -19,6 +19,7 @@ namespace ExpenseTrackingApp.Controllers
         public ActionResult Add()
         {
             List<SelectListItem> categories = new List<SelectListItem>();
+            List<SelectListItem> accounts = new List<SelectListItem>();
             HttpCookie auth = Request.Cookies["auth"];
             if(auth == null)
             {
@@ -27,7 +28,6 @@ namespace ExpenseTrackingApp.Controllers
             using (Model1 db = new Model1())
             {
                 var table = db.TransactionCategory.ToArray();
-
                 foreach (var cat in table)
                 {
                     SelectListItem newSLI = new SelectListItem();
@@ -35,41 +35,56 @@ namespace ExpenseTrackingApp.Controllers
                     newSLI.Value = Convert.ToString(cat.ID);
                     categories.Add(newSLI);
                 }
+                string email = auth.Values.Get("Email");
+                UserAccount useracc = db.UserAccount.Where(m => m.EmailAcc.Equals(email)).FirstOrDefault();
+                var accountTable = db.PersonalAccount.ToArray().Where(m=>m.UserAccount == useracc.ID);
+                foreach (var acc in accountTable)
+                {
+                    SelectListItem newSLI = new SelectListItem();
+                    newSLI.Text = acc.AccountDescription;
+                    newSLI.Value = Convert.ToString(acc.ID);
+                    accounts.Add(newSLI);
+                }                
                 
-                    string email = auth.Values.Get("Email");
-                    var user = db.UserAccount.Where(m => m.EmailAcc.Equals(email)).ToList();
-                    UserAccount user2 = user.ElementAt(0);
-                    //Select all accounts where the user account is the one logged in
-                    ViewBag.AccountDescription = new SelectList(db.PersonalAccount.Where(u => u.UserAccount == user2.ID).ToList(), "ID", "AccountDescription");
-                    ViewData["Categ"] = new List<SelectListItem>(categories);
-                    return View();
+                var user = db.UserAccount.Where(m => m.EmailAcc.Equals(email)).ToList();
+                UserAccount user2 = user.ElementAt(0);
+                //Select all accounts where the user account is the one logged in
+                //ViewBag.AccountDescription = new SelectList(db.PersonalAccount.Where(u => u.UserAccount == user2.ID).ToList(), "ID", "AccountDescription");
+                //var accounts = db.PersonalAccount.Where(u => u.UserAccount == user2.ID).ToList();
+                ViewData["Categ"] = new List<SelectListItem>(categories);
+                ViewData["Accts"] = new List<SelectListItem>(accounts);
+                return View();
             }
         }
 
         [HttpPost]
-        public ActionResult Add(TransactionPersonal transaction)
+        public ActionResult Add([Bind(Include = "ID,Amount,TransactionDescription,TransactionCategory,DateAdded,Account")]TransactionPersonal transaction)
         {
             if (ModelState.IsValid)
             {
                 using (Model1 db = new Model1())
                 {
-                    int ID = 0;
-                    foreach (TransactionPersonal tp in db.TransactionPersonal)
+                    decimal maxId;
+                    if (db.TransactionPersonal.Count() == 0)
+                        maxId = 0;
+                    else
                     {
-                        ID++;
+                        maxId = db.TransactionPersonal.Max(x => x.ID);
+                        maxId++;
                     }
-                    transaction.ID = ID;
+                    transaction.ID = maxId;
                     db.TransactionPersonal.Add(transaction);
                     db.SaveChanges();
                 }
                 ModelState.Clear();
 
-                return Content("Transaction Added Successfully");//return RedirectToAction("Index");
+                TempData["notice"] = "Transaction Added Successfully";
+                return RedirectToAction("Transactions", "View");
             }
             return Content("Invalid Transaction");
         }
 
-        public ActionResult AddOnline()
+        /*public ActionResult AddOnline()
         {
             List<SelectListItem> categories = new List<SelectListItem>();
 
@@ -89,33 +104,8 @@ namespace ExpenseTrackingApp.Controllers
             ViewData["Categ"] = new List<SelectListItem>(categories);
 
             return View();
-        }
-
-        [HttpPost]
-        public ActionResult AddOnline(TransactionOnline transaction)
-        {
-            if (ModelState.IsValid)
-            {
-                using (Model1 db = new Model1())
-                {
-                    int ID = 0;
-                    foreach (TransactionOnline tp in db.TransactionOnline)
-                    {
-                        ID++;
-                    }
-                    transaction.ID = ID;
-
-                    db.TransactionOnline.Add(transaction);
-                    db.SaveChanges();
-                }
-                ModelState.Clear();
-
-                return Content("Transaction Added Successfully");//return RedirectToAction("Index");
-            }
-
-            return Content("Invalid Transaction");
-        }
-
+        }*/
+        
         public ActionResult Starred(int? id)
         {
             if (ModelState.IsValid)
@@ -124,14 +114,25 @@ namespace ExpenseTrackingApp.Controllers
                 {
                     TransactionPersonal oldTransaction = db.TransactionPersonal.Find(id);
 
-                    int newID = 0;
+                    /*int newID = 0;
                     foreach (TransactionPersonal tp in db.TransactionPersonal)
                     {
                         newID++;
+                    }*/
+                    Random r = new Random();
+                    int value = (int)r.Next(0, Int32.MaxValue);
+                    TransactionPersonal account = db.TransactionPersonal.Find(value);
+                    if (account != null)
+                    {
+                        while (account != null)
+                        {
+                            value = (int)r.Next(0, Int32.MaxValue);
+                            account = db.TransactionPersonal.Find(value);
+                        }
                     }
-
                     TransactionPersonal newTransaction = new TransactionPersonal();
-                    newTransaction.ID = newID+1;
+                    newTransaction.ID = value;
+                    //newTransaction.ID = newID+1;
                     newTransaction.Amount = oldTransaction.Amount;
                     newTransaction.TransactionDescription = oldTransaction.TransactionDescription;
                     newTransaction.DateAdded = oldTransaction.DateAdded;
@@ -143,7 +144,9 @@ namespace ExpenseTrackingApp.Controllers
                 }
                 ModelState.Clear();
             }
-            return RedirectToAction("AllTransactions", "View");
+
+            TempData["notice"] = "Transaction Added Successfully";
+            return RedirectToAction("Transactions", "View");
         }
 
         /*public ActionResult StarredOnline(int? id)
@@ -154,14 +157,26 @@ namespace ExpenseTrackingApp.Controllers
                 {
                     TransactionOnline oldTransaction = db.TransactionOnline.Find(id);
 
-                    int newID = 0;
-                    foreach (TransactionOnline to in db.TransactionOnline)
+                    //int newID = 0;
+                    //foreach (TransactionOnline to in db.TransactionOnline)
+                    //{
+                      //  newID++;
+                    //}
+
+                    Random r = new Random();
+                    int value = (int)r.Next(0, Int32.MaxValue);
+                    TransactionPersonal account = db.TransactionPersonal.Find(value);
+                    if (account != null)
                     {
-                        newID++;
+                        while (account != null)
+                        {
+                            value = (int)r.Next(0, Int32.MaxValue);
+                            account = db.TransactionPersonal.Find(value);
+                        }
                     }
 
                     TransactionOnline newTransaction = new TransactionOnline();
-                    newTransaction.ID = newID+1;
+                    newTransaction.ID = value;
                     newTransaction.Amount = oldTransaction.Amount;
                     newTransaction.TransactionDescription = oldTransaction.TransactionDescription;
                     newTransaction.DateAdded = oldTransaction.DateAdded;

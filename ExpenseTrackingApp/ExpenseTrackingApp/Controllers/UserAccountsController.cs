@@ -28,6 +28,11 @@ namespace ExpenseTrackingApp.Controllers
         // GET: UserAccounts/Create
         public ActionResult Create()
         {
+            HttpCookie auth = Request.Cookies["auth"];
+            if(auth != null)
+            {
+                return RedirectToAction("../Home");
+            }
             return View();
         }
 
@@ -40,18 +45,28 @@ namespace ExpenseTrackingApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                int ID = 0;
-                foreach (UserAccount user in db.UserAccount)
+                decimal maxId;
+                if (db.UserAccount.Count() == 0)
+                    maxId = 0;
+                else
                 {
-                    ID++;
+                    maxId = db.UserAccount.Max(x => x.ID);
+                    maxId++;
                 }
-                userAccount.ID = ID;
+                userAccount.ID = maxId;
                 string password = hashPassword(userAccount.PasswordAcc);
                 userAccount.PasswordAcc = password;
                 if (UserExists(userAccount.EmailAcc))
                 {
                     return View("UserExist");
                 }
+                string namesurname = userAccount.NameAcc + " " + userAccount.SurnameAcc;
+                string email = userAccount.EmailAcc;
+                HttpCookie auth = new HttpCookie("auth");
+                auth.Values.Add("NameSurname", namesurname);
+                auth.Values.Add("Email", email);
+                auth.Expires = DateTime.Now.AddHours(12);
+                Response.Cookies.Add(auth);
                 db.UserAccount.Add(userAccount);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -64,6 +79,11 @@ namespace ExpenseTrackingApp.Controllers
 
         public ActionResult Login()
         {
+            HttpCookie auth = Request.Cookies["auth"];
+            if(auth != null)
+            {
+                RedirectToAction("../Home");
+            }
             return View();
         }
 
@@ -116,6 +136,11 @@ namespace ExpenseTrackingApp.Controllers
         //GET: /UserAccounts/Edit
         public ActionResult Edit()
         {
+            HttpCookie auth = Request.Cookies["auth"];
+            if(auth == null)
+            {
+                return RedirectToAction("../Home");
+            }
             return View();
         }
 
@@ -123,6 +148,11 @@ namespace ExpenseTrackingApp.Controllers
 
         public ActionResult EditName()
         {
+            HttpCookie auth = Request.Cookies["auth"];
+            if (auth == null)
+            {
+                return RedirectToAction("../Home");
+            }
             return View();
         }
 
@@ -130,6 +160,11 @@ namespace ExpenseTrackingApp.Controllers
 
         public ActionResult EditSurname()
         {
+            HttpCookie auth = Request.Cookies["auth"];
+            if (auth == null)
+            {
+                return RedirectToAction("../Home");
+            }
             return View();
         }
 
@@ -137,6 +172,11 @@ namespace ExpenseTrackingApp.Controllers
 
         public ActionResult EditEmail()
         {
+            HttpCookie auth = Request.Cookies["auth"];
+            if (auth == null)
+            {
+                return RedirectToAction("../Home");
+            }
             return View();
         }
 
@@ -144,6 +184,11 @@ namespace ExpenseTrackingApp.Controllers
 
         public ActionResult EditPassword()
         {
+            HttpCookie auth = Request.Cookies["auth"];
+            if (auth == null)
+            {
+                return RedirectToAction("../Home");
+            }
             return View();
         }
         //POST: /UserAccounts/EditName
@@ -294,6 +339,10 @@ namespace ExpenseTrackingApp.Controllers
         public ActionResult Delete()
         {
             HttpCookie auth = Request.Cookies["auth"];
+            if (auth == null)
+            {
+                return RedirectToAction("../Home");
+            }
             string email = auth.Values.Get("Email");
             UserAccount user = findUser(email);
             return View(user);
@@ -430,18 +479,30 @@ namespace ExpenseTrackingApp.Controllers
                     password += cnum.ToString() + cnum2.ToString() + cnum3.ToString() + cnum4.ToString();
                 }
                 password = hashPassword(password);
-                //Increment ID
-                int ID = 0;
-                foreach (UserAccount user in db.UserAccount)
+                               
+                int value = (int)r.Next(0, Int32.MaxValue);
+                UserAccount account = db.UserAccount.Find(value);
+                if (account != null)
                 {
-                    ID++;
+                    while (account != null)
+                    {
+                        value = (int)r.Next(0, Int32.MaxValue);
+                        account = db.UserAccount.Find(value);
+                    }
                 }
                 UserAccount user2 = new UserAccount();
-                user2.ID = ID;
+                user2.ID = value;
                 user2.NameAcc = name;
                 user2.SurnameAcc = surname;
                 user2.EmailAcc = email;
                 user2.PasswordAcc = password;
+                //Login User
+                string namesurname = user2.NameAcc + " " + user2.SurnameAcc;
+                HttpCookie auth = new HttpCookie("auth");
+                auth.Values.Add("NameSurname", namesurname);
+                auth.Values.Add("Email", email);
+                auth.Expires = DateTime.Now.AddHours(12);
+                Response.Cookies.Add(auth);
                 db.UserAccount.Add(user2);
                 db.SaveChanges();
                 return RedirectToAction("Index");

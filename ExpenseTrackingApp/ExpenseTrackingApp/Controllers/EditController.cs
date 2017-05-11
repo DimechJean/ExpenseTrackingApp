@@ -40,13 +40,15 @@ namespace ExpenseTrackingApp.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Category(TransactionCategory category)
         {
+            HttpCookie auth = Request.Cookies["auth"];
+            string email = auth.Values.Get("Email");
             if (ModelState.IsValid)
             {
                 using (Model1 db = new Model1())
                 {
-                    if (AddCategoryController.CategoryExists(category.NameCat))
+                    if (AddCategoryController.CategoryExists(category.NameCat,email))
                     {
-                        return Content("Category Already Exists");
+                        return RedirectToAction("Add", "AddCategory");
                     }
 
                     db.Entry(category).State = System.Data.Entity.EntityState.Modified;
@@ -54,7 +56,8 @@ namespace ExpenseTrackingApp.Controllers
                 }
 
                 ModelState.Clear();
-                return Content("Category Edited Successfully");//return RedirectToAction("Index");
+                TempData["notice"] = "Category Edited Successfully";
+                return RedirectToAction("TransactionCategories", "View");
             }
             return Content("Invalid Category");
         }
@@ -102,7 +105,8 @@ namespace ExpenseTrackingApp.Controllers
                 }
 
                 ModelState.Clear();
-                return Content("Transaction Edited Successfully");//return RedirectToAction("Index");
+                TempData["notice"] = "Transaction Edited Successfully";
+                return RedirectToAction("Transactions", "View");
             }
             return Content("Invalid Category");
         }
@@ -150,7 +154,8 @@ namespace ExpenseTrackingApp.Controllers
                 }
 
                 ModelState.Clear();
-                return Content("Transaction Edited Successfully");//return RedirectToAction("Index");
+                TempData["notice"] = "Transaction Edited Successfully";
+                return RedirectToAction("Transactions", "View");
             }
             return Content("Invalid Category");
         }

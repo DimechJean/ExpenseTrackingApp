@@ -1,0 +1,59 @@
+﻿@model ExpenseTrackingApp.Models.OnlineAccount
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>OnlineAccount</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.FinancialAccountsCategory.NameCat)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FinancialAccountsCategory.NameCat)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UserAccount1.EmailAcc)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UserAccount1.EmailAcc)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AccountDescription)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AccountDescription)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UsernameAcc)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UsernameAcc)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PasswordAcc)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PasswordAcc)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

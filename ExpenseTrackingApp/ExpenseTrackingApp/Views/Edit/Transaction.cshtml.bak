@@ -1,26 +1,32 @@
-﻿@model ExpenseTrackingApp.Models.TransactionOnline
+﻿@model ExpenseTrackingApp.Models.TransactionPersonal
 
 @{
-    ViewBag.Title = "AddOnline";
+    ViewBag.Title = "Transaction";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    int TransID = ViewBag.param_id;
+    decimal Amount = ViewBag.param_amnt;
+    string Desc = ViewBag.param_desc;
+    DateTime Date = ViewBag.param_date;
     List<SelectListItem> categories = ViewData["Categ"] as List<SelectListItem>;
 }
 
-<h2>AddOnline</h2>
+<h2>Transaction</h2>
 
 
-@using (Html.BeginForm()) 
+@using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
     
     <div class="form-horizontal">
-        <h4>TransactionOnline</h4>
+        <h4>TransactionPersonal</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.ID, TransID)
+
         <div class="form-group">
             @Html.LabelFor(model => model.Amount, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Amount, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.Amount, new { htmlAttributes = new { @class = "form-control", @Value = Amount.ToString() } })
                 @Html.ValidationMessageFor(model => model.Amount, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -28,7 +34,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.TransactionDescription, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.TransactionDescription, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.TransactionDescription, new { htmlAttributes = new { @class = "form-control", @Value = Desc } })
                 @Html.ValidationMessageFor(model => model.TransactionDescription, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -44,14 +50,14 @@
         <div class="form-group">
             @Html.LabelFor(model => model.DateAdded, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.DateAdded, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.DateAdded, new { htmlAttributes = new { @class = "form-control", @Value = Date.ToShortDateString() } })
                 @Html.ValidationMessageFor(model => model.DateAdded, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
+                <input type="submit" value="Save" class="btn btn-default" />
             </div>
         </div>
     </div>

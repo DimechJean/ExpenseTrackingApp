@@ -13,31 +13,48 @@ namespace ExpenseTrackingApp.Controllers
         // GET: AddCategory
         public ActionResult Index()
         {
+            HttpCookie auth = Request.Cookies["auth"];
+            if(auth == null)
+            {
+                return RedirectToAction("../Home");
+            }
             return View();
         }
 
         public ActionResult Add()
         {
+            HttpCookie auth = Request.Cookies["auth"];
+            if(auth == null)
+            {
+                return RedirectToAction("../Home");
+            }
             return View();
         }
 
         [HttpPost]
         public ActionResult Add(TransactionCategory category)
         {
+            HttpCookie auth = Request.Cookies["auth"];
+            string email = auth.Values.Get("Email");
             if (ModelState.IsValid)
             {
                 using (Model1 db = new Model1())
                 {
-                    int ID = 0;
-                    foreach (TransactionCategory tc in db.TransactionCategory)
+                    UserAccount user = db.UserAccount.Where(m => m.EmailAcc.Equals(email)).FirstOrDefault();
+                    decimal maxId;
+                    if (db.TransactionCategory.Count() == 0)
+                        maxId = 0;
+                    else
                     {
-                        ID++;
+                        maxId = db.TransactionCategory.Max(x => x.ID);
+                        maxId++;
                     }
-                    category.ID = ID;
-
-                    if (CategoryExists(category.NameCat))
+                    category.ID = maxId;
+                    category.UserAccount = user.ID;
+                    if (CategoryExists(category.NameCat,email))
                     {
-                        return Content("Category Already Exist");
+                        TempData["notice"] = "Category Already Exists";
+                        return RedirectToAction("Add", "AddCategory");
                     }
 
                     db.TransactionCategory.Add(category);
@@ -45,6 +62,7 @@ namespace ExpenseTrackingApp.Controllers
                 }
 
                 ModelState.Clear();
+                TempData["notice"] = "Category Added Successfully";
                 return RedirectToAction("TransactionCategories", "View");
             }
 
@@ -54,11 +72,14 @@ namespace ExpenseTrackingApp.Controllers
         /**
          * Helper Method TODO: PUT IN HELPER METHOD CLASS
          */
-        public static bool CategoryExists(string catname)
+        public static bool CategoryExists(string catname,string email)
         {
             using (Model1 db = new Model1())
             {
-                foreach (TransactionCategory cat in db.TransactionCategory)
+
+                UserAccount user = db.UserAccount.Where(m => m.EmailAcc.Equals(email)).FirstOrDefault();
+                List<TransactionCategory> transactions = db.TransactionCategory.SqlQuery("Select * from [dbo].[TransactionCategory] where UserAccount is null or UserAccount = " + user.ID).ToList();
+                foreach (TransactionCategory cat in transactions)
                 {
                     if (cat.NameCat == catname)
                     {

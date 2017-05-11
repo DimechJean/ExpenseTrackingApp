@@ -27,12 +27,6 @@ namespace ExpenseTrackingApp.Models
                 .HasPrecision(18, 0);
 
             modelBuilder.Entity<FinancialAccountsCategory>()
-                .HasMany(e => e.OnlineAccount)
-                .WithRequired(e => e.FinancialAccountsCategory)
-                .HasForeignKey(e => e.CategoryAcc)
-                .WillCascadeOnDelete(false);
-
-            modelBuilder.Entity<FinancialAccountsCategory>()
                 .HasMany(e => e.PersonalAccount)
                 .WithRequired(e => e.FinancialAccountsCategory)
                 .HasForeignKey(e => e.CategoryAcc)
@@ -40,10 +34,6 @@ namespace ExpenseTrackingApp.Models
 
             modelBuilder.Entity<OnlineAccount>()
                 .Property(e => e.ID)
-                .HasPrecision(18, 0);
-
-            modelBuilder.Entity<OnlineAccount>()
-                .Property(e => e.CategoryAcc)
                 .HasPrecision(18, 0);
 
             modelBuilder.Entity<OnlineAccount>()

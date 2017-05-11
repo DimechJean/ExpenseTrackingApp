@@ -7,16 +7,35 @@
 }
 
 <h2>Transaction Categories</h2>
+@if (TempData["notice"] != null)
+{	<div class="notice">
+	<p style="color: #4FD2C2">@TempData["notice"]</p>
+	</div>
+}
 
 <div>
     <hr />
-	<ul class="list-group">
-		@foreach (var category in categories)
-		{
-			<li class="list-group-item"> @category.NameCat </li>
-		}
-	</ul>
-	<a href="@Url.Action("Add", "AddCategory")" class="btn btn-primary btn-lg">Add Category &raquo;</a>
+	<table class="table">
+		<thead>
+			<tr>
+				<th>Category</th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var category in categories)
+			{
+				<tr>
+					<td> @category.NameCat </td>
+					<td>
+						<a href="/Edit/Category/@category.ID"> edit </a>
+						<a href="/Delete/Category/@category.ID"> delete </a>
+					</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+
+		<a href="@Url.Action("Add", "AddCategory")" class="btn btn-primary btn-lg">Add Category &raquo;</a>
 
 </div>
 

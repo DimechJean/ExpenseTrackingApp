@@ -1,54 +1,44 @@
 ﻿@model ExpenseTrackingApp.Models.TransactionPersonal
 
 @{
-    ViewBag.Title = "Transactions";
-    Layout = "~/Views/Shared/_Layout.cshtml";
-    List<ExpenseTrackingApp.Models.TransactionPersonal> transactions = ViewData["TransList"] as List<ExpenseTrackingApp.Models.TransactionPersonal>;
+	ViewBag.Title = "Transactions";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+	List<ExpenseTrackingApp.Models.TransactionPersonal> transactions = ViewData["TransList"] as List<ExpenseTrackingApp.Models.TransactionPersonal>;
+	List<string> categs = ViewData["categories"] as List<string>;
+	int categoryCounter = 0;
 }
 
 <h2>Transactions</h2>
-
-@* Jean Changes *@
-<div>
-    <h4>Transactions Personal</h4>
-    <hr />
-    <div>
-        @foreach (var transaction in transactions)
-        {
-            <p> Amount: @transaction.Amount </p>
-            <p> Description: @transaction.TransactionDescription</p>
-            <p> Category: @transaction.TransactionCategory </p>
-            <p> Date: @transaction.DateAdded </p>
-            <a href="/Edit/Transaction/@transaction.ID"> edit </a>
-            <a href="/Delete/Transaction/@transaction.ID"> delete </a>
-            <a href="/AddTransaction/Starred/@transaction.ID">
-                <img src="~/Content/Images/gold_star_glyph.png" alt="Star" width="40" height="25" />
-            </a>
-            <br />
-        }
-    </div>
-@* Axel Changes *@
 <div class="container">
-		<p>Here you will find all your transactions</p>
-		<table class="table">
-			<thead>
+	<p>Here you will find all your transactions, Staring the transactions will create a copy of the transaction for quick adding of frequent transactions. </p>
+	<table class="table">
+		<thead>
+			<tr>
+				<th>Amount</th>
+				<th>Description</th>
+				<th>Category</th>
+				<th>Date</th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var transaction in transactions)
+			{
 				<tr>
-					<th>Amount</th>
-					<th>Description</th>
-					<th>Category</th>
-				</tr>
-			</thead>
-			<tbody>
-				@foreach (var transaction in transactions)
-				{
-					<tr>
 					<td> €@transaction.Amount </td>
 					<td> @transaction.TransactionDescription</td>
-					<td> @transaction.TransactionCategory </td>
-				    </tr>
-				}  
-			</tbody>
-	    </table>
-		<a href="@Url.Action("Add", "AddTransaction")" class="btn btn-primary btn-lg">Add Transaction &raquo;</a>
-    </div>
+					<td> @categs.ElementAt(categoryCounter) </td>
+					<td> @transaction.DateAdded.ToShortDateString()</td>
+                    <td>
+                        <a href="/Edit/Transaction/@transaction.ID"> edit </a>
+                        <a href="/Delete/Transaction/@transaction.ID"> delete </a>
+                        <a href="/AddTransaction/Starred/@transaction.ID">
+                            <img src="~/Content/Images/repeat_glyph.png" alt="Repeat Button" width="25" height="25" />
+                        </a>
+                    </td>
+				</tr>			
+			    categoryCounter++;
+			}  
+		</tbody>
+	</table>
+	<a href="@Url.Action("Add", "AddTransaction")" class="btn btn-primary btn-lg">Add Transaction &raquo;</a>
 </div>

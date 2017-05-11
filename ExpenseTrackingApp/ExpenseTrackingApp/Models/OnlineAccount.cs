@@ -15,21 +15,10 @@ namespace ExpenseTrackingApp.Models
         [StringLength(70)]
         public string AccountDescription { get; set; }
 
-        [Required]
-        [StringLength(150)]
-        public string UsernameAcc { get; set; }
-
-        [Required]
-        [StringLength(150)]
-        public string PasswordAcc { get; set; }
-
-        [Column(TypeName = "numeric")]
-        public decimal CategoryAcc { get; set; }
+        public string AccountNumber { get; set; }
 
         [Column(TypeName = "numeric")]
         public decimal UserAccount { get; set; }
-
-        public virtual FinancialAccountsCategory FinancialAccountsCategory { get; set; }
 
         public virtual UserAccount UserAccount1 { get; set; }
     }

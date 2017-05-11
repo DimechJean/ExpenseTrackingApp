@@ -12,6 +12,10 @@
 
 <h2>Transaction</h2>
 
+@if (TempData["notice"] != null)
+{
+	<p style="color: #4FD2C2">@TempData["notice"]</p>
+}
 
 @using (Html.BeginForm())
 {

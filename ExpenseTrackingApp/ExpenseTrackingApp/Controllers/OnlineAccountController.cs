@@ -1,0 +1,210 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Data.Entity;
+using System.Linq;
+using System.Net;
+using System.Web;
+using System.Web.Mvc;
+using ExpenseTrackingApp.Models;
+
+namespace ExpenseTrackingApp.Controllers
+{
+    public class OnlineAccountController : Controller
+    {
+        private Model1 db = new Model1();
+        private Random gen = new Random();
+
+        // GET: OnlineAccount
+        public ActionResult Index()
+        {
+            HttpCookie auth = Request.Cookies["auth"];
+            string email = auth.Values.Get("Email");
+            UserAccount user = db.UserAccount.Where(model => model.EmailAcc.Equals(email)).FirstOrDefault();
+            var onlineAccount = db.OnlineAccount.Where(model => model.UserAccount.Equals(user.ID));
+            return View(onlineAccount.ToList());
+        }
+
+        // GET: OnlineAccount/Details/5
+        public ActionResult Details(decimal id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            OnlineAccount onlineAccount = db.OnlineAccount.Find(id);
+            if (onlineAccount == null)
+            {
+                return HttpNotFound();
+            }
+            return View(onlineAccount);
+        }
+
+        // GET: OnlineAccount/Create
+        public ActionResult Create()
+        {
+            return View();
+        }
+
+        // POST: OnlineAccount/Create
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Create([Bind(Include = "AccountNumber,AccountDescription,UserAccount")] OnlineAccount onlineAccount)
+        {
+            HttpCookie auth = Request.Cookies["auth"];
+            if (auth == null)
+            {
+                return RedirectToAction("Login", "UserAccounts");
+            }
+            string email = auth.Values.Get("Email");
+            UserAccount user = db.UserAccount.Where(model => model.EmailAcc.Equals(email)).FirstOrDefault();
+            onlineAccount.UserAccount = user.ID;
+            int value = (int)gen.Next(0, Int32.MaxValue);
+            OnlineAccount account = db.OnlineAccount.Where(m => m.ID == value).FirstOrDefault();
+            decimal maxId;
+            if(db.OnlineAccount.Count() == 0)
+                maxId = 0;
+            else
+            {
+                maxId = db.OnlineAccount.Max(x => x.ID);
+                maxId++;
+            }
+            onlineAccount.ID = maxId;
+            //ModelState.Clear();
+            if (ModelState.IsValid)
+            {
+                db.OnlineAccount.Add(onlineAccount);
+                db.SaveChanges();
+                AddOnline(onlineAccount);
+                return RedirectToAction("Index");
+            }
+
+            ViewBag.UserAccount = new SelectList(db.UserAccount, "ID", "EmailAcc", onlineAccount.UserAccount);
+            return View(onlineAccount);
+        }
+
+        // GET: OnlineAccount/Edit/5
+        public ActionResult Edit(decimal id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            OnlineAccount onlineAccount = db.OnlineAccount.Find(id);
+            if (onlineAccount == null)
+            {
+                return HttpNotFound();
+            }
+            HttpCookie auth = Request.Cookies["auth"];
+            string email = auth.Values.Get("Email");
+            UserAccount user = db.UserAccount.Where(model => model.EmailAcc.Equals(email)).FirstOrDefault();
+            ViewBag.UserAccount = user.ID;
+            return View(onlineAccount);
+        }
+
+        // POST: OnlineAccount/Edit/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit([Bind(Include = "ID,AccountDescription,AccountNumber,UserAccount")] OnlineAccount onlineAccount)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Entry(onlineAccount).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            ViewBag.UserAccount = new SelectList(db.UserAccount, "ID", "EmailAcc", onlineAccount.UserAccount);
+            return View(onlineAccount);
+        }
+
+        // GET: OnlineAccount/Delete/5
+        public ActionResult Delete(decimal id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            OnlineAccount onlineAccount = db.OnlineAccount.Find(id);
+            if (onlineAccount == null)
+            {
+                return HttpNotFound();
+            }
+            return View(onlineAccount);
+        }
+
+        // POST: OnlineAccount/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteConfirmed(decimal id)
+        {
+            OnlineAccount onlineAccount = db.OnlineAccount.Find(id);
+            // delete all transactions associated with this account
+            var trans = db.TransactionOnline.Where(x => x.Account == id).ToList();
+            foreach (TransactionOnline to in trans)
+            {
+                db.TransactionOnline.Remove(to);
+            }
+            db.SaveChanges();
+            db.OnlineAccount.Remove(onlineAccount);
+            db.SaveChanges();
+            return RedirectToAction("Index");
+        }
+
+        public void AddOnline(OnlineAccount Account)
+        {
+            if (ModelState.IsValid)
+            {
+                using (Model1 db = new Model1())
+                {
+                    // Number of transactions
+                    int size = gen.Next(10, 30);
+                    for (int i = 0; i < size; i++)
+                    {
+                        TransactionOnline transaction = new TransactionOnline();
+                        int value = (int)gen.Next(0, Int32.MaxValue);
+                        TransactionOnline account = db.TransactionOnline.Find(value);
+                        if (account != null)
+                        {
+                            while (account != null)
+                            {
+                                value = (int)gen.Next(0, Int32.MaxValue);
+                                account = db.TransactionOnline.Find(value);
+                            }
+                        }
+
+                        //Transaction addition
+                        transaction.ID = value;
+                        transaction.TransactionDescription = Account.AccountDescription;
+                        transaction.TransactionCategory = 11;
+                        transaction.DateAdded = GetRandomDay();
+                        transaction.Account = Account.ID;
+                        transaction.Amount = gen.Next(25, 300);
+                        db.TransactionOnline.Add(transaction);
+                    }
+                    db.SaveChanges();
+                }
+                ModelState.Clear();
+            }
+        }
+
+        DateTime GetRandomDay()
+        {
+            DateTime start = new DateTime(2014, 1, 1);
+            int range = (DateTime.Today - start).Days;
+            return start.AddDays(gen.Next(range));
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                db.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+    }
+}

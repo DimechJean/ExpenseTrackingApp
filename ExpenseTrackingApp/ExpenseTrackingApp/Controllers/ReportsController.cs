@@ -90,8 +90,8 @@ namespace ExpenseTrackingApp.Controllers
                         {
                             transactionsYear[i].Add(Transactions[j]);
                         }
-                        k++;
                     }
+                    k++;
                 }
                 double[] totalPerYear = new double[totalYears+1];
                 for (int i = 0; i <= totalYears; i++)
@@ -122,6 +122,142 @@ namespace ExpenseTrackingApp.Controllers
             ViewBag.DateFrom = report.From;
             ViewBag.DateTo = report.To;
             return PartialView("Report");
+        }
+
+        //GET Reports/Reporting
+        public ActionResult Reporting()
+        {
+
+            List<TransactionCategory> Category = db.TransactionCategory.ToList();
+            List<TransactionPersonal> transactionWeek = TransactionWeek();
+            List<TransactionPersonal> transactionMonth = TransactionsMonth();
+            List<TransactionPersonal> transactionYear = TransactionsYear();
+            List<TransactionPersonal>[] tranWeek = new List<TransactionPersonal>[Category.Count];
+            List<TransactionPersonal>[] tranMonth = new List<TransactionPersonal>[Category.Count];
+            List<TransactionPersonal>[] tranYear = new List<TransactionPersonal>[Category.Count];
+            double[] totalWeek = new double[Category.Count];
+            double[] totalMonth = new double[Category.Count];
+            double[] totalYear = new double[Category.Count];
+            for (int j=0;j<Category.Count;j++)
+            {
+                tranWeek[j] = new List<TransactionPersonal>();
+                tranMonth[j] = new List<TransactionPersonal>();
+                tranYear[j] = new List<TransactionPersonal>();
+                for (int i = 0; i < transactionWeek.Count; i++)
+                {
+                    if(transactionWeek.ElementAt(i).TransactionCategory == Category[j].ID)
+                    {
+                        tranWeek[j].Add(transactionWeek.ElementAt(i));
+                    }
+                }
+                for (int i = 0; i < transactionMonth.Count; i++)
+                {
+                    if (transactionMonth.ElementAt(i).TransactionCategory == Category[j].ID)
+                    {
+                        tranMonth[j].Add(transactionMonth.ElementAt(i));
+                    }
+                }
+                for (int i = 0; i < transactionYear.Count; i++)
+                {
+                    if (transactionYear.ElementAt(i).TransactionCategory == Category[j].ID)
+                    {
+                        tranYear[j].Add(transactionYear.ElementAt(i));
+                    }
+                }
+            }
+            for(int i = 0; i < Category.Count; i++)
+            {
+                double total = 0;
+                for(int j = 0; j < tranWeek[i].Count; j++)
+                {
+                    total += Convert.ToDouble(tranWeek[i][j].Amount);
+                }
+                totalWeek[i] = total;
+                total = 0;
+                for (int j = 0; j < tranMonth[i].Count; j++)
+                {
+                    total += Convert.ToDouble(tranMonth[i][j].Amount);
+                }
+                totalMonth[i] = total;
+                total = 0;
+                for (int j = 0; j < tranYear[i].Count; j++)
+                {
+                    total += Convert.ToDouble(tranYear[i][j].Amount);
+                }
+                totalYear[i] = total;
+            }
+            ViewBag.transactionsWeek = totalWeek;
+            ViewBag.transactionsMonth = totalMonth;
+            ViewBag.transactionsYear = totalYear;
+            ViewBag.Category = Category;
+            return View();
+        }
+
+        public List<TransactionPersonal> TransactionWeek()
+        {
+            HttpCookie cookie = Request.Cookies["auth"];
+            string email = cookie.Values.Get("Email");
+            UserAccount user = db.UserAccount.Where(m => m.EmailAcc == email).FirstOrDefault();
+            DateTime now = DateTime.Now;
+            int delta = DayOfWeek.Monday - now.DayOfWeek;
+            if (delta > 0)
+            {
+                delta -= 7;
+            }
+            DateTime monday = now.AddDays(delta);
+            int day = monday.Day + 6;
+            now = new DateTime(monday.Year, monday.Month, day);
+            List<PersonalAccount> Accounts = db.PersonalAccount.Where(m => m.UserAccount == user.ID).ToList();
+            List<TransactionPersonal> transactionsWeek = new List<TransactionPersonal>();
+            foreach (PersonalAccount a in Accounts)
+            {
+                List<TransactionPersonal> tr = db.TransactionPersonal.Where(m => m.DateAdded >= monday && m.DateAdded <= now).Where(m => a.ID.Equals(m.Account)).ToList();
+                for (int i = 0; i < tr.Count; i++)
+                {
+                    transactionsWeek.Add(tr[i]);
+                }
+            }
+            return transactionsWeek;
+        }
+
+        public List<TransactionPersonal> TransactionsMonth()
+        {
+            HttpCookie cookie = Request.Cookies["auth"];
+            string email = cookie.Values.Get("Email");
+            UserAccount user = db.UserAccount.Where(m => m.EmailAcc == email).FirstOrDefault();
+            List<PersonalAccount> Accounts = db.PersonalAccount.Where(m => m.UserAccount == user.ID).ToList();
+            int days = DateTime.DaysInMonth(DateTime.Now.Year, DateTime.Now.Month);
+            DateTime thisMonth = new DateTime(DateTime.Now.Year, DateTime.Now.Month, days);
+            DateTime startMonth = new DateTime(thisMonth.Year, thisMonth.Month, 1);
+            List<TransactionPersonal> transactionsMonth = new List<TransactionPersonal>();
+            foreach (PersonalAccount a in Accounts)
+            {
+                List<TransactionPersonal> tr = db.TransactionPersonal.Where(m => m.DateAdded >= startMonth && m.DateAdded <= thisMonth).Where(m => a.ID.Equals(m.Account)).ToList();
+                for (int i = 0; i < tr.Count; i++)
+                {
+                    transactionsMonth.Add(tr[i]);
+                }
+            }
+            return transactionsMonth;
+        }
+        public List<TransactionPersonal> TransactionsYear()
+        {
+            HttpCookie cookie = Request.Cookies["auth"];
+            string email = cookie.Values.Get("Email");
+            UserAccount user = db.UserAccount.Where(m => m.EmailAcc == email).FirstOrDefault();
+            List<PersonalAccount> Accounts = db.PersonalAccount.Where(m => m.UserAccount == user.ID).ToList();
+            DateTime thisYear = new DateTime(DateTime.Now.Year,12,31);
+            DateTime startYear = new DateTime(thisYear.Year, 1, 1);
+            List<TransactionPersonal> transactionsYear = new List<TransactionPersonal>();
+            foreach (PersonalAccount a in Accounts)
+            {
+                List<TransactionPersonal> tr = db.TransactionPersonal.Where(m => m.DateAdded >= startYear && m.DateAdded <= thisYear).Where(m => a.ID.Equals(m.Account)).ToList();
+                for (int i = 0; i < tr.Count; i++)
+                {
+                    transactionsYear.Add(tr[i]);
+                }
+            }
+            return transactionsYear;
         }
     }
 }

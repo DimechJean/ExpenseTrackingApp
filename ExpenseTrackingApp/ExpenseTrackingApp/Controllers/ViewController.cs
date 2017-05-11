@@ -35,34 +35,40 @@ namespace ExpenseTrackingApp.Controllers
 
         public ActionResult Transactions()
         {
-            List<TransactionPersonal> transList = new List<TransactionPersonal>();
+            List<TransactionPersonal> transList = new List<TransactionPersonal>(); 
+            List<string> categories = new List<string>();
 
             using (Model1 db = new Model1())
             {
                 foreach (TransactionPersonal tp in db.TransactionPersonal)
                 {
                     transList.Add(tp);
+                    categories.Add(tp.TransactionCategory1.NameCat);
                 }
             }
 
             ViewData["TransList"] = new List<TransactionPersonal>(transList);
+            ViewData["categories"] = new List<string>(categories);
 
             return View();
         }
 
         public ActionResult TransactionsOnline()
         {
-            List<TransactionOnline> transList = new List<TransactionOnline>();
+            List<TransactionOnline> transList = new List<TransactionOnline>(); 
+            List<string> categories = new List<string>();
 
             using (Model1 db = new Model1())
             {
                 foreach (TransactionOnline to in db.TransactionOnline)
                 {
                     transList.Add(to);
+                    categories.Add(to.TransactionCategory1.NameCat);
                 }
             }
 
-            ViewData["TransList"] = new List<TransactionOnline>(transList);
+            ViewData["TransList"] = new List<TransactionOnline>(transList); 
+            ViewData["categories"] = new List<string>(categories);
 
             return View();
         }
@@ -71,22 +77,26 @@ namespace ExpenseTrackingApp.Controllers
         {
             List<TransactionPersonal> transPersList = new List<TransactionPersonal>();
             List<TransactionOnline> transOnlineList = new List<TransactionOnline>();
+            List<string> categories = new List<string>();
 
             using (Model1 db = new Model1())
             {
                 foreach (TransactionPersonal tp in db.TransactionPersonal)
                 {
                     transPersList.Add(tp);
+                    categories.Add(tp.TransactionCategory1.NameCat);
                 }
 
                 foreach (TransactionOnline to in db.TransactionOnline)
                 {
                     transOnlineList.Add(to);
+                    categories.Add(to.TransactionCategory1.NameCat);
                 }
             }
 
             ViewData["TransPersList"] = new List<TransactionPersonal>(transPersList);
             ViewData["TransOnlineList"] = new List<TransactionOnline>(transOnlineList);
+            ViewData["categories"] = new List<string>(categories);
 
             return View();
         }

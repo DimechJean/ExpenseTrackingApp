@@ -140,9 +140,11 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AddCategoryController.cs" />
     <Compile Include="Controllers\AddTransactionController.cs" />
+    <Compile Include="Controllers\CalculatorController.cs" />
     <Compile Include="Controllers\DeleteController.cs" />
     <Compile Include="Controllers\EditController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\OnlineAccountController.cs" />
     <Compile Include="Controllers\ReportsController.cs" />
     <Compile Include="Controllers\UserAccountsController.cs" />
     <Compile Include="Controllers\ViewController.cs" />
@@ -161,16 +163,29 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\animate.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\icomoon.css" />
+    <Content Include="Content\magnific-popup.css" />
     <Content Include="Content\MyCss.css" />
+    <Content Include="Content\owl.carousel.min.css" />
+    <Content Include="Content\owl.theme.default.min.css" />
+    <Content Include="Content\simple-line-icons.css" />
+    <Content Include="Content\style.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Images\bg_2.jpg" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Content\bootstrap.css.bak" />
+    <Content Include="Content\bootstrap.min.css.bak" />
+    <Content Include="Content\Site.css.bak" />
+    <Content Include="Content\style.css.map" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Scripts\javascript.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
@@ -217,10 +232,17 @@
     <Content Include="Views\Edit\TransactionOnline.cshtml" />
     <Content Include="Views\Reports\Index.cshtml" />
     <Content Include="Views\Reports\Report.cshtml" />
+    <Content Include="Views\Reports\Reporting.cshtml" />
+    <Content Include="Views\OnlineAccount\Create.cshtml" />
+    <Content Include="Views\OnlineAccount\Delete.cshtml" />
+    <Content Include="Views\OnlineAccount\Details.cshtml" />
+    <Content Include="Views\OnlineAccount\Edit.cshtml" />
+    <Content Include="Views\OnlineAccount\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Content\Images\" />
+    <Folder Include="Views\Calculator\" />
     <Folder Include="Views\Delete\" />
   </ItemGroup>
   <ItemGroup>

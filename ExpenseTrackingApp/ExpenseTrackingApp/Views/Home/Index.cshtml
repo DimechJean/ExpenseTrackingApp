@@ -1,11 +1,25 @@
 ﻿@{
-    ViewBag.Title = "Home Page";
+	ViewBag.Title = "Home Page";
 }
 
 <div class="jumbotron">
     <h1>Cache</h1>
     <p class="lead">Welcome to Cache your all-in-one Expense Tracking Application.</p>
+	
+	@{
+		if (Request.Cookies["auth"] != null)
+		{
+			HttpCookie auth = Request.Cookies["auth"];
     <p><a href="@Url.Action("Add", "AddTransaction")" class="btn btn-primary btn-lg">Add Transaction &raquo;</a></p>
+			}
+		else
+		{
+			<p><a href="@Url.Action("Login", "UserAccounts")" class="btn btn-primary btn-lg">Login &raquo;</a>
+				<a href="@Url.Action("Create", "UserAccounts")" class="btn btn-primary btn-lg">Register &raquo;</a>
+	</p>
+
+		}
+	}
 </div>
 
 <div class="row">

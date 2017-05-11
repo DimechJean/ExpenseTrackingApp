@@ -1,0 +1,190 @@
+﻿@using System.Globalization
+    @{
+        ViewBag.Title = "Report";
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }
+
+    <h2>Report</h2>
+    @{
+
+        DateTime From = ViewBag.DateFrom;
+        DateTime To = ViewBag.DateTo;
+        double[] totalChart;
+        string[] Dates;
+        if (From.Year != To.Year)
+        {
+            int d = From.Year;
+            int d1 = To.Year;
+            totalChart = ViewBag.TableTotal;
+            Dates = new string[totalChart.Length];
+            for (int i = 0; i <= d1 - d; i++)
+            {
+                DateTimeFormatInfo info = new DateTimeFormatInfo();
+                Dates[i] = (From.Year + i).ToString();
+            }
+        }
+        else
+        {
+            int d = From.Month;
+            int d1 = To.Month;
+            totalChart = ViewBag.TableTotal;
+            Dates = new string[totalChart.Length];
+            for (int i = 0; i <= d1 - d; i++)
+            {
+                DateTimeFormatInfo info = new DateTimeFormatInfo();
+                Dates[i] = info.GetAbbreviatedMonthName(From.Month + i).ToString();
+            }
+
+        }
+        List<ExpenseTrackingApp.Models.TransactionPersonal>[] categories = ViewBag.Categories;
+        List<ExpenseTrackingApp.Models.TransactionCategory> CategoryName = ViewBag.CategoryName;
+        string From2 = From.ToLongDateString();
+        string To2 = To.ToLongDateString();
+        double totalAmmount = 0;
+        double[] total = new double[categories.Length];
+        double[] Percentage = new double[categories.Length];
+        int k = 0;
+        for (int i = 0; i < categories.Length; i++)
+        {
+            for (int j = 0; j < categories[i].Count; j++)
+            {
+                total[i] = total[i] + Convert.ToDouble(categories[i].ElementAt(j).Amount);
+            }
+        }
+        foreach (double totalA in total)
+        {
+            totalAmmount += totalA;
+        }
+        for (int i = 0; i < total.Length; i++)
+        {
+            Percentage[i] = (total[i] / totalAmmount) * 100;
+        }
+
+    }
+
+    <head>
+        <link rel="stylesheet" href="~/Content/MyCss.css" />
+        <script src="~/Scripts/jquery-1.10.2.js"></script>
+        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+        <script type="text/javascript">
+            google.charts.load("current", { packages: ["corechart"] });
+            google.charts.setOnLoadCallback(drawChart);
+            function drawChart() {
+                var array = new google.visualization.DataTable();
+                array.addColumn('string', 'Category');
+                array.addColumn('number', 'Percentage');
+                @foreach (ExpenseTrackingApp.Models.TransactionCategory Category in CategoryName)
+            {
+                <text>
+                array.addRow(['@(Category.NameCat)', @(Percentage[k])]);
+                </text>
+                k++;
+            }
+
+
+                var options = {
+                    title: 'Percentage of expenses by category',
+                    pieHole: 0.4,
+                };
+
+                var chart = new google.visualization.PieChart(document.getElementById('donutchart'));
+                chart.draw(array, options);
+            }
+
+            google.charts.load("current", { packages: ["corechart"] });
+            google.charts.setOnLoadCallback(drawChart2);
+
+            function drawChart2() {
+                var array = new google.visualization.DataTable();
+                array.addColumn('string', 'Category');
+                array.addColumn('number', 'Ammount');
+                @{k = 0; }
+                @foreach (ExpenseTrackingApp.Models.TransactionCategory Category in CategoryName)
+            {
+                <text>
+                array.addRow(['@(Category.NameCat)', @(total[k])]);
+                </text>
+                k++;
+            }
+
+                var options = {
+                    title: 'Amount spent by category'
+                };
+
+                var chart = new google.visualization.BarChart(document.getElementById('BarChart'));
+                chart.draw(array, options);
+            }
+
+            google.charts.load("current", { packages: ["corechart"] });
+            google.charts.setOnLoadCallback(drawChart3);
+
+            function drawChart3() {
+                var array = new google.visualization.DataTable();
+                @if (From.Year == To.Year) {
+            <text>
+                array.addColumn('string', 'Month');
+                array.addColumn('number', 'Amount');
+                </text>
+            }
+            else
+            {
+            <text>
+                array.addColumn('string', 'Month');
+                array.addColumn('number', 'Amount');
+                </text>
+            }
+                @for (int i = 0; i < Dates.Length; i++)
+            {
+
+            <text>
+                array.addRow(['@(Dates[i])',@(totalChart[i])]);
+                </text>
+
+            }
+                @if (From.Year == To.Year)
+            {
+                <text>
+                var options = {
+                    title: 'Amount spent by Month'
+                };
+                </text>
+            }
+            else
+            {
+                <text>
+                var options = {
+                    title: 'Amount spent by Year'
+                };
+                </text>
+            }
+
+                var chart = new google.visualization.LineChart(document.getElementById('LineChart'));
+                chart.draw(array, options);
+            }
+            $(window).resize(function () {
+                drawChart();
+                drawChart2();
+                drawChart3();
+            });
+        </script>
+
+    </head>
+    <h4>From: @From2 To: @To2 </h4>
+    <hr />
+    <div class="row">
+        <div class="clearfix"></div>
+        <div class="col-md-6">
+            <div class="chart" id="donutchart"></div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="chart" id="BarChart"></div>
+        </div>
+   </div>
+   <br />
+   <div class="row">
+       <div class="col-md-6">
+           <div class="chart" id="LineChart"></div>
+       </div>
+   </div>
+

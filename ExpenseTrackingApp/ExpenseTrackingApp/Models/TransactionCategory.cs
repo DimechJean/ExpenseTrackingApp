@@ -19,9 +19,11 @@ namespace ExpenseTrackingApp.Models
         [Column(TypeName = "numeric")]
         public decimal ID { get; set; }
 
-        [Required]
         [StringLength(50)]
         public string NameCat { get; set; }
+
+        [Column(TypeName = "numeric")]
+        public decimal? UserAccount { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<TransactionPersonal> TransactionPersonal { get; set; }
