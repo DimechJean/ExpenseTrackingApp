@@ -6,12 +6,19 @@
     int TransID = ViewBag.param_id;
     decimal Amount = ViewBag.param_amnt;
     string Desc = ViewBag.param_desc;
-    DateTime Date = ViewBag.param_date;
+    string selectedCat = ViewBag.categorySelected;
+    string selectedAcc = ViewBag.accountSelected;
+    string formattedDate = ViewBag.param_date;
     List<SelectListItem> categories = ViewData["Categ"] as List<SelectListItem>;
+    List<SelectListItem> accounts = ViewData["Accts"] as List<SelectListItem>;
 }
 
 <h2>Transaction</h2>
 
+@if (TempData["notice"] != null)
+{
+	<p style="color: #4FD2C2">@TempData["notice"]</p>
+}
 
 @using (Html.BeginForm())
 {
@@ -42,7 +49,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.TransactionCategory, "TransactionCategory", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownList("TransactionCategory", categories, htmlAttributes: new { @class = "form-control" })
+                @Html.DropDownList("TransactionCategory", categories, selectedCat, htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.TransactionCategory, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -50,8 +57,16 @@
         <div class="form-group">
             @Html.LabelFor(model => model.DateAdded, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.DateAdded, new { htmlAttributes = new { @class = "form-control", @Value = Date.ToShortDateString() } })
+                @Html.EditorFor(model => model.DateAdded, new { htmlAttributes = new { @class = "form-control", @Value = formattedDate } })
                 @Html.ValidationMessageFor(model => model.DateAdded, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Account, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("Account", accounts, selectedAcc, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Account, "", new { @class = "text-danger" })
             </div>
         </div>
 

@@ -6,10 +6,6 @@
 }
 
 <h2>Index</h2>
-@if (TempData["notice"] != null)
-{
-	<p style="color: #d24f5f">@TempData["notice"]</p>
-}
 
 <p>
     @Html.ActionLink("Create New", "Create")

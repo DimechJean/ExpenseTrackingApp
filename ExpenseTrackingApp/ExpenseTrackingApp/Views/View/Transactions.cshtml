@@ -9,8 +9,9 @@
 }
 
 <h2>Transactions</h2>
+<hr class="newstyle" />
 <div class="container">
-	<p>Here you will find all your transactions, Staring the transactions will create a copy of the transaction for quick adding of frequent transactions. </p>
+	<p>Here you will find all your personal transactions that are not connected to the bank accounts. Clicking on the the repeat button next to the transactions will create a copy of the transaction for quick adding of frequent transactions. </p>
 	<table class="table">
 		<thead>
 			<tr>
@@ -30,9 +31,9 @@
 					<td> @transaction.DateAdded.ToShortDateString()</td>
                     <td>
                         <a href="/Edit/Transaction/@transaction.ID"> edit </a>
-                        <a href="/Delete/Transaction/@transaction.ID"> delete </a>
+                        <a href="/Delete/Transaction/@transaction.ID" onclick="return confirm('Are you sure you want to delete this transaction?');"> delete </a>
                         <a href="/AddTransaction/Starred/@transaction.ID">
-                            <img src="~/Content/Images/repeat_glyph.png" alt="Repeat Button" width="25" height="25" />
+                        <img src="~/Content/Images/repeat_glyph.png" alt="Repeat Button" width="25" height="25" />
                         </a>
                     </td>
 				</tr>			

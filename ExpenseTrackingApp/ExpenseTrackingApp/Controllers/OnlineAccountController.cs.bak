@@ -82,7 +82,6 @@ namespace ExpenseTrackingApp.Controllers
             }
 
             ViewBag.UserAccount = new SelectList(db.UserAccount, "ID", "EmailAcc", onlineAccount.UserAccount);
-            TempData["notice"] = "Bank Account Connected Successfully";
             return View(onlineAccount);
         }
 

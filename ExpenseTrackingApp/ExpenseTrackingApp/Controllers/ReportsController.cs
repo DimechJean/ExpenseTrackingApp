@@ -33,6 +33,10 @@ namespace ExpenseTrackingApp.Controllers
         public ActionResult Index(Reports report)
         {
             HttpCookie auth = Request.Cookies["auth"];
+            if(auth == null)
+            {
+                return RedirectToAction("Login", "UserAccounts");
+            }
             string email = auth.Values.Get("Email");
             UserAccount user = db.UserAccount.Where(m => m.EmailAcc.Equals(email)).First();
             List<PersonalAccount> Accounts = db.PersonalAccount.Where(m => m.UserAccount == user.ID).ToList();

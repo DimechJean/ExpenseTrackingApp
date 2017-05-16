@@ -33,6 +33,7 @@ namespace ExpenseTrackingApp.Controllers
                 }
             }
             ModelState.Clear();
+            TempData["notice"] = "Category Deleted Successfully";
             return RedirectToAction("TransactionCategories", "View");
         }
 
@@ -53,7 +54,8 @@ namespace ExpenseTrackingApp.Controllers
                 }
             }
             ModelState.Clear();
-            return RedirectToAction("AllTransactions", "View");
+            TempData["notice"] = "Transaction Deleted Successfully";
+            return RedirectToAction("Transactions", "View");
         }
 
         public ActionResult TransactionOnline(int? id)
@@ -73,7 +75,8 @@ namespace ExpenseTrackingApp.Controllers
                 }
             }
             ModelState.Clear();
-            return RedirectToAction("AllTransactions", "View");
+            TempData["notice"] = "Transaction Deleted Successfully";
+            return RedirectToAction("Transactions", "View");
         }
     }
 }

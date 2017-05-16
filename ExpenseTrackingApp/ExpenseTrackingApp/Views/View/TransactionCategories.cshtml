@@ -14,7 +14,7 @@
 }
 
 <div>
-    <hr />
+    <hr class="newstyle" />
 	<table class="table">
 		<thead>
 			<tr>
@@ -26,10 +26,13 @@
 			{
 				<tr>
 					<td> @category.NameCat </td>
-					<td>
-						<a href="/Edit/Category/@category.ID"> edit </a>
-						<a href="/Delete/Category/@category.ID"> delete </a>
-					</td>
+                    <td>
+                        @if (category.UserAccount != null)
+                        {
+                            <a href="/Edit/Category/@category.ID"> edit </a>
+                            <a href="/Delete/Category/@category.ID"> delete </a>
+                        }
+                    </td>
 				</tr>
 			}
 		</tbody>

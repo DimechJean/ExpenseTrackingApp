@@ -1,8 +1,10 @@
 ﻿@{
-    ViewBag.Title = "All Transactions";
-    Layout = "~/Views/Shared/_Layout.cshtml";
-    List<ExpenseTrackingApp.Models.TransactionPersonal> PersTransactions = ViewData["TransPersList"] as List<ExpenseTrackingApp.Models.TransactionPersonal>;
-    List<ExpenseTrackingApp.Models.TransactionOnline> OnlineTransactions = ViewData["TransOnlineList"] as List<ExpenseTrackingApp.Models.TransactionOnline>;
+	ViewBag.Title = "All Transactions";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+	List<ExpenseTrackingApp.Models.TransactionPersonal> PersTransactions = ViewData["TransPersList"] as List<ExpenseTrackingApp.Models.TransactionPersonal>;
+	List<ExpenseTrackingApp.Models.TransactionOnline> OnlineTransactions = ViewData["TransOnlineList"] as List<ExpenseTrackingApp.Models.TransactionOnline>;
+	List<string> categs = ViewData["categories"] as List<string>;
+	int categoryCounter = 0;
 }
 
 <h2>All Transactions</h2>
@@ -15,7 +17,7 @@
         {
             <p> Amount: @transaction.Amount </p>
             <p> Description: @transaction.TransactionDescription</p>
-            <p> Category: @transaction.TransactionCategory </p>
+            <p> Category: @categs.ElementAt(categoryCounter) </p>
             <p> Date: @transaction.DateAdded </p>
             <a href="/Edit/Transaction/@transaction.ID"> edit </a>
             <a href="/Delete/Transaction/@transaction.ID"> delete </a>
@@ -23,13 +25,14 @@
                 <img src="~/Content/Images/gold_star_glyph.png" alt="Star" width="40" height="25"/>
             </a>
             <br />
-        }
+			categoryCounter++;
+		}
 
         @foreach (var transaction in OnlineTransactions)
         {
             <p> Amount: @transaction.Amount </p>
             <p> Description: @transaction.TransactionDescription</p>
-            <p> Category: @transaction.TransactionCategory </p>
+			<p> Category: @categs.ElementAt(categoryCounter) </p>
             <p> Date: @transaction.DateAdded </p>
             <a href="/Edit/TransactionOnline/@transaction.ID"> edit </a>
             <a href="/Delete/TransactionOnline/@transaction.ID"> delete </a>
@@ -37,6 +40,7 @@
                 <img src="~/Content/Images/gold_star_glyph.png" alt="Star" width="40" height="25"/>
             </a>
             <br />
-        }
+			categoryCounter++;
+		}
     </div>
 </div>

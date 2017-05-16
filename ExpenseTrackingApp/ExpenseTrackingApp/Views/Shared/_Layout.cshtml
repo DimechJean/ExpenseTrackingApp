@@ -3,39 +3,46 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - My ASP.NET Application</title>
+
+    <title>Index</title>
+
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
 	@Scripts.Render("~/bundles/scripts")
 
-	<script>function myFunction() {
-	var $this = $(this);
+	<script>
+		function myFunction() {
+			var $this = $(this);
 
-	$('#fh5co-offcanvass').toggleClass('fh5co-awake');
-	if ($(window).width() < 1600){
-		$('#fh5co-page, #fh5co-menu').toggleClass('fh5co-sleep');
-	}
+			$('#fh5co-offcanvass').toggleClass('fh5co-awake');
+			if ($(window).width() < 1600){
+				$('#fh5co-page, #fh5co-menu').toggleClass('fh5co-sleep');
+			}
 
-	if ($('#fh5co-offcanvass').hasClass('fh5co-awake')) {
-		$this.addClass('active');
-	} else {
-		$this.removeClass('active');
-	}
-}
+			if ($('#fh5co-offcanvass').hasClass('fh5co-awake')) {
+				$this.addClass('active');
+			} else {
+				$this.removeClass('active');
+			}
+		}
 	</script>
 
 </head>
-<body>	
-	<div id="fh5co-offcanvass" style="margin-right: 30px; padding-right: 100px;">
+<body class="scrolled">	
+	<div id="fh5co-offcanvass" style="padding-right: 100px; margin-top: 30px;z-index:100; ">
 		<ul>
 			<li><a href="@Url.Action("Index", "Home")" data-nav-section="home">Home</a></li>
-			<li><a href="@Url.Action("Transactions", "View")" data-nav-section="transactions">Transactions</a></li>
+			<li class="dropdown">
+				<a class="dropdown-toggle" data-toggle="dropdown">Transactions</a>
+				<ul class="dropdown-menu">
+					<li>@Html.ActionLink("All Transactions" ,"AllTransactions", "View", routeValues: null, htmlAttributes: new { title = "All Transactions" })</li>
+					<li>@Html.ActionLink("Personal Transactions", "Transactions", "View", routeValues: null, htmlAttributes: new { title = "Personal Transactions" })</li>
+					<li>@Html.ActionLink("Bank Transactions", "TransactionsOnline", "View", routeValues: null, htmlAttributes: new { title = "Bank Transactions" })</li>
+				</ul>
+			</li>
 			<li><a href="@Url.Action("TransactionCategories", "View")" data-nav-section="addcat">Categories</a></li>
-			<li><a href="@Url.Action("Index", "Reports")" data-nav-section="reports">Reports</a></li>
-			<li><a href="#" data-nav-section="products">Products</a></li>
-			<li><a href="#" data-nav-section="benefits">Benefits</a></li>
-			<li><a href="#" data-nav-section="pricing">Pricing</a></li>
-			<li><a href="#" data-nav-section="faqs">FAQs</a></li>
+			<li><a href="@Url.Action("Reporting", "Reports")" data-nav-section="reports">Reports</a></li>
+			<li><a href="@Url.Action("Index", "Reports")" data-nav-section="reports">Generate a Report</a></li>
 			<li>
 				@{
 					if (Request.Cookies["auth"] != null)

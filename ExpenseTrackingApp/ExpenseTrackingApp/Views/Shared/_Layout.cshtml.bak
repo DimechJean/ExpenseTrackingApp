@@ -28,10 +28,10 @@
 <body>	
 	<div id="fh5co-offcanvass" style="margin-right: 30px; padding-right: 100px;">
 		<ul>
-			<li class="active"><a href="@Url.Action("Index", "Home")" data-nav-section="home">Home</a></li>
+			<li><a href="@Url.Action("Index", "Home")" data-nav-section="home">Home</a></li>
 			<li><a href="@Url.Action("Transactions", "View")" data-nav-section="transactions">Transactions</a></li>
 			<li><a href="@Url.Action("TransactionCategories", "View")" data-nav-section="addcat">Categories</a></li>
-			<li><a href="#" data-nav-section="testimonies">Testimonies</a></li>
+			<li><a href="@Url.Action("Index", "Reports")" data-nav-section="reports">Reports</a></li>
 			<li><a href="#" data-nav-section="products">Products</a></li>
 			<li><a href="#" data-nav-section="benefits">Benefits</a></li>
 			<li><a href="#" data-nav-section="pricing">Pricing</a></li>
@@ -71,7 +71,7 @@
 				<div class="col-md-12">
 					<a href="#" class="js-
 					    fh5co-nav-toggle" data-toggle="collapse" data-target="#fh5co-navbar" aria-expanded="false" aria-controls="navbar"><span onclick="myFunction()" style="color: #6A6A6A"> Menu <i style="background: #6A6A6A"> </i></span></a>
-					<a href="#" class="navbar-brand"><span style="color: #6A6A6A">Cache</span></a>
+					<a href="@Url.Action("Index", "Home")" class="navbar-brand"><span style="color: #6A6A6A">Cache</span></a>
 				</div>
 			</div>
 		</div>

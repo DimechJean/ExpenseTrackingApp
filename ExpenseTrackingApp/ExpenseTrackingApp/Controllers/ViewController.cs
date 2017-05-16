@@ -19,12 +19,20 @@ namespace ExpenseTrackingApp.Controllers
         public ActionResult TransactionCategories()
         {
             List<TransactionCategory> catList = new List<TransactionCategory>();
-
+            HttpCookie auth = Request.Cookies["auth"];
+            if(auth == null)
+            {
+                return RedirectToAction("Login", "UserAccounts");
+            }
+            string email = auth.Values.Get("Email");
             using (Model1 db = new Model1())
             {
-                foreach(TransactionCategory tc in db.TransactionCategory)
+                UserAccount user = db.UserAccount.Where(m => m.EmailAcc.Equals(email)).FirstOrDefault();
+                //catList = db.TransactionCategory.SqlQuery("Select * from [dbo].[TransactionCategory] Where UserAccount is null or UserAccount = " + user.ID).ToList();
+                foreach (TransactionCategory tc in db.TransactionCategory)
                 {
-                    catList.Add(tc);
+                    if (tc.UserAccount == null || tc.UserAccount == user.ID)
+                        catList.Add(tc);
                 }
             }
 
@@ -37,13 +45,23 @@ namespace ExpenseTrackingApp.Controllers
         {
             List<TransactionPersonal> transList = new List<TransactionPersonal>(); 
             List<string> categories = new List<string>();
-
+            HttpCookie auth = Request.Cookies["auth"];
+            if(auth == null)
+            {
+                return RedirectToAction("Login", "UserAccounts");
+            }
             using (Model1 db = new Model1())
             {
-                foreach (TransactionPersonal tp in db.TransactionPersonal)
+                string email = auth.Values.Get("Email");
+                UserAccount user = db.UserAccount.Where(m => m.EmailAcc.Equals(email)).FirstOrDefault();
+                List<PersonalAccount> personal = db.PersonalAccount.Where(m => m.UserAccount == user.ID).ToList();
+                foreach (PersonalAccount p in personal)
                 {
-                    transList.Add(tp);
-                    categories.Add(tp.TransactionCategory1.NameCat);
+                    foreach(TransactionPersonal t in db.TransactionPersonal.Where(m=>m.Account == p.ID))
+                    {
+                        transList.Add(t);
+                        categories.Add(t.TransactionCategory1.NameCat);
+                    }
                 }
             }
 
@@ -55,15 +73,26 @@ namespace ExpenseTrackingApp.Controllers
 
         public ActionResult TransactionsOnline()
         {
+            
             List<TransactionOnline> transList = new List<TransactionOnline>(); 
             List<string> categories = new List<string>();
-
+            HttpCookie auth = Request.Cookies["auth"];
+            if(auth == null)
+            {
+                return RedirectToAction("Login", "UserAccounts");
+            }
+            string email = auth.Values.Get("Email");
             using (Model1 db = new Model1())
             {
-                foreach (TransactionOnline to in db.TransactionOnline)
+                UserAccount user = db.UserAccount.Where(m => m.EmailAcc.Equals(email)).FirstOrDefault();
+                List<OnlineAccount> online = db.OnlineAccount.Where(m => m.UserAccount == user.ID).ToList();
+                foreach(OnlineAccount o in online)
                 {
-                    transList.Add(to);
-                    categories.Add(to.TransactionCategory1.NameCat);
+                    foreach(TransactionOnline to in db.TransactionOnline.Where(m=>m.Account == o.ID))
+                    {
+                        transList.Add(to);
+                        categories.Add(to.TransactionCategory1.NameCat);
+                    }
                 }
             }
 
@@ -78,22 +107,34 @@ namespace ExpenseTrackingApp.Controllers
             List<TransactionPersonal> transPersList = new List<TransactionPersonal>();
             List<TransactionOnline> transOnlineList = new List<TransactionOnline>();
             List<string> categories = new List<string>();
-
+            HttpCookie auth = Request.Cookies["auth"];
+            if (auth == null)
+            {
+                return RedirectToAction("Login", "UserAccounts");
+            }
+            string email = auth.Values.Get("Email");
             using (Model1 db = new Model1())
             {
-                foreach (TransactionPersonal tp in db.TransactionPersonal)
+                UserAccount user = db.UserAccount.Where(m => m.EmailAcc.Equals(email)).FirstOrDefault();
+                List<OnlineAccount> online = db.OnlineAccount.Where(m => m.UserAccount == user.ID).ToList();
+                List<PersonalAccount> personal = db.PersonalAccount.Where(m => m.UserAccount == user.ID).ToList();
+                foreach (PersonalAccount p in personal)
                 {
-                    transPersList.Add(tp);
-                    categories.Add(tp.TransactionCategory1.NameCat);
+                    foreach (TransactionPersonal t in db.TransactionPersonal.Where(m => m.Account == p.ID))
+                    {
+                        transPersList.Add(t);
+                        categories.Add(t.TransactionCategory1.NameCat);
+                    }
                 }
-
-                foreach (TransactionOnline to in db.TransactionOnline)
+                foreach (OnlineAccount o in online)
                 {
-                    transOnlineList.Add(to);
-                    categories.Add(to.TransactionCategory1.NameCat);
+                    foreach (TransactionOnline to in db.TransactionOnline.Where(m => m.Account == o.ID))
+                    {
+                        transOnlineList.Add(to);
+                        categories.Add(to.TransactionCategory1.NameCat);
+                    }
                 }
             }
-
             ViewData["TransPersList"] = new List<TransactionPersonal>(transPersList);
             ViewData["TransOnlineList"] = new List<TransactionOnline>(transOnlineList);
             ViewData["categories"] = new List<string>(categories);

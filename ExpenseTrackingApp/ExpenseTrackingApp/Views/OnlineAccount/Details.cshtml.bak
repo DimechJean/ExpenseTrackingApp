@@ -9,7 +9,7 @@
 
 <div>
     <h4>OnlineAccount</h4>
-	<hr class="newstyle" />
+    <hr />
     <dl class="dl-horizontal">
         <dt>
             @Html.DisplayNameFor(model => model.FinancialAccountsCategory.NameCat)

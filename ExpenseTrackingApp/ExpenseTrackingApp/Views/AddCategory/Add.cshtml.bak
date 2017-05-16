@@ -6,6 +6,10 @@
 }
 
 <h2>Add</h2>
+@if (TempData["notice"] != null)
+{
+	<p style="color: #d24f5f">@TempData["notice"]</p>
+}
 
 @Html.HiddenFor(model => model.UserAccount)
 @using (Html.BeginForm()) 
@@ -18,7 +22,7 @@
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
         <div class="form-group">
-            @Html.LabelFor(model => model.NameCat, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.Label("Category Name" , htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.NameCat, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.NameCat, "", new { @class = "text-danger" })

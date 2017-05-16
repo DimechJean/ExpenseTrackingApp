@@ -48,7 +48,7 @@ namespace ExpenseTrackingApp.Controllers
                 {
                     if (AddCategoryController.CategoryExists(category.NameCat,email))
                     {
-                        return Content("Category Already Exists");
+                        return RedirectToAction("Add", "AddCategory");
                     }
 
                     db.Entry(category).State = System.Data.Entity.EntityState.Modified;
@@ -56,7 +56,8 @@ namespace ExpenseTrackingApp.Controllers
                 }
 
                 ModelState.Clear();
-                return Content("Category Edited Successfully");//return RedirectToAction("Index");
+                TempData["notice"] = "Category Edited Successfully";
+                return RedirectToAction("TransactionCategories", "View");
             }
             return Content("Invalid Category");
         }
@@ -66,6 +67,7 @@ namespace ExpenseTrackingApp.Controllers
             if (id == null)
                 return new HttpStatusCodeResult(System.Net.HttpStatusCode.BadRequest);
 
+            HttpCookie auth = Request.Cookies["auth"];
             using (Model1 db = new Model1())
             {
                 TransactionPersonal tp = db.TransactionPersonal.Find(id);
@@ -73,6 +75,7 @@ namespace ExpenseTrackingApp.Controllers
                     return HttpNotFound();
 
                 List<SelectListItem> categories = new List<SelectListItem>();
+                List<SelectListItem> accounts = new List<SelectListItem>();
                 var table = db.TransactionCategory.ToArray();
                 foreach (var cat in table)
                 {
@@ -81,11 +84,35 @@ namespace ExpenseTrackingApp.Controllers
                     newSLI.Value = Convert.ToString(cat.ID);
                     categories.Add(newSLI);
                 }
+                string email = auth.Values.Get("Email");
+                UserAccount useracc = db.UserAccount.Where(m => m.EmailAcc.Equals(email)).FirstOrDefault();
+                var accountTable = db.PersonalAccount.ToArray().Where(m => m.UserAccount == useracc.ID);
+                foreach (var acc in accountTable)
+                {
+                    SelectListItem newSLI = new SelectListItem();
+                    newSLI.Text = acc.AccountDescription;
+                    newSLI.Value = Convert.ToString(acc.ID);
+                    accounts.Add(newSLI);
 
+                    if(acc.ID == tp.Account)
+                        ViewBag.accountSelected = acc.AccountDescription;
+                }
+                string month;
+                if (tp.DateAdded.Month < 10)
+                    month = "0" + tp.DateAdded.Month;
+                else
+                    month = tp.DateAdded.Month.ToString();
+                string day;
+                if (tp.DateAdded.Day < 10)
+                    day = "0" + tp.DateAdded.Day;
+                else
+                    day = tp.DateAdded.Day.ToString();
+                ViewBag.param_date = tp.DateAdded.Year + "-" + month + "-" + day;
                 ViewData["Categ"] = new List<SelectListItem>(categories);
+                ViewData["Accts"] = new List<SelectListItem>(accounts);
                 ViewBag.param_desc = tp.TransactionDescription;
                 ViewBag.param_amnt = tp.Amount;
-                ViewBag.param_date = tp.DateAdded;
+                ViewBag.categorySelected = tp.TransactionCategory1.NameCat;       
             }
             ViewBag.param_id = id;
             return View();
@@ -104,7 +131,8 @@ namespace ExpenseTrackingApp.Controllers
                 }
 
                 ModelState.Clear();
-                return Content("Transaction Edited Successfully");//return RedirectToAction("Index");
+                TempData["notice"] = "Transaction Edited Successfully";
+                return RedirectToAction("Transactions", "View");
             }
             return Content("Invalid Category");
         }
@@ -113,7 +141,7 @@ namespace ExpenseTrackingApp.Controllers
         {
             if (id == null)
                 return new HttpStatusCodeResult(System.Net.HttpStatusCode.BadRequest);
-
+            HttpCookie auth = Request.Cookies["auth"];
             using (Model1 db = new Model1())
             {
                 TransactionOnline to = db.TransactionOnline.Find(id);
@@ -129,11 +157,29 @@ namespace ExpenseTrackingApp.Controllers
                     newSLI.Value = Convert.ToString(cat.ID);
                     categories.Add(newSLI);
                 }
-
+                string email = auth.Values.Get("Email");
+                UserAccount useracc = db.UserAccount.Where(m => m.EmailAcc.Equals(email)).FirstOrDefault();
+                var accountTable = db.PersonalAccount.ToArray().Where(m => m.UserAccount == useracc.ID);
+                foreach (var acc in accountTable)
+                {
+                    if (acc.ID == to.Account)
+                        ViewBag.accountSelected = acc.AccountDescription;
+                }
+                string month;
+                if (to.DateAdded.Month < 10)
+                    month = "0" + to.DateAdded.Month;
+                else
+                    month = to.DateAdded.Month.ToString();
+                string day;
+                if (to.DateAdded.Day < 10)
+                    day = "0" + to.DateAdded.Day;
+                else
+                    day = to.DateAdded.Day.ToString();
+                ViewBag.param_date = to.DateAdded.Year + "-" + month + "-" + day;
                 ViewData["Categ"] = new List<SelectListItem>(categories);
                 ViewBag.param_desc = to.TransactionDescription;
                 ViewBag.param_amnt = to.Amount;
-                ViewBag.param_date = to.DateAdded;
+                ViewBag.categorySelected = to.TransactionCategory1.NameCat;
             }
             ViewBag.param_id = id;
             return View();
@@ -152,7 +198,8 @@ namespace ExpenseTrackingApp.Controllers
                 }
 
                 ModelState.Clear();
-                return Content("Transaction Edited Successfully");//return RedirectToAction("Index");
+                TempData["notice"] = "Transaction Edited Successfully";
+                return RedirectToAction("Transactions", "View");
             }
             return Content("Invalid Category");
         }

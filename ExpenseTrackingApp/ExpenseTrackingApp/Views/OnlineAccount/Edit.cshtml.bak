@@ -6,7 +6,6 @@
 }
 
 <h2>Edit</h2>
-<hr class="newstyle" />
 
 @using (Html.BeginForm())
 {

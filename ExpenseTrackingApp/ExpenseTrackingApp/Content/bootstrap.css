@@ -57,6 +57,24 @@ html {
       -ms-text-size-adjust: 100%;
 }
 
+hr.newstyle {
+	border-top: 1px solid #eeeeee;
+	text-align: center;
+}
+hr.newstyle:after {
+	content: '§';
+	display: inline-block;
+	position: relative;
+	top: -14px;
+	padding: 0 10px;
+	background: #f0f0f0;
+	color: #8c8b8b;
+	font-size: 18px;
+	-webkit-transform: rotate(60deg);
+	-moz-transform: rotate(60deg);
+	transform: rotate(60deg);
+}
+
 move{
 	margin-right: 100px
 }
@@ -81,6 +99,11 @@ h1 {
 
 abbr[title] {
   border-bottom: 1px dotted;
+}
+
+.plusbutton{
+	margin-left: 10px;
+    margin-top: 13px;
 }
 
 b,
@@ -6817,4 +6840,81 @@ td.visible-print {
   td.hidden-print {
     display: none !important;
   }
+}
+
+.report {
+    display: block;
+    position: fixed;
+    top: 0;
+    left: -400%;
+    width: 500%;
+    text-align: right;
+    padding: 0;
+    margin: 0;
+    background: #eee;
+}
+section {
+    width: 20%;
+    display: inline-block;
+    text-align: left;
+    transition: all 1s linear;
+    /* older webkit */
+    
+    transition: all 1s cubic-bezier(0.175, 0.885, 0.320, 1.15);
+    margin-top: 4em;
+    color: #fff;
+    text-shadow: 1px 1px #000;
+    padding: 1.5em 0;
+    text-indent: 1em;
+    font-size: 1.25em;
+    border-top: 1px solid #666;
+    border-bottom: 1px solid #fff;
+}
+#one:target ~ #three {
+    margin-right: -60%;
+}
+#two:target ~ #three {
+    margin-right: -40%;
+}
+#three:target ~ #three {
+    margin-right: -20%;
+}
+#three:target {
+    margin-right: 0%;
+}
+#repnav {
+    display: block;
+    width: 100%;
+    position: fixed;
+    left: 0;
+    top: 0;
+    background: #333;
+    padding: 0;
+    list-style: none;
+    margin: 0;
+    font-size: 1.25em;
+}
+#repnav li {
+    display: block;
+    float: left;
+    width: 25%;
+}
+#repnav li a {
+    display: block;
+    text-decoration: none;
+    padding: 1em 0;
+    color: #ddd;
+    text-align: center;
+    transition: all .1s linear;
+    font-weight: bold;
+    text-shadow: 1px 1px #000;
+}
+#repnav li a:hover {
+    background: #000;
+    color: #fff;
+}
+#one:target ~ #nav .one a,
+#two:target ~ #nav .two a,
+#three:target ~ #nav .three a {
+    background: orange;
 }

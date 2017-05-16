@@ -17,7 +17,14 @@ namespace ExpenseTrackingApp.Controllers
         // GET: PersonalAccount
         public ActionResult Index()
         {
-            var personalAccount = db.PersonalAccount.Include(p => p.FinancialAccountsCategory).Include(p => p.UserAccount1);
+            HttpCookie auth = Request.Cookies["auth"];
+            if (auth == null)
+            {
+                return RedirectToAction("../Home");
+            }
+            string email = auth.Values.Get("Email");
+            UserAccount user = db.UserAccount.Where(m => m.EmailAcc.Equals(email)).FirstOrDefault();
+            var personalAccount = db.PersonalAccount.Include(p => p.FinancialAccountsCategory).Include(p => p.UserAccount1).Where(m=>m.UserAccount == user.ID);
             return View(personalAccount.ToList());
         }
 
@@ -40,7 +47,7 @@ namespace ExpenseTrackingApp.Controllers
         public ActionResult Create()
         {
             ViewBag.CategoryAcc = new SelectList(db.FinancialAccountsCategory, "ID", "NameCat");
-            ViewBag.UserAccount = new SelectList(db.UserAccount, "ID", "EmailAcc");
+            //ViewBag.UserAccount = new SelectList(db.UserAccount, "ID", "EmailAcc");
             return View();
         }
 
@@ -87,7 +94,18 @@ namespace ExpenseTrackingApp.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+            HttpCookie auth = Request.Cookies["auth"];
+            if(auth == null)
+            {
+                return RedirectToAction("Login", "UserAccount");
+            }
+            string email = auth.Values.Get("Email");
+            UserAccount user = db.UserAccount.Where(m => m.EmailAcc.Equals(email)).FirstOrDefault();
             PersonalAccount personalAccount = db.PersonalAccount.Find(id);
+            if(personalAccount.UserAccount != user.ID)
+            {
+                return RedirectToAction("../Home");
+            }
             if (personalAccount == null)
             {
                 return HttpNotFound();
@@ -118,11 +136,22 @@ namespace ExpenseTrackingApp.Controllers
         // GET: PersonalAccount/Delete/5
         public ActionResult Delete(decimal id)
         {
+            HttpCookie auth = Request.Cookies["auth"];
+            if(auth == null)
+            {
+                return RedirectToAction("Login","UserAccount");
+            }
+            string email = auth.Values.Get("Email");
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             PersonalAccount personalAccount = db.PersonalAccount.Find(id);
+            UserAccount user = db.UserAccount.Where(m => m.EmailAcc.Equals(email)).FirstOrDefault();
+            if(personalAccount.UserAccount != user.ID)
+            {
+                return RedirectToAction("../Home");
+            }
             if (personalAccount == null)
             {
                 return HttpNotFound();
