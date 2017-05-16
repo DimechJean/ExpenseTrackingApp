@@ -78,7 +78,8 @@ namespace ExpenseTrackingApp.Controllers
                 }
                 ModelState.Clear();
 
-                return Content("Transaction Added Successfully");//return RedirectToAction("Index");
+                TempData["notice"] = "Transaction Added Successfully";
+                return RedirectToAction("Transactions", "View");
             }
             return Content("Invalid Transaction");
         }
@@ -143,7 +144,9 @@ namespace ExpenseTrackingApp.Controllers
                 }
                 ModelState.Clear();
             }
-            return RedirectToAction("AllTransactions", "View");
+
+            TempData["notice"] = "Transaction Added Successfully";
+            return RedirectToAction("Transactions", "View");
         }
 
         /*public ActionResult StarredOnline(int? id)

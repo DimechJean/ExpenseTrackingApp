@@ -64,7 +64,8 @@ namespace ExpenseTrackingApp.Controllers
                     {
                         return RedirectToAction("Add", "AddCategory");
                     }
-
+                    UserAccount curUser = db.UserAccount.Where(m => m.EmailAcc.Equals(email)).FirstOrDefault();
+                    category.UserAccount = curUser.ID;
                     db.Entry(category).State = System.Data.Entity.EntityState.Modified;
                     db.SaveChanges();
                 }

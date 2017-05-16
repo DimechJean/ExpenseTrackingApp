@@ -132,7 +132,6 @@ namespace ExpenseTrackingApp.Controllers
                     }
                     TransactionPersonal newTransaction = new TransactionPersonal();
                     newTransaction.ID = value;
-                    //newTransaction.ID = newID+1;
                     newTransaction.Amount = oldTransaction.Amount;
                     newTransaction.TransactionDescription = oldTransaction.TransactionDescription;
                     newTransaction.DateAdded = oldTransaction.DateAdded;
@@ -145,49 +144,8 @@ namespace ExpenseTrackingApp.Controllers
                 ModelState.Clear();
             }
 
-            TempData["notice"] = "Transaction Added Successfully";
-            return RedirectToAction("Transactions", "View");
+            TempData["notice"] = "Transaction Added Successfully";                   
+            return Redirect(Request.UrlReferrer.ToString());
         }
-
-        /*public ActionResult StarredOnline(int? id)
-        {
-            if (ModelState.IsValid)
-            {
-                using (Model1 db = new Model1())
-                {
-                    TransactionOnline oldTransaction = db.TransactionOnline.Find(id);
-
-                    //int newID = 0;
-                    //foreach (TransactionOnline to in db.TransactionOnline)
-                    //{
-                      //  newID++;
-                    //}
-
-                    Random r = new Random();
-                    int value = (int)r.Next(0, Int32.MaxValue);
-                    TransactionPersonal account = db.TransactionPersonal.Find(value);
-                    if (account != null)
-                    {
-                        while (account != null)
-                        {
-                            value = (int)r.Next(0, Int32.MaxValue);
-                            account = db.TransactionPersonal.Find(value);
-                        }
-                    }
-
-                    TransactionOnline newTransaction = new TransactionOnline();
-                    newTransaction.ID = value;
-                    newTransaction.Amount = oldTransaction.Amount;
-                    newTransaction.TransactionDescription = oldTransaction.TransactionDescription;
-                    newTransaction.DateAdded = oldTransaction.DateAdded;
-                    newTransaction.TransactionCategory = oldTransaction.TransactionCategory;
-
-                    db.TransactionOnline.Add(newTransaction);
-                    db.SaveChanges();
-                }
-                ModelState.Clear();
-            }
-            return RedirectToAction("AllTransactions", "View");
-        }*/
     }
 }

@@ -226,7 +226,6 @@
     <Content Include="Views\AddCategory\Add.cshtml" />
     <Content Include="Views\View\TransactionCategories.cshtml" />
     <Content Include="Views\View\Transactions.cshtml" />
-    <Content Include="Views\AddTransaction\AddOnline.cshtml" />
     <Content Include="Views\View\TransactionsOnline.cshtml" />
     <Content Include="Views\Edit\Category.cshtml" />
     <Content Include="Views\Edit\Transaction.cshtml" />
@@ -237,12 +236,10 @@
     <Content Include="Views\Reports\Reporting.cshtml" />
     <Content Include="Views\OnlineAccount\Create.cshtml" />
     <Content Include="Views\OnlineAccount\Delete.cshtml" />
-    <Content Include="Views\OnlineAccount\Details.cshtml" />
     <Content Include="Views\OnlineAccount\Edit.cshtml" />
     <Content Include="Views\OnlineAccount\Index.cshtml" />
     <Content Include="Views\PersonalAccount\Create.cshtml" />
     <Content Include="Views\PersonalAccount\Delete.cshtml" />
-    <Content Include="Views\PersonalAccount\Details.cshtml" />
     <Content Include="Views\PersonalAccount\Edit.cshtml" />
     <Content Include="Views\PersonalAccount\Index.cshtml" />
   </ItemGroup>

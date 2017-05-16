@@ -5,11 +5,9 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Index</h2>
-
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
+<h2> My Wallets</h2>
+<hr class="newstyle" />
+<p>Wallets are used to group transactions into smaller, seprate more managable accounts</p>
 <table class="table">
     <tr>
         <th>
@@ -37,10 +35,11 @@
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.ID }) |
             @Html.ActionLink("Delete", "Delete", new { id=item.ID })
         </td>
     </tr>
 }
 
 </table>
+
+<p><a href="@Url.Action("Create", "PersonalAccount")" class="btn btn-primary btn-lg">Add New Account &raquo;</a></p>

@@ -20,27 +20,12 @@ namespace ExpenseTrackingApp.Controllers
             HttpCookie auth = Request.Cookies["auth"];
             if (auth == null)
             {
-                return RedirectToAction("../Home");
+                return RedirectToAction("Login", "UserAccounts");
             }
             string email = auth.Values.Get("Email");
             UserAccount user = db.UserAccount.Where(m => m.EmailAcc.Equals(email)).FirstOrDefault();
             var personalAccount = db.PersonalAccount.Include(p => p.FinancialAccountsCategory).Include(p => p.UserAccount1).Where(m=>m.UserAccount == user.ID);
             return View(personalAccount.ToList());
-        }
-
-        // GET: PersonalAccount/Details/5
-        public ActionResult Details(decimal id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            PersonalAccount personalAccount = db.PersonalAccount.Find(id);
-            if (personalAccount == null)
-            {
-                return HttpNotFound();
-            }
-            return View(personalAccount);
         }
 
         // GET: PersonalAccount/Create
@@ -124,6 +109,10 @@ namespace ExpenseTrackingApp.Controllers
         {
             if (ModelState.IsValid)
             {
+                HttpCookie auth = Request.Cookies["auth"];
+                string email = auth.Values.Get("Email");
+                UserAccount user = db.UserAccount.Where(m => m.EmailAcc.Equals(email)).FirstOrDefault();
+                personalAccount.UserAccount = user.ID;
                 db.Entry(personalAccount).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");

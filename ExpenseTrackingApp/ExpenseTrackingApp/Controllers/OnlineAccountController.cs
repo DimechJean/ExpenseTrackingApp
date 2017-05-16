@@ -25,21 +25,6 @@ namespace ExpenseTrackingApp.Controllers
             return View(onlineAccount.ToList());
         }
 
-        // GET: OnlineAccount/Details/5
-        public ActionResult Details(decimal id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            OnlineAccount onlineAccount = db.OnlineAccount.Find(id);
-            if (onlineAccount == null)
-            {
-                return HttpNotFound();
-            }
-            return View(onlineAccount);
-        }
-
         // GET: OnlineAccount/Create
         public ActionResult Create()
         {

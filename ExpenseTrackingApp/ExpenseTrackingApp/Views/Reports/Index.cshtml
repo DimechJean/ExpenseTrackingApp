@@ -5,13 +5,18 @@
 }
 
 <h2>Reports</h2>
+@if (TempData["notice"] != null)
+{
+	<p style="color:crimson">@TempData["notice"]</p>
+}
 
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
 
     <div class="form-horizontal">
-        <hr />
+        <hr class="newstyle" />
+		<p>Generate Custom Reports ranging between two dates.</p>
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="form-group">
             @Html.LabelFor(model => model.From, htmlAttributes: new { @class = "control-label col-md-2" })

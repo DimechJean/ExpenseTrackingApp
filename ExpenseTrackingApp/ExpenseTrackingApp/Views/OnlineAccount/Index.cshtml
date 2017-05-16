@@ -5,15 +5,13 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Index</h2>
+<h2>Bank Accounts</h2>
 @if (TempData["notice"] != null)
 {
 	<p style="color: #d24f5f">@TempData["notice"]</p>
 }
-
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
+<hr class="newstyle" />
+<p>Sync to your personal Bank Account for automatic synchronisation of transactions</p>
 <table class="table">
     <tr>
         <th>
@@ -41,10 +39,12 @@
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.ID }) |
             @Html.ActionLink("Delete", "Delete", new { id=item.ID })
         </td>
     </tr>
 }
 
 </table>
+
+<p><a href="@Url.Action("Create", "OnlineAccount")" class="btn btn-primary btn-lg">Add New Account &raquo;</a></p>
+

@@ -37,6 +37,11 @@ namespace ExpenseTrackingApp.Controllers
             {
                 return RedirectToAction("Login", "UserAccounts");
             }
+            if(report.From > report.To)
+            {
+                TempData["notice"] = "Th Date To cannot be earlier than From";
+                return RedirectToAction("Index","Reports");
+            }
             string email = auth.Values.Get("Email");
             UserAccount user = db.UserAccount.Where(m => m.EmailAcc.Equals(email)).First();
             List<PersonalAccount> Accounts = db.PersonalAccount.Where(m => m.UserAccount == user.ID).ToList();
@@ -131,7 +136,11 @@ namespace ExpenseTrackingApp.Controllers
         //GET Reports/Reporting
         public ActionResult Reporting()
         {
-
+            HttpCookie auth = Request.Cookies["auth"];
+            if(auth == null)
+            {
+                return RedirectToAction("Login", "UserAccounts");
+            }
             List<TransactionCategory> Category = db.TransactionCategory.ToList();
             List<TransactionPersonal> transactionWeek = TransactionWeek();
             List<TransactionPersonal> transactionMonth = TransactionsMonth();

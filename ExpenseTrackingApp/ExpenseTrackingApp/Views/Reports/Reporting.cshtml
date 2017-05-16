@@ -241,8 +241,10 @@
 	</script>
 </head>
 
-	<h2>Transactions</h2>
+	<h2>Reports</h2>
 	<hr class="newstyle" />
+	<p>Weekly, Montly and Yearly reports.</p>
+	<p><a href="@Url.Action("Index", "Reports")" class="btn btn-default btn-sm">Generate Custom Reports &raquo;</a></p>
 
 	<div class="container">
 		<div class="w3-bar w3-white">
@@ -256,7 +258,7 @@
 			</button>
 		</div>
 
-		<div id="This Week" class="w3-container w3-border city">
+		<div id="This Week" class="w3-container w3-border city" >
 			<h2>This Week</h2>
 
 			<div class="row">
@@ -270,7 +272,7 @@
 			</div>
 		</div>
 
-		<div id="This Month" class="w3-container w3-border city" >
+		<div id="This Month" class="w3-container w3-border city">
 			<h2>This Month</h2>
 			<div class="row">
 				<div class="col-md-6">
@@ -299,17 +301,19 @@
 	<script type="text/javascript">
 //<![CDATA[
   function openTab(evt, cityName) {
-  var i, x, tablinks;
-  x = document.getElementsByClassName("city");
-  for (i = 0; i < x.length; i++) {
-      x[i].style.display = "none";
+	  var i, x, tablinks;
+	  x = document.getElementsByClassName("city");
+	  for (i = 0; i < x.length; i++) {
+		  x[i].style.display = "none";
+	  }
+	  tablinks = document.getElementsByClassName("tablink");
+	  for (i = 0; i < x.length; i++) {
+		  tablinks[i].className = tablinks[i].className.replace(" w3-green", "");
+	  }
+	  document.getElementById(cityName).style.display = "block";
+	  evt.currentTarget.className += " w3-green";
   }
-  tablinks = document.getElementsByClassName("tablink");
-  for (i = 0; i < x.length; i++) {
-      tablinks[i].className = tablinks[i].className.replace(" w3-green", "");
-  }
-  document.getElementById(cityName).style.display = "block";
-  evt.currentTarget.className += " w3-green";
-  }
-  //]]>
+		//]]>
+
+
 	</script>

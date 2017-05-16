@@ -25,16 +25,11 @@
 				@foreach (var transaction in transactions)
 				{
 					<tr>
-						<td>@transaction.Amount </td>
+						<td>€ @transaction.Amount </td>
 						<td>@transaction.TransactionDescription</td>
 						<td>@categs.ElementAt(categoryCounter) </td>
 						<td>@transaction.DateAdded.ToShortDateString()</td>
 						<td>
-							<a href="/Edit/TransactionOnline/@transaction.ID"> edit </a>
-							<a href="/Delete/TransactionOnline/@transaction.ID" onclick="return confirm('Are you sure you want to delete this transaction?');"> delete </a>
-							@*<a href="/AddTransaction/StarredOnline/@transaction.ID">
-								<img src="~/Content/Images/repeat_glyph.png" alt="Repeat Button" width="25" height="25" />
-							</a>*@
 						</td>
 					</tr>
 					categoryCounter++;

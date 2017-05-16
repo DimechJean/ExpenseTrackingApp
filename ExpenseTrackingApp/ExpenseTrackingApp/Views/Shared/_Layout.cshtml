@@ -43,6 +43,13 @@
 			<li><a href="@Url.Action("TransactionCategories", "View")" data-nav-section="addcat">Categories</a></li>
 			<li><a href="@Url.Action("Reporting", "Reports")" data-nav-section="reports">Reports</a></li>
 			<li><a href="@Url.Action("Index", "Reports")" data-nav-section="reports">Generate a Report</a></li>
+			<li class="dropdown">
+				<a class="dropdown-toggle" data-toggle="dropdown">My Accounts</a>
+				<ul class="dropdown-menu">
+					<li>@Html.ActionLink("Personal Wallets", "Index", "PersonalAccount", routeValues: null, htmlAttributes: new { title = "Personal Wallets" })</li>
+					<li>@Html.ActionLink("Bank Accounts", "Index", "OnlineAccount", routeValues: null, htmlAttributes: new { title = "Bank Accounts" })</li>
+				</ul>
+			</li>	
 			<li>
 				@{
 					if (Request.Cookies["auth"] != null)
@@ -52,8 +59,8 @@
 				<li class="dropdown">
 					<a class="dropdown-toggle" data-toggle="dropdown" href="/UserAccounts/Edit">Hello @(namesurname)</a>
 					<ul class="dropdown-menu">
-						<li>@Html.ActionLink("Edit", "Edit", "UserAccounts", routeValues: null, htmlAttributes: new { title = "Edit Account" })</li>
-						<li>@Html.ActionLink("Delete", "Delete", "UserAccounts", routeValues: null, htmlAttributes: new { title = "Remove Account" })</li>
+						<li>@Html.ActionLink("Edit Account", "Edit", "UserAccounts", routeValues: null, htmlAttributes: new { title = "Edit Account" })</li>
+						<li>@Html.ActionLink("Remove Account", "Delete", "UserAccounts", routeValues: null, htmlAttributes: new { title = "Remove Account" })</li>
 					</ul>
 				</li>
 			    <li>@Html.ActionLink("Sign Out", "LogOff", "UserAccounts")</li>
