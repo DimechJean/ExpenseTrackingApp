@@ -1,0 +1,461 @@
+﻿@{
+    double[] totalDay = ViewBag.transactionsDay;
+    double[] totalWeek = ViewBag.transactionsWeek;
+    double[] totalMonth = ViewBag.transactionsMonth;
+    double[] totalYear = ViewBag.transactionsYear;
+    List<ExpenseTrackingApp.Models.TransactionCategory> category = ViewBag.Category;
+    double[] PerDay = new double[totalDay.Length];
+    double[] PerWeek = new double[totalWeek.Length];
+    double[] PerMonth = new double[totalMonth.Length];
+    double[] PerYear = new double[totalYear.Length];
+    double totalOfToday;
+    double totalOfWeek;
+    double totalOfMonth;
+    double totalOfYear;
+    double total = 0;
+    for (int i = 0; i < totalDay.Length; i++)
+    {
+        total += totalDay[i];
+    }
+    totalOfToday = total;
+    for (int i = 0; i < totalDay.Length; i++)
+    {
+        PerDay[i] = (totalDay[i] / total) * 100;
+    }
+    total = 0;
+    for (int i = 0; i < totalWeek.Length; i++)
+    {
+        total += totalWeek[i];
+    }
+    totalOfWeek = total;
+    for (int i = 0; i < totalWeek.Length; i++)
+    {
+        PerWeek[i] = (totalWeek[i] / total) * 100;
+    }
+    total = 0;
+    for (int i = 0; i < totalMonth.Length; i++)
+    {
+        total += totalMonth[i];
+    }
+    totalOfMonth = total;
+    for (int i = 0; i < totalMonth.Length; i++)
+    {
+        PerMonth[i] = (totalMonth[i] / total) * 100;
+    }
+    total = 0;
+    for (int i = 0; i < totalYear.Length; i++)
+    {
+        total += totalYear[i];
+    }
+    totalOfYear = total;
+    for (int i = 0; i < totalYear.Length; i++)
+    {
+        PerYear[i] = (totalYear[i] / total) * 100;
+    }
+}
+
+@{
+    ViewBag.Title = "Reporting";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<head>
+    <link rel="stylesheet" href="~/Content/MyCss.css" />
+    <script src="~/Scripts/jquery-1.10.2.js"></script>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+    <style>
+        .w3-green, .w3-hover-green:hover {
+            background-color: #4FD2C2 !important;
+        }
+    </style>
+
+    <!--Transactions Week-->
+    <script type="text/javascript">
+        google.charts.load("current", { packages: ["corechart"] });
+        google.charts.setOnLoadCallback(drawChart);
+        function drawChart() {
+            var array = new google.visualization.DataTable();
+            array.addColumn('string', 'Category');
+            array.addColumn('number', 'Percentage');
+
+            @{
+
+            int k = 0;
+
+            }
+
+
+            @foreach (ExpenseTrackingApp.Models.TransactionCategory Category in category)
+            {
+                <text>
+            array.addRow(['@(Category.NameCat)', @(PerWeek[k])]);
+            </text>
+                k++;
+            }
+
+
+            var options = {
+                title: 'Percentage of expenses by category of this week',
+                pieHole: 0.4,
+            };
+
+            var chart = new google.visualization.PieChart(document.getElementById('donutchart'));
+            chart.draw(array, options);
+        }
+        google.charts.load("current", { packages: ["corechart"] });
+        google.charts.setOnLoadCallback(drawChart2);
+
+        function drawChart2() {
+            var array = new google.visualization.DataTable();
+            array.addColumn('string', 'Category');
+            array.addColumn('number', 'Ammount');
+            @{k = 0; }
+            @foreach (ExpenseTrackingApp.Models.TransactionCategory Category in category)
+            {
+                <text>
+            array.addRow(['@(Category.NameCat)', @(totalWeek[k])]);
+            </text>
+                k++;
+            }
+
+            var options = {
+                title: 'Amount spent by category this week'
+            };
+
+            var chart = new google.visualization.BarChart(document.getElementById('BarChart'));
+            chart.draw(array, options);
+        }
+        $(window).resize(function () {
+            drawChart();
+            drawChart2();
+        });
+    </script>
+
+    <!--Transactions Month-->
+
+    <script type="text/javascript">
+        google.charts.load("current", { packages: ["corechart"] });
+        google.charts.setOnLoadCallback(drawChart3);
+        function drawChart3() {
+            var array = new google.visualization.DataTable();
+            array.addColumn('string', 'Category');
+            array.addColumn('number', 'Percentage');
+
+            @{
+
+            k = 0;
+
+            }
+
+
+            @foreach (ExpenseTrackingApp.Models.TransactionCategory Category in category)
+            {
+                <text>
+            array.addRow(['@(Category.NameCat)', @(PerMonth[k])]);
+            </text>
+                k++;
+            }
+
+
+            var options = {
+                title: 'Percentage of expenses by category of this month',
+                pieHole: 0.4,
+            };
+
+            var chart = new google.visualization.PieChart(document.getElementById('donutchart2'));
+            chart.draw(array, options);
+        }
+        google.charts.load("current", { packages: ["corechart"] });
+        google.charts.setOnLoadCallback(drawChart4);
+
+        function drawChart4() {
+            var array = new google.visualization.DataTable();
+            array.addColumn('string', 'Category');
+            array.addColumn('number', 'Ammount');
+            @{k = 0; }
+            @foreach (ExpenseTrackingApp.Models.TransactionCategory Category in category)
+            {
+                <text>
+            array.addRow(['@(Category.NameCat)', @(totalMonth[k])]);
+            </text>
+                k++;
+            }
+
+            var options = {
+                title: 'Amount spent by category this month'
+            };
+
+            var chart = new google.visualization.BarChart(document.getElementById('BarChart2'));
+            chart.draw(array, options);
+        }
+        $(window).resize(function () {
+            drawChart3();
+            drawChart4();
+        });
+    </script>
+
+    <!--Transaction Year-->
+
+    <script type="text/javascript">
+        google.charts.load("current", { packages: ["corechart"] });
+        google.charts.setOnLoadCallback(drawChart5);
+        function drawChart5() {
+            var array = new google.visualization.DataTable();
+            array.addColumn('string', 'Category');
+            array.addColumn('number', 'Percentage');
+
+            @{
+
+            k = 0;
+
+            }
+
+
+            @foreach (ExpenseTrackingApp.Models.TransactionCategory Category in category)
+            {
+                <text>
+            array.addRow(['@(Category.NameCat)', @(PerYear[k])]);
+            </text>
+                k++;
+            }
+
+
+            var options = {
+                title: 'Percentage of expenses by category of this year',
+                pieHole: 0.4,
+            };
+
+            var chart = new google.visualization.PieChart(document.getElementById('donutchart3'));
+            chart.draw(array, options);
+        }
+        google.charts.load("current", { packages: ["corechart"] });
+        google.charts.setOnLoadCallback(drawChart6);
+
+        function drawChart6() {
+            var array = new google.visualization.DataTable();
+            array.addColumn('string', 'Category');
+            array.addColumn('number', 'Ammount');
+            @{k = 0; }
+            @foreach (ExpenseTrackingApp.Models.TransactionCategory Category in category)
+            {
+                <text>
+            array.addRow(['@(Category.NameCat)', @(totalYear[k])]);
+            </text>
+                k++;
+            }
+
+            var options = {
+                title: 'Amount spent by category this year'
+            };
+
+            var chart = new google.visualization.BarChart(document.getElementById('BarChart3'));
+            chart.draw(array, options);
+        }
+        $(window).resize(function () {
+            drawChart5();
+            drawChart6();
+        });
+    </script>
+
+    <!--TransactionsDay-->
+
+    <script type="text/javascript">
+        google.charts.load("current", { packages: ["corechart"] });
+        google.charts.setOnLoadCallback(drawChart7);
+        function drawChart7() {
+            var array = new google.visualization.DataTable();
+            array.addColumn('string', 'Category');
+            array.addColumn('number', 'Percentage');
+
+            @{
+
+            k = 0;
+
+            }
+
+
+            @foreach (ExpenseTrackingApp.Models.TransactionCategory Category in category)
+            {
+                <text>
+            array.addRow(['@(Category.NameCat)', @(PerDay[k])]);
+            </text>
+                k++;
+            }
+
+
+            var options = {
+                title: 'Percentage of expenses by category of today',
+                pieHole: 0.4,
+            };
+
+            var chart = new google.visualization.PieChart(document.getElementById('donutchart4'));
+            chart.draw(array, options);
+        }
+        google.charts.load("current", { packages: ["corechart"] });
+        google.charts.setOnLoadCallback(drawChart8);
+
+        function drawChart8() {
+            var array = new google.visualization.DataTable();
+            array.addColumn('string', 'Category');
+            array.addColumn('number', 'Ammount');
+            @{k = 0; }
+            @foreach (ExpenseTrackingApp.Models.TransactionCategory Category in category)
+            {
+                <text>
+            array.addRow(['@(Category.NameCat)', @(totalDay[k])]);
+            </text>
+                k++;
+            }
+
+            var options = {
+                title: 'Amount spent by category today'
+            };
+
+            var chart = new google.visualization.BarChart(document.getElementById('BarChart4'));
+            chart.draw(array, options);
+        }
+        $(window).resize(function () {
+            drawChart7();
+            drawChart8();
+        });
+    </script>
+</head>
+
+<h2>Reports</h2>
+<hr class="newstyle" />
+<p>Weekly, Montly and Yearly reports.</p>
+<p><a href="@Url.Action("Index", "Reports")" class="btn btn-default btn-sm">Generate Custom Reports &raquo;</a></p>
+
+<div class="container">
+    <div class="w3-bar w3-white">
+            <button class="w3-bar-item w3-button tablink w3-green" onclick="openTab(event,'Today')">
+                Today
+            </button>
+            <button class="w3-bar-item w3-button tablink" onclick="openTab(event,'This Week')">
+                This Week
+            </button>
+            <button class="w3-bar-item w3-button tablink" onclick="openTab(event,'This Month')">
+                This
+                Month
+            </button>
+            <button class="w3-bar-item w3-button tablink" onclick="openTab(event,'This Year')">
+                This Year
+            </button>
+            <button class="w3-bar-item w3-button tablink" onclick="openTab(event,'Totals')">
+                Totals
+            </button>
+</div>
+    <div id="Today" class="w3-container w3-border city">
+        <h2>Today</h2>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="chart" id="donutchart4"></div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="chart" id="BarChart4"></div>
+            </div>
+       </div>
+    </div>
+        <div id="This Week" class="w3-container w3-border city">
+            <h2>This Week</h2>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="chart" id="donutchart"></div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="chart" id="BarChart"></div>
+                </div>
+            </div>
+        </div>
+
+        <div id="This Month" class="w3-container w3-border city">
+            <h2>This Month</h2>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="chart" id="donutchart2"></div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="chart" id="BarChart2"></div>
+                </div>
+            </div>
+        </div>
+
+        <div id="This Year" class="w3-container w3-border city">
+            <h2>This Year</h2>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="chart" id="donutchart3"></div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="chart" id="BarChart3"></div>
+                </div>
+            </div>
+        </div>
+        <div id="Totals" class="w3-container w3-border city">
+            <h2>Totals</h2>
+            <table class="table">
+                <tr>
+                    <th>
+                        Period
+                    </th>
+                    <th>
+                        Total
+                    </th>
+                </tr>
+                <tr>
+                    <td>
+                        Today
+                    </td>
+                    <td>
+                        € @totalOfToday
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        This Week
+                    </td>
+                    <td>
+                        € @totalOfWeek
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        This Month
+                    </td>
+                    <td>
+                       € @totalOfMonth
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        This Year
+                    </td>
+                    <td>
+                       € @totalOfYear
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+<script type="text/javascript">
+    function openTab(evt, cityName) {
+        var i, x, tablinks;
+        x = document.getElementsByClassName("city");
+        for (i = 0; i < x.length; i++) {
+            x[i].style.display = "none";
+        }
+        tablinks = document.getElementsByClassName("tablink");
+        for (i = 0; i < x.length; i++) {
+            tablinks[i].className = tablinks[i].className.replace(" w3-green", "");
+        }
+        document.getElementById(cityName).style.display = "block";
+        evt.currentTarget.className += " w3-green";
+    }
+</script>

@@ -17,7 +17,7 @@ namespace ExpenseTrackingApp.Controllers
             if(auth == null)
             {
                 TempData["notice"] = "You Need to be Logged to Use this Feature";
-                return RedirectToAction("Login", "UserAccount");
+                return RedirectToAction("Login", "UserAccounts");
             }
             return View();
         }
@@ -28,7 +28,7 @@ namespace ExpenseTrackingApp.Controllers
             if(auth == null)
             {
                 TempData["notice"] = "You Need to be Logged to Use this Feature";
-                return RedirectToAction("../Home");
+                return RedirectToAction("Login", "UserAccounts");
             }
             return View();
         }

@@ -16,7 +16,7 @@ namespace ExpenseTrackingApp.Controllers
             if(auth == null)
             {
                 TempData["notice"] = "You Need to be Logged to Use this Feature";
-                return RedirectToAction("../Home");
+                return RedirectToAction("Login", "UserAccounts");
             }
             if (id == null)
                 return new HttpStatusCodeResult(System.Net.HttpStatusCode.BadRequest);
@@ -32,7 +32,7 @@ namespace ExpenseTrackingApp.Controllers
                 {
                     if (cat.UserAccount != user.ID)
                     {
-                        return RedirectToAction("../Home");
+                        return RedirectToAction("Index", "Home");
                     }
 
                     db.Entry(cat).State = System.Data.Entity.EntityState.Deleted;
@@ -50,7 +50,7 @@ namespace ExpenseTrackingApp.Controllers
             if(auth == null)
             {
                 TempData["notice"] = "You Need to be Logged to Use this Feature";
-                return RedirectToAction("../Home");
+                return RedirectToAction("Login", "UserAccounts");
             }
             if (id == null)
                 return new HttpStatusCodeResult(System.Net.HttpStatusCode.BadRequest);
@@ -67,7 +67,7 @@ namespace ExpenseTrackingApp.Controllers
                     PersonalAccount personal = db.PersonalAccount.Where(m => m.ID == tp.Account).First();
                     if (personal.UserAccount != user.ID)
                     {
-                        return RedirectToAction("../Home");
+                        return RedirectToAction("Index", "Home");
                     }
                     db.Entry(tp).State = System.Data.Entity.EntityState.Deleted;
                     db.SaveChanges();
@@ -83,7 +83,7 @@ namespace ExpenseTrackingApp.Controllers
             HttpCookie auth = Request.Cookies["auth"];
             if(auth == null)
             {
-                return RedirectToAction("../Home");
+                return RedirectToAction("Login", "UserAccounts");
             }
 
             if (id == null)
@@ -101,7 +101,7 @@ namespace ExpenseTrackingApp.Controllers
                     OnlineAccount online = db.OnlineAccount.Where(m => m.ID == tp.Account).First();
                     if (online.UserAccount != user.ID)
                     {
-                        return RedirectToAction("../Home");
+                        return RedirectToAction("Index", "Home");
                     }
                     db.Entry(tp).State = System.Data.Entity.EntityState.Deleted;
                     db.SaveChanges();

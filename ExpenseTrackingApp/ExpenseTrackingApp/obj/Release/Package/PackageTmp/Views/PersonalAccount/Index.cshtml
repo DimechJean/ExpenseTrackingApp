@@ -1,0 +1,45 @@
+﻿@model IEnumerable<ExpenseTrackingApp.Models.PersonalAccount>
+
+@{
+    ViewBag.Title = "My Wallets";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2> My Wallets</h2>
+<hr class="newstyle" />
+<p>Wallets are used to group transactions into smaller, seprate more managable accounts</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayName("Category")
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UserAccount1.EmailAcc)
+        </th>
+        <th>
+            @Html.DisplayName("Description")
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.FinancialAccountsCategory.NameCat)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.UserAccount1.EmailAcc)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AccountDescription)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.ID })
+        </td>
+    </tr>
+}
+
+</table>
+
+<p><a href="@Url.Action("Create", "PersonalAccount")" class="btn btn-primary btn-lg">Add New Account &raquo;</a></p>

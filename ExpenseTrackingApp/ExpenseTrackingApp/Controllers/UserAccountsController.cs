@@ -22,7 +22,7 @@ namespace ExpenseTrackingApp.Controllers
         // GET: UserAccounts
         public ActionResult Index()
         {
-            return RedirectToAction("../Home");
+            return RedirectToAction("Index", "Home");
         }
 
         // GET: UserAccounts/Create
@@ -32,7 +32,7 @@ namespace ExpenseTrackingApp.Controllers
             if(auth != null)
             {
                 TempData["notice"] = "You Need to be Logged to Use this Feature";
-                return RedirectToAction("../Home");
+                return RedirectToAction("Login", "UserAccounts");
             }
             return View();
         }
@@ -67,6 +67,24 @@ namespace ExpenseTrackingApp.Controllers
                 auth.Expires = DateTime.Now.AddHours(12);
                 Response.Cookies.Add(auth);
                 db.UserAccount.Add(userAccount);
+
+                // Create personal account for new user
+                PersonalAccount myWallet = new PersonalAccount();
+                decimal maxIdPA;
+                if (db.PersonalAccount.Count() == 0)
+                    maxIdPA = 0;
+                else
+                {
+                    maxIdPA = db.PersonalAccount.Max(x => x.ID);
+                    maxIdPA++;
+                }
+                myWallet.ID = maxIdPA;
+                myWallet.UserAccount = maxId;
+                myWallet.CategoryAcc = 1;
+                myWallet.AccountDescription = "Default Wallet";
+                db.PersonalAccount.Add(myWallet);
+                // end of create
+
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -81,7 +99,7 @@ namespace ExpenseTrackingApp.Controllers
             HttpCookie auth = Request.Cookies["auth"];
             if(auth != null)
             {
-                RedirectToAction("../Home");
+                return RedirectToAction("Login", "UserAccounts");
             }
             return View();
         }
@@ -138,7 +156,7 @@ namespace ExpenseTrackingApp.Controllers
             HttpCookie auth = Request.Cookies["auth"];
             if(auth == null)
             {
-                return RedirectToAction("../Home");
+                return RedirectToAction("Login", "UserAccounts");
             }
             return View();
         }
@@ -150,7 +168,7 @@ namespace ExpenseTrackingApp.Controllers
             HttpCookie auth = Request.Cookies["auth"];
             if (auth == null)
             {
-                return RedirectToAction("../Home");
+                return RedirectToAction("Login", "UserAccounts");
             }
             return View();
         }
@@ -162,7 +180,7 @@ namespace ExpenseTrackingApp.Controllers
             HttpCookie auth = Request.Cookies["auth"];
             if (auth == null)
             {
-                return RedirectToAction("../Home");
+                return RedirectToAction("Login", "UserAccounts");
             }
             return View();
         }
@@ -174,7 +192,7 @@ namespace ExpenseTrackingApp.Controllers
             HttpCookie auth = Request.Cookies["auth"];
             if (auth == null)
             {
-                return RedirectToAction("../Home");
+                return RedirectToAction("Login", "UserAccounts");
             }
             return View();
         }
@@ -186,7 +204,7 @@ namespace ExpenseTrackingApp.Controllers
             HttpCookie auth = Request.Cookies["auth"];
             if (auth == null)
             {
-                return RedirectToAction("../Home");
+                return RedirectToAction("Login", "UserAccounts");
             }
             return View();
         }
@@ -340,7 +358,7 @@ namespace ExpenseTrackingApp.Controllers
             HttpCookie auth = Request.Cookies["auth"];
             if (auth == null)
             {
-                return RedirectToAction("../Home");
+                return RedirectToAction("Login", "UserAccounts");
             }
             string email = auth.Values.Get("Email");
             UserAccount user = findUser(email);

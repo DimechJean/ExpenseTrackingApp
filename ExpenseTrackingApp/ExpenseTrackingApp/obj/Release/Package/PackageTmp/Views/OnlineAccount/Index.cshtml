@@ -1,0 +1,50 @@
+﻿@model IEnumerable<ExpenseTrackingApp.Models.OnlineAccount>
+
+@{
+    ViewBag.Title = "Bank Account";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Bank Accounts</h2>
+@if (TempData["notice"] != null)
+{
+	<p style="color: #d24f5f">@TempData["notice"]</p>
+}
+<hr class="newstyle" />
+<p>Sync to your personal Bank Account for automatic synchronisation of transactions</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayName("Account Number")
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UserAccount1.EmailAcc)
+        </th>
+        <th>
+            @Html.DisplayName("Description")
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.AccountNumber)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.UserAccount1.EmailAcc)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AccountDescription)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.ID })
+        </td>
+    </tr>
+}
+
+</table>
+
+<p><a href="@Url.Action("Create", "OnlineAccount")" class="btn btn-primary btn-lg">Add New Account &raquo;</a></p>
+

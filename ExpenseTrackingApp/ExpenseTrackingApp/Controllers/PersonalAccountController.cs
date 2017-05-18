@@ -33,7 +33,6 @@ namespace ExpenseTrackingApp.Controllers
         public ActionResult Create()
         {
             ViewBag.CategoryAcc = new SelectList(db.FinancialAccountsCategory, "ID", "NameCat");
-            //ViewBag.UserAccount = new SelectList(db.UserAccount, "ID", "EmailAcc");
             return View();
         }
 
@@ -83,14 +82,14 @@ namespace ExpenseTrackingApp.Controllers
             if(auth == null)
             {
                 TempData["notice"] = "You Need to be Logged to Use this Feature";
-                return RedirectToAction("Login", "UserAccount");
+                return RedirectToAction("Login", "UserAccounts");
             }
             string email = auth.Values.Get("Email");
             UserAccount user = db.UserAccount.Where(m => m.EmailAcc.Equals(email)).FirstOrDefault();
             PersonalAccount personalAccount = db.PersonalAccount.Find(id);
             if(personalAccount.UserAccount != user.ID)
             {
-                return RedirectToAction("../Home");
+                return RedirectToAction("Index", "Home");
             }
             if (personalAccount == null)
             {
@@ -128,7 +127,7 @@ namespace ExpenseTrackingApp.Controllers
             if(auth == null)
             {
                 TempData["notice"] = "You Need to be Logged to Use this Feature";
-                return RedirectToAction("Login","UserAccount");
+                return RedirectToAction("Login","UserAccounts");
             }
             string email = auth.Values.Get("Email");
             if (id == null)
@@ -139,7 +138,7 @@ namespace ExpenseTrackingApp.Controllers
             UserAccount user = db.UserAccount.Where(m => m.EmailAcc.Equals(email)).FirstOrDefault();
             if(personalAccount.UserAccount != user.ID)
             {
-                return RedirectToAction("../Home");
+                return RedirectToAction("Index", "Home");
             }
             if (personalAccount == null)
             {

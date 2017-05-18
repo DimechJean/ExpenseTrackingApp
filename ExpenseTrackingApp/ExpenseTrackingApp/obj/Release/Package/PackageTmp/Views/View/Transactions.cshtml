@@ -1,0 +1,54 @@
+﻿@model ExpenseTrackingApp.Models.TransactionPersonal
+
+@{
+	ViewBag.Title = "User Transactions";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+	List<ExpenseTrackingApp.Models.TransactionPersonal> transactions = ViewData["TransList"] as List<ExpenseTrackingApp.Models.TransactionPersonal>;
+	List<string> categs = ViewData["categories"] as List<string>;
+	int categoryCounter = 0;
+}
+
+<script src="~/Scripts/jquery.dataTables.min.js"></script>
+
+<h2>Transactions</h2>
+<hr class="newstyle" />
+<div class="container">
+	<p>Here you will find all your personal transactions that are not connected to the bank accounts. Clicking on the the repeat button next to the transactions will create a copy of the transaction for quick adding of frequent transactions. </p>
+	<table id="transactionTable" class="table" cellspacing="0" width="100%">
+		<thead>
+			<tr>
+				<th>Amount</th>
+				<th>Description</th>
+				<th>Category</th>
+				<th>Date</th>
+                <th></th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var transaction in transactions)
+			{
+				<tr>
+					<td> € @transaction.Amount </td>
+					<td> @transaction.TransactionDescription</td>
+					<td> @categs.ElementAt(categoryCounter) </td>
+					<td> @transaction.DateAdded.ToShortDateString()</td>
+                    <td>
+                        <a href="/Edit/Transaction/@transaction.ID"> edit </a>
+                        <a href="/Delete/Transaction/@transaction.ID" onclick="return confirm('Are you sure you want to delete this transaction?');"> delete </a>
+                        <a href="/AddTransaction/Starred/@transaction.ID">
+                        <img src="~/Content/Images/repeat_glyph.png" alt="Repeat Button" width="25" height="25" />
+                        </a>
+                    </td>
+				</tr>			
+			    categoryCounter++;
+			}  
+		</tbody>
+	</table>
+	<a href="@Url.Action("Add", "AddTransaction")" class="btn btn-primary btn-lg">Add Transaction &raquo;</a>
+</div>
+
+<script>
+	$(document).ready(function () {
+		$('#transactionTable').DataTable();
+	});
+</script>

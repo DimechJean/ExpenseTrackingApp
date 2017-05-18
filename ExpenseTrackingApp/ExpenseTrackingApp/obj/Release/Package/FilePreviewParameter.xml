@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<parameters>
+  <parameter name="IIS Web Application Name" description="" value="CacheExpenseTracking" tags="IisApp">
+    <parameterEntry kind="ProviderPath" scope="IisApp" match="^C:\\Users\\Jean\\Source\\Repos\\ExpenseTrackingApp3\\ExpenseTrackingApp\\ExpenseTrackingApp\\obj\\Release\\Package\\PackageTmp$" />
+    <parameterEntry kind="ProviderPath" scope="setAcl" match="^C:\\Users\\Jean\\Source\\Repos\\ExpenseTrackingApp3\\ExpenseTrackingApp\\ExpenseTrackingApp\\obj\\Release\\Package\\PackageTmp$" />
+  </parameter>
+  <parameter name="Model1-Web.config Connection String" description="" value="Data Source=expensetracking.database.windows.net;Initial Catalog=&quot;Expense Tracking&quot;;User ID=KarlJeanAxel;Password=YouShallPassword1234;MultipleActiveResultSets=True;Application Name=EntityFramework" tags="">
+    <parameterEntry kind="XmlFile" scope="C:\\Users\\Jean\\Source\\Repos\\ExpenseTrackingApp3\\ExpenseTrackingApp\\ExpenseTrackingApp\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='Model1']/@connectionString" />
+  </parameter>
+</parameters>

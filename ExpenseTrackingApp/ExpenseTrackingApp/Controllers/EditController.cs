@@ -16,7 +16,7 @@ namespace ExpenseTrackingApp.Controllers
             if(auth == null)
             {
                 TempData["notice"] = "You Need to be Logged to Use this Feature";
-                return RedirectToAction("../Home");
+                return RedirectToAction("Login", "UserAccounts");
             }
 
             if (id == null)
@@ -32,7 +32,7 @@ namespace ExpenseTrackingApp.Controllers
 
                 if (cat.UserAccount != user.ID)
                 {
-                    return RedirectToAction("../Home");
+                    return RedirectToAction("Index", "Home");
                 }
 
                 ViewBag.param_name = cat.NameCat;
@@ -74,7 +74,7 @@ namespace ExpenseTrackingApp.Controllers
             if(auth == null)
             {
                 TempData["notice"] = "You Need to be Logged to Use this Feature";
-                return RedirectToAction("../Home");
+                return RedirectToAction("Login", "UserAccounts");
             }
             if (id == null)
                 return new HttpStatusCodeResult(System.Net.HttpStatusCode.BadRequest);
@@ -87,7 +87,7 @@ namespace ExpenseTrackingApp.Controllers
                 PersonalAccount personal = db.PersonalAccount.Where(m => m.ID == tp.Account).First();
                 if(personal.UserAccount != user.ID)
                 {
-                    return RedirectToAction("../Home");
+                    return RedirectToAction("Index", "Home");
                 }
 
                 if (tp == null)
@@ -161,7 +161,7 @@ namespace ExpenseTrackingApp.Controllers
             if(auth == null)
             {
                 TempData["notice"] = "You Need to be Logged to Use this Feature";
-                return RedirectToAction("../Home");
+                return RedirectToAction("Login", "UserAccounts");
             }
             if (id == null)
                 return new HttpStatusCodeResult(System.Net.HttpStatusCode.BadRequest);
@@ -173,7 +173,7 @@ namespace ExpenseTrackingApp.Controllers
                 OnlineAccount online = db.OnlineAccount.Where(m => m.ID == to.Account).First();
                 if(online.UserAccount != user.ID)
                 {
-                    return RedirectToAction("../Home");
+                    return RedirectToAction("Index", "Home");
                 }
                 if (to == null)
                     return HttpNotFound();

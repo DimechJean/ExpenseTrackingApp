@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<parameters>
+  <parameter name="Model1-Web.config Connection String" description="Model1 Connection String used in web.config by the application to access the database." defaultValue="data source=expensetracking.database.windows.net;initial catalog=&quot;Expense Tracking&quot;;user id=KarlJeanAxel;password=YouShallPassword1234;MultipleActiveResultSets=True;App=EntityFramework" tags="SqlConnectionString">
+    <parameterEntry kind="XmlFile" scope="C:\\Users\\Jean\\Source\\Repos\\ExpenseTrackingApp3\\ExpenseTrackingApp\\ExpenseTrackingApp\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='Model1']/@connectionString" />
+  </parameter>
+</parameters>

@@ -1,0 +1,45 @@
+﻿@model ExpenseTrackingApp.Models.TransactionCategory
+
+@{
+    ViewBag.Title = "Categories";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    List<ExpenseTrackingApp.Models.TransactionCategory> categories = ViewData["CatList"] as List<ExpenseTrackingApp.Models.TransactionCategory>;
+}
+
+<h2>Transaction Categories</h2>
+@if (TempData["notice"] != null)
+{	<div class="notice">
+	<p style="color: #4FD2C2">@TempData["notice"]</p>
+	</div>
+}
+
+<div>
+    <hr class="newstyle" />
+	<p>Catagories are used to define transaction and to keep track of what you are spending.</p>
+	<table class="table">
+		<thead>
+			<tr>
+				<th>Category</th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var category in categories)
+			{
+				<tr>
+					<td> @category.NameCat </td>
+                    <td>
+                        @if (category.UserAccount != null)
+                        {
+                            <a href="/Edit/Category/@category.ID"> edit </a>
+                            <a href="/Delete/Category/@category.ID"> delete </a>
+                        }
+                    </td>
+				</tr>
+			}
+		</tbody>
+	</table>
+
+		<a href="@Url.Action("Add", "AddCategory")" class="btn btn-primary btn-lg">Add Category &raquo;</a>
+
+</div>
+

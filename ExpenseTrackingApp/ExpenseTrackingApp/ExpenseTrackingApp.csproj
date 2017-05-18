@@ -168,6 +168,7 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\icomoon.css" />
     <Content Include="Content\Images\cachelogo.jpg" />
+    <Content Include="Content\Images\favicon.png" />
     <Content Include="Content\Images\repeat_glyph.png" />
     <Content Include="Content\jquery.dataTables.min.css" />
     <Content Include="Content\magnific-popup.css" />
@@ -186,6 +187,7 @@
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Content\style.css.map" />
+    <None Include="Properties\PublishProfiles\CacheExpenseTracking - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\javascript.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -245,7 +247,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Images\" />
     <Folder Include="Views\Delete\" />
   </ItemGroup>
   <ItemGroup>
