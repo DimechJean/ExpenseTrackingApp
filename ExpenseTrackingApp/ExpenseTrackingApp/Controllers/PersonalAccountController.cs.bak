@@ -20,7 +20,6 @@ namespace ExpenseTrackingApp.Controllers
             HttpCookie auth = Request.Cookies["auth"];
             if (auth == null)
             {
-                TempData["notice"] = "You Need to be Logged to Use this Feature";
                 return RedirectToAction("Login", "UserAccounts");
             }
             string email = auth.Values.Get("Email");
@@ -45,7 +44,6 @@ namespace ExpenseTrackingApp.Controllers
             HttpCookie auth = Request.Cookies["auth"];
             if (auth == null)
             {
-                TempData["notice"] = "You Need to be Logged to Use this Feature";
                 return RedirectToAction("Login", "UserAccounts");
             }
             if (ModelState.IsValid)
@@ -82,7 +80,6 @@ namespace ExpenseTrackingApp.Controllers
             HttpCookie auth = Request.Cookies["auth"];
             if(auth == null)
             {
-                TempData["notice"] = "You Need to be Logged to Use this Feature";
                 return RedirectToAction("Login", "UserAccount");
             }
             string email = auth.Values.Get("Email");
@@ -127,7 +124,6 @@ namespace ExpenseTrackingApp.Controllers
             HttpCookie auth = Request.Cookies["auth"];
             if(auth == null)
             {
-                TempData["notice"] = "You Need to be Logged to Use this Feature";
                 return RedirectToAction("Login","UserAccount");
             }
             string email = auth.Values.Get("Email");

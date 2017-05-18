@@ -53,7 +53,8 @@ namespace ExpenseTrackingApp.Controllers
                     category.UserAccount = user.ID;
                     if (CategoryExists(category.NameCat,email))
                     {
-                        return Content("Category Already Exist");
+                        TempData["notice"] = "Category Already Exists";
+                        return RedirectToAction("Add", "AddCategory");
                     }
 
                     db.TransactionCategory.Add(category);
@@ -61,15 +62,13 @@ namespace ExpenseTrackingApp.Controllers
                 }
 
                 ModelState.Clear();
+                TempData["notice"] = "Category Added Successfully";
                 return RedirectToAction("TransactionCategories", "View");
             }
 
             return Content("Invalid Category");
         }
 
-        /**
-         * Helper Method TODO: PUT IN HELPER METHOD CLASS
-         */
         public static bool CategoryExists(string catname,string email)
         {
             using (Model1 db = new Model1())

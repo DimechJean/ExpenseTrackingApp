@@ -31,14 +31,13 @@ namespace ExpenseTrackingApp.Controllers
             HttpCookie auth = Request.Cookies["auth"];
             if(auth != null)
             {
+                TempData["notice"] = "You Need to be Logged to Use this Feature";
                 return RedirectToAction("../Home");
             }
             return View();
         }
 
         // POST: UserAccounts/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "EmailAcc,PasswordAcc,NameAcc,SurnameAcc")] UserAccount userAccount)
@@ -356,22 +355,48 @@ namespace ExpenseTrackingApp.Controllers
             HttpCookie auth = Request.Cookies["auth"];
             string email = auth.Values.Get("Email");
             UserAccount user = findUser(email);
-            db.UserAccount.Remove(user);
-            int id = Convert.ToInt32(db.UserAccount.OrderByDescending(i => i.ID).FirstOrDefault().ToString());
-            if(user.ID != id)
+            List<TransactionCategory> transactionCat = db.TransactionCategory.Where(m => m.UserAccount == user.ID).ToList();
+            if (transactionCat.Count > 0)
             {
-                var AllUsers = db.UserAccount.ToList();
-                foreach(UserAccount user2 in AllUsers)
+                foreach (TransactionCategory category in transactionCat)
                 {
-                    if(user2.ID > user.ID)
+                    db.TransactionCategory.Remove(category);
+                }
+                db.SaveChanges();
+            }
+            List<PersonalAccount> PersonalAcc = db.PersonalAccount.Where(m => m.UserAccount == user.ID).ToList();
+            List<OnlineAccount> OnlineAcc = db.OnlineAccount.Where(m => m.UserAccount == user.ID).ToList();
+            if(PersonalAcc.Count > 0)
+            {
+                foreach(PersonalAccount personal in PersonalAcc)
+                {
+                    List<TransactionPersonal> temp = db.TransactionPersonal.Where(t => t.Account == personal.ID).ToList();
+                    foreach (TransactionPersonal transaction in temp)
                     {
-                        decimal ID = user2.ID - 1;
-                        db.Database.ExecuteSqlCommand("Update [dbo].[UserAccount] set ID = " + ID + "Where ID = " + user2.ID);
+                        db.TransactionPersonal.Remove(transaction);
                     }
+                    db.SaveChanges();
+                    db.PersonalAccount.Remove(personal);
+                    db.SaveChanges();
                 }
             }
+            if(OnlineAcc.Count > 0)
+            {
+                foreach(OnlineAccount online in OnlineAcc)
+                {
+                    List<TransactionOnline> temp = db.TransactionOnline.Where(t => t.Account == online.ID).ToList();
+                    foreach(TransactionOnline transaction in temp)
+                    {
+                        db.TransactionOnline.Remove(transaction);
+                    }
+                    db.SaveChanges();
+                    db.OnlineAccount.Remove(online);
+                    db.SaveChanges();
+                }
+            }
+            db.UserAccount.Remove(user);
             db.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("LogOff");
         }
 
         private bool UserExists(string username)
@@ -560,7 +585,7 @@ namespace ExpenseTrackingApp.Controllers
         }
 
 
-        //Hashing Algorithm
+        // Hashing Algorithm
 
         [HttpPost]
         public string hashPassword(string password)

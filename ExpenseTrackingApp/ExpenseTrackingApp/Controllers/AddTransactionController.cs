@@ -10,12 +10,6 @@ namespace ExpenseTrackingApp.Controllers
 {
     public class AddTransactionController : Controller
     {
-        // GET: AddTransaction
-        //public ActionResult Index()
-        //{
-        //    return View();
-        //}
-
         public ActionResult Add()
         {
             List<SelectListItem> categories = new List<SelectListItem>();
@@ -23,20 +17,23 @@ namespace ExpenseTrackingApp.Controllers
             HttpCookie auth = Request.Cookies["auth"];
             if(auth == null)
             {
+                TempData["notice"] = "You Need to be Logged to Use this Feature";
                 return RedirectToAction("Login","UserAccounts");
             }
             using (Model1 db = new Model1())
             {
-                var table = db.TransactionCategory.ToArray();
-                foreach (var cat in table)
-                {
-                    SelectListItem newSLI = new SelectListItem();
-                    newSLI.Text = cat.NameCat;
-                    newSLI.Value = Convert.ToString(cat.ID);
-                    categories.Add(newSLI);
-                }
                 string email = auth.Values.Get("Email");
                 UserAccount useracc = db.UserAccount.Where(m => m.EmailAcc.Equals(email)).FirstOrDefault();
+                foreach (var cat in db.TransactionCategory)
+                {
+                    if (cat.UserAccount == null || cat.UserAccount == useracc.ID)
+                    {
+                        SelectListItem newSLI = new SelectListItem();
+                        newSLI.Text = cat.NameCat;
+                        newSLI.Value = Convert.ToString(cat.ID);
+                        categories.Add(newSLI);
+                    }
+                }
                 var accountTable = db.PersonalAccount.ToArray().Where(m=>m.UserAccount == useracc.ID);
                 foreach (var acc in accountTable)
                 {
@@ -48,9 +45,6 @@ namespace ExpenseTrackingApp.Controllers
                 
                 var user = db.UserAccount.Where(m => m.EmailAcc.Equals(email)).ToList();
                 UserAccount user2 = user.ElementAt(0);
-                //Select all accounts where the user account is the one logged in
-                //ViewBag.AccountDescription = new SelectList(db.PersonalAccount.Where(u => u.UserAccount == user2.ID).ToList(), "ID", "AccountDescription");
-                //var accounts = db.PersonalAccount.Where(u => u.UserAccount == user2.ID).ToList();
                 ViewData["Categ"] = new List<SelectListItem>(categories);
                 ViewData["Accts"] = new List<SelectListItem>(accounts);
                 return View();
@@ -83,28 +77,6 @@ namespace ExpenseTrackingApp.Controllers
             }
             return Content("Invalid Transaction");
         }
-
-        /*public ActionResult AddOnline()
-        {
-            List<SelectListItem> categories = new List<SelectListItem>();
-
-            using (Model1 db = new Model1())
-            {
-                var table = db.TransactionCategory.ToArray();
-
-                foreach (var cat in table)
-                {
-                    SelectListItem newSLI = new SelectListItem();
-                    newSLI.Text = cat.NameCat;
-                    newSLI.Value = Convert.ToString(cat.ID);
-                    categories.Add(newSLI);
-                }
-            }
-
-            ViewData["Categ"] = new List<SelectListItem>(categories);
-
-            return View();
-        }*/
         
         public ActionResult Starred(int? id)
         {
@@ -113,12 +85,6 @@ namespace ExpenseTrackingApp.Controllers
                 using (Model1 db = new Model1())
                 {
                     TransactionPersonal oldTransaction = db.TransactionPersonal.Find(id);
-
-                    /*int newID = 0;
-                    foreach (TransactionPersonal tp in db.TransactionPersonal)
-                    {
-                        newID++;
-                    }*/
                     Random r = new Random();
                     int value = (int)r.Next(0, Int32.MaxValue);
                     TransactionPersonal account = db.TransactionPersonal.Find(value);

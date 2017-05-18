@@ -32,8 +32,6 @@ namespace ExpenseTrackingApp.Controllers
         }
 
         // POST: OnlineAccount/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "AccountNumber,AccountDescription,UserAccount")] OnlineAccount onlineAccount)
@@ -41,6 +39,7 @@ namespace ExpenseTrackingApp.Controllers
             HttpCookie auth = Request.Cookies["auth"];
             if (auth == null)
             {
+                TempData["notice"] = "You Need to be Logged to Use this Feature";
                 return RedirectToAction("Login", "UserAccounts");
             }
             string email = auth.Values.Get("Email");
@@ -91,8 +90,6 @@ namespace ExpenseTrackingApp.Controllers
         }
 
         // POST: OnlineAccount/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "ID,AccountDescription,AccountNumber,UserAccount")] OnlineAccount onlineAccount)

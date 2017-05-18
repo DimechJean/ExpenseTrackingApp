@@ -10,31 +10,35 @@ namespace ExpenseTrackingApp.Controllers
 {
     public class EditController : Controller
     {
-        // GET: Edit
-        //public ActionResult Index()
-        //{
-        //    return View();
-        //}
-
         public ActionResult Category(int? id)
         {
+            HttpCookie auth = Request.Cookies["auth"];
+            if(auth == null)
+            {
+                return RedirectToAction("../Home");
+            }
+
             if (id == null)
                 return new HttpStatusCodeResult(System.Net.HttpStatusCode.BadRequest);
 
             using (Model1 db = new Model1())
             {
+                string email = auth.Values.Get("Email");
+                UserAccount user = db.UserAccount.Where(m => m.EmailAcc.Equals(email)).FirstOrDefault();
                 TransactionCategory cat = db.TransactionCategory.Find(id);
                 if (cat == null)
                     return HttpNotFound();
+
+                if (cat.UserAccount != user.ID)
+                {
+                    return RedirectToAction("../Home");
+                }
+
                 ViewBag.param_name = cat.NameCat;
             }
             ViewBag.param_id = id;
             return View();
         }
-
-        // note 
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -50,7 +54,8 @@ namespace ExpenseTrackingApp.Controllers
                     {
                         return RedirectToAction("Add", "AddCategory");
                     }
-
+                    UserAccount curUser = db.UserAccount.Where(m => m.EmailAcc.Equals(email)).FirstOrDefault();
+                    category.UserAccount = curUser.ID;
                     db.Entry(category).State = System.Data.Entity.EntityState.Modified;
                     db.SaveChanges();
                 }
@@ -64,13 +69,25 @@ namespace ExpenseTrackingApp.Controllers
 
         public ActionResult Transaction(int? id)
         {
+            HttpCookie auth = Request.Cookies["auth"];
+            if(auth == null)
+            {
+                return RedirectToAction("../Home");
+            }
             if (id == null)
                 return new HttpStatusCodeResult(System.Net.HttpStatusCode.BadRequest);
 
-            HttpCookie auth = Request.Cookies["auth"];
             using (Model1 db = new Model1())
             {
+                string email = auth.Values.Get("Email");
+                UserAccount user = db.UserAccount.Where(m => m.EmailAcc.Equals(email)).FirstOrDefault();
                 TransactionPersonal tp = db.TransactionPersonal.Find(id);
+                PersonalAccount personal = db.PersonalAccount.Where(m => m.ID == tp.Account).First();
+                if(personal.UserAccount != user.ID)
+                {
+                    return RedirectToAction("../Home");
+                }
+
                 if (tp == null)
                     return HttpNotFound();
 
@@ -82,9 +99,10 @@ namespace ExpenseTrackingApp.Controllers
                     SelectListItem newSLI = new SelectListItem();
                     newSLI.Text = cat.NameCat;
                     newSLI.Value = Convert.ToString(cat.ID);
+                    if (cat.NameCat == tp.TransactionCategory1.NameCat)
+                        newSLI.Selected = true;
                     categories.Add(newSLI);
                 }
-                string email = auth.Values.Get("Email");
                 UserAccount useracc = db.UserAccount.Where(m => m.EmailAcc.Equals(email)).FirstOrDefault();
                 var accountTable = db.PersonalAccount.ToArray().Where(m => m.UserAccount == useracc.ID);
                 foreach (var acc in accountTable)
@@ -92,10 +110,9 @@ namespace ExpenseTrackingApp.Controllers
                     SelectListItem newSLI = new SelectListItem();
                     newSLI.Text = acc.AccountDescription;
                     newSLI.Value = Convert.ToString(acc.ID);
+                    if (acc.ID == tp.Account)
+                        newSLI.Selected = true;
                     accounts.Add(newSLI);
-
-                    if(acc.ID == tp.Account)
-                        ViewBag.accountSelected = acc.AccountDescription;
                 }
                 string month;
                 if (tp.DateAdded.Month < 10)
@@ -111,8 +128,7 @@ namespace ExpenseTrackingApp.Controllers
                 ViewData["Categ"] = new List<SelectListItem>(categories);
                 ViewData["Accts"] = new List<SelectListItem>(accounts);
                 ViewBag.param_desc = tp.TransactionDescription;
-                ViewBag.param_amnt = tp.Amount;
-                ViewBag.categorySelected = tp.TransactionCategory1.NameCat;       
+                ViewBag.param_amnt = tp.Amount;     
             }
             ViewBag.param_id = id;
             return View();
@@ -139,12 +155,23 @@ namespace ExpenseTrackingApp.Controllers
 
         public ActionResult TransactionOnline(int? id)
         {
+            HttpCookie auth = Request.Cookies["auth"];
+            if(auth == null)
+            {
+                return RedirectToAction("../Home");
+            }
             if (id == null)
                 return new HttpStatusCodeResult(System.Net.HttpStatusCode.BadRequest);
-            HttpCookie auth = Request.Cookies["auth"];
             using (Model1 db = new Model1())
             {
+                string email = auth.Values.Get("Email");
+                UserAccount user = db.UserAccount.Where(m => m.EmailAcc.Equals(email)).FirstOrDefault();
                 TransactionOnline to = db.TransactionOnline.Find(id);
+                OnlineAccount online = db.OnlineAccount.Where(m => m.ID == to.Account).First();
+                if(online.UserAccount != user.ID)
+                {
+                    return RedirectToAction("../Home");
+                }
                 if (to == null)
                     return HttpNotFound();
 
@@ -157,7 +184,6 @@ namespace ExpenseTrackingApp.Controllers
                     newSLI.Value = Convert.ToString(cat.ID);
                     categories.Add(newSLI);
                 }
-                string email = auth.Values.Get("Email");
                 UserAccount useracc = db.UserAccount.Where(m => m.EmailAcc.Equals(email)).FirstOrDefault();
                 var accountTable = db.PersonalAccount.ToArray().Where(m => m.UserAccount == useracc.ID);
                 foreach (var acc in accountTable)

@@ -54,14 +54,16 @@
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" value="Create" class="btn btn-default" />
+				<input class="btn btn-default" type="button" value="Login" onclick=" location.href='@Url.Action("Login", "UserAccounts")' " />
+
             </div>
         </div>
 
-        <div id="socialLoginList">
-            <p>
-                <button onclick="location.replace('../UserAccounts/Facebook');"type="submit" class="btn btn-default" title="Register With Facebook">Register With Facebook</button>
-            </p>
-        </div>
+		<div id="socialLoginList">
+			<p>
+				<button onclick="location.replace('../UserAccounts/Facebook');" type="submit" class="btn btn-sm" title="Register With Facebook ">Register With Facebook</button>
+			</p>
+		</div>
     </div>
 }
 

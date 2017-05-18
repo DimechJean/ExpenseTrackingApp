@@ -10,17 +10,12 @@ namespace ExpenseTrackingApp.Controllers
 {
     public class DeleteController : Controller
     {
-        // GET: Delete
-        //public ActionResult Index()
-        //{
-        //    return View();
-        //}
-
         public ActionResult Category(int? id)
         {
             HttpCookie auth = Request.Cookies["auth"];
             if(auth == null)
             {
+                TempData["notice"] = "You Need to be Logged to Use this Feature";
                 return RedirectToAction("../Home");
             }
             if (id == null)
@@ -54,6 +49,7 @@ namespace ExpenseTrackingApp.Controllers
             HttpCookie auth = Request.Cookies["auth"];
             if(auth == null)
             {
+                TempData["notice"] = "You Need to be Logged to Use this Feature";
                 return RedirectToAction("../Home");
             }
             if (id == null)

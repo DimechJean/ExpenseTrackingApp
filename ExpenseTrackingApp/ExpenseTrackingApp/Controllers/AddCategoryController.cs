@@ -16,7 +16,8 @@ namespace ExpenseTrackingApp.Controllers
             HttpCookie auth = Request.Cookies["auth"];
             if(auth == null)
             {
-                return RedirectToAction("../Home");
+                TempData["notice"] = "You Need to be Logged to Use this Feature";
+                return RedirectToAction("Login", "UserAccount");
             }
             return View();
         }
@@ -26,6 +27,7 @@ namespace ExpenseTrackingApp.Controllers
             HttpCookie auth = Request.Cookies["auth"];
             if(auth == null)
             {
+                TempData["notice"] = "You Need to be Logged to Use this Feature";
                 return RedirectToAction("../Home");
             }
             return View();
@@ -69,9 +71,6 @@ namespace ExpenseTrackingApp.Controllers
             return Content("Invalid Category");
         }
 
-        /**
-         * Helper Method TODO: PUT IN HELPER METHOD CLASS
-         */
         public static bool CategoryExists(string catname,string email)
         {
             using (Model1 db = new Model1())

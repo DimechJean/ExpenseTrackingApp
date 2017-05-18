@@ -10,24 +10,30 @@ namespace ExpenseTrackingApp.Controllers
 {
     public class DeleteController : Controller
     {
-        // GET: Delete
-        //public ActionResult Index()
-        //{
-        //    return View();
-        //}
-
         public ActionResult Category(int? id)
         {
+            HttpCookie auth = Request.Cookies["auth"];
+            if(auth == null)
+            {
+                return RedirectToAction("../Home");
+            }
             if (id == null)
                 return new HttpStatusCodeResult(System.Net.HttpStatusCode.BadRequest);
 
             using (Model1 db = new Model1())
             {
+                string email = auth.Values.Get("Email");
+                UserAccount user = db.UserAccount.Where(m => m.EmailAcc.Equals(email)).FirstOrDefault();
                 TransactionCategory cat = db.TransactionCategory.Find(id);
                 if (cat == null)
                     return HttpNotFound();
                 else
                 {
+                    if (cat.UserAccount != user.ID)
+                    {
+                        return RedirectToAction("../Home");
+                    }
+
                     db.Entry(cat).State = System.Data.Entity.EntityState.Deleted;
                     db.SaveChanges();
                 }
@@ -39,16 +45,28 @@ namespace ExpenseTrackingApp.Controllers
 
         public ActionResult Transaction(int? id)
         {
+            HttpCookie auth = Request.Cookies["auth"];
+            if(auth == null)
+            {
+                return RedirectToAction("../Home");
+            }
             if (id == null)
                 return new HttpStatusCodeResult(System.Net.HttpStatusCode.BadRequest);
 
             using (Model1 db = new Model1())
             {
+                string email = auth.Values.Get("Email");
+                UserAccount user = db.UserAccount.Where(m => m.EmailAcc.Equals(email)).FirstOrDefault();
                 TransactionPersonal tp = db.TransactionPersonal.Find(id);
                 if (tp == null)
                     return HttpNotFound();
                 else
                 {
+                    PersonalAccount personal = db.PersonalAccount.Where(m => m.ID == tp.Account).First();
+                    if (personal.UserAccount != user.ID)
+                    {
+                        return RedirectToAction("../Home");
+                    }
                     db.Entry(tp).State = System.Data.Entity.EntityState.Deleted;
                     db.SaveChanges();
                 }
@@ -60,16 +78,29 @@ namespace ExpenseTrackingApp.Controllers
 
         public ActionResult TransactionOnline(int? id)
         {
+            HttpCookie auth = Request.Cookies["auth"];
+            if(auth == null)
+            {
+                return RedirectToAction("../Home");
+            }
+
             if (id == null)
                 return new HttpStatusCodeResult(System.Net.HttpStatusCode.BadRequest);
 
             using (Model1 db = new Model1())
             {
+                string email = auth.Values.Get("Email");
+                UserAccount user = db.UserAccount.Where(m => m.EmailAcc.Equals(email)).FirstOrDefault();
                 TransactionOnline tp = db.TransactionOnline.Find(id);
                 if (tp == null)
                     return HttpNotFound();
                 else
                 {
+                    OnlineAccount online = db.OnlineAccount.Where(m => m.ID == tp.Account).First();
+                    if (online.UserAccount != user.ID)
+                    {
+                        return RedirectToAction("../Home");
+                    }
                     db.Entry(tp).State = System.Data.Entity.EntityState.Deleted;
                     db.SaveChanges();
                 }

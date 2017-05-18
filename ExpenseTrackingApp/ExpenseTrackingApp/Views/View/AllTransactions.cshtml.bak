@@ -10,37 +10,51 @@
 <h2>All Transactions</h2>
 
 <div>
-    <h4>Transactions Personal</h4>
-    <hr />
-    <div>
-        @foreach (var transaction in PersTransactions)
-        {
-            <p> Amount: @transaction.Amount </p>
-            <p> Description: @transaction.TransactionDescription</p>
-            <p> Category: @categs.ElementAt(categoryCounter) </p>
-            <p> Date: @transaction.DateAdded </p>
-            <a href="/Edit/Transaction/@transaction.ID"> edit </a>
-            <a href="/Delete/Transaction/@transaction.ID"> delete </a>
-            <a href="/AddTransaction/Starred/@transaction.ID">
-                <img src="~/Content/Images/gold_star_glyph.png" alt="Star" width="40" height="25"/>
-            </a>
-            <br />
-			categoryCounter++;
-		}
+	<hr class="newstyle" />
+	<p>Here you will find all your bank and personal transactions that are not connected to the bank accounts. Clicking on the the repeat button next to the transactions will create a copy of the transaction for quick adding of frequent transactions. </p>
+	<div>
+		<p><a href="@Url.Action("Add", "AddTransaction")" class="btn btn-primary btn-lg">Add Transaction &raquo;</a></p>
+		<table class="table">
+			<thead>
+				<tr>
+					<th>Amount</th>
+					<th>Description</th>
+					<th>Category</th>
+					<th>Date</th>
+				</tr>
+			</thead>
+			<tbody>
+				@foreach (var transaction in PersTransactions)
+				{
+					<tr>
+						<td>€ @transaction.Amount </td>
+						<td>@transaction.TransactionDescription</td>
+						<td>@categs.ElementAt(categoryCounter) </td>
+						<td>@transaction.DateAdded.ToShortDateString() </td>
+						<td>
+							<a href="/Edit/Transaction/@transaction.ID"> edit </a>
+							<a href="/Delete/Transaction/@transaction.ID" onclick="return confirm('Are you sure you want to delete this transaction?');"> delete </a>
+							<a href="/AddTransaction/Starred/@transaction.ID">
+								<img src="~/Content/Images/repeat_glyph.png" alt="Repeat Button" width="25" height="25" />
+							</a>
+						</td>
+					</tr>
+					categoryCounter++;
+				}
 
-        @foreach (var transaction in OnlineTransactions)
-        {
-            <p> Amount: @transaction.Amount </p>
-            <p> Description: @transaction.TransactionDescription</p>
-			<p> Category: @categs.ElementAt(categoryCounter) </p>
-            <p> Date: @transaction.DateAdded </p>
-            <a href="/Edit/TransactionOnline/@transaction.ID"> edit </a>
-            <a href="/Delete/TransactionOnline/@transaction.ID"> delete </a>
-            <a href="/AddTransaction/StarredOnline/@transaction.ID">
-                <img src="~/Content/Images/gold_star_glyph.png" alt="Star" width="40" height="25"/>
-            </a>
-            <br />
-			categoryCounter++;
-		}
-    </div>
+				@foreach (var transaction in OnlineTransactions)
+				{
+					<tr>
+						<td>@transaction.Amount </td>
+						<td>@transaction.TransactionDescription</td>
+						<td>@categs.ElementAt(categoryCounter) </td>
+						<td>@transaction.DateAdded.ToShortDateString()</td>
+						<td>
+						</td>
+					</tr>
+					categoryCounter++;
+				}
+				</tbody>
+			</table>
+	</div>
 </div>

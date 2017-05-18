@@ -10,17 +10,12 @@ namespace ExpenseTrackingApp.Controllers
 {
     public class EditController : Controller
     {
-        // GET: Edit
-        //public ActionResult Index()
-        //{
-        //    return View();
-        //}
-
         public ActionResult Category(int? id)
         {
             HttpCookie auth = Request.Cookies["auth"];
             if(auth == null)
             {
+                TempData["notice"] = "You Need to be Logged to Use this Feature";
                 return RedirectToAction("../Home");
             }
 
@@ -45,10 +40,6 @@ namespace ExpenseTrackingApp.Controllers
             ViewBag.param_id = id;
             return View();
         }
-
-        // note 
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -82,6 +73,7 @@ namespace ExpenseTrackingApp.Controllers
             HttpCookie auth = Request.Cookies["auth"];
             if(auth == null)
             {
+                TempData["notice"] = "You Need to be Logged to Use this Feature";
                 return RedirectToAction("../Home");
             }
             if (id == null)
@@ -109,6 +101,8 @@ namespace ExpenseTrackingApp.Controllers
                     SelectListItem newSLI = new SelectListItem();
                     newSLI.Text = cat.NameCat;
                     newSLI.Value = Convert.ToString(cat.ID);
+                    if (cat.NameCat == tp.TransactionCategory1.NameCat)
+                        newSLI.Selected = true;
                     categories.Add(newSLI);
                 }
                 UserAccount useracc = db.UserAccount.Where(m => m.EmailAcc.Equals(email)).FirstOrDefault();
@@ -118,10 +112,9 @@ namespace ExpenseTrackingApp.Controllers
                     SelectListItem newSLI = new SelectListItem();
                     newSLI.Text = acc.AccountDescription;
                     newSLI.Value = Convert.ToString(acc.ID);
+                    if (acc.ID == tp.Account)
+                        newSLI.Selected = true;
                     accounts.Add(newSLI);
-
-                    if(acc.ID == tp.Account)
-                        ViewBag.accountSelected = acc.AccountDescription;
                 }
                 string month;
                 if (tp.DateAdded.Month < 10)
@@ -137,8 +130,7 @@ namespace ExpenseTrackingApp.Controllers
                 ViewData["Categ"] = new List<SelectListItem>(categories);
                 ViewData["Accts"] = new List<SelectListItem>(accounts);
                 ViewBag.param_desc = tp.TransactionDescription;
-                ViewBag.param_amnt = tp.Amount;
-                ViewBag.categorySelected = tp.TransactionCategory1.NameCat;       
+                ViewBag.param_amnt = tp.Amount;     
             }
             ViewBag.param_id = id;
             return View();
@@ -168,6 +160,7 @@ namespace ExpenseTrackingApp.Controllers
             HttpCookie auth = Request.Cookies["auth"];
             if(auth == null)
             {
+                TempData["notice"] = "You Need to be Logged to Use this Feature";
                 return RedirectToAction("../Home");
             }
             if (id == null)

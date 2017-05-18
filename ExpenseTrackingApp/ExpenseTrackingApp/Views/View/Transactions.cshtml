@@ -1,24 +1,27 @@
 ﻿@model ExpenseTrackingApp.Models.TransactionPersonal
 
 @{
-	ViewBag.Title = "Transactions";
+	ViewBag.Title = "User Transactions";
 	Layout = "~/Views/Shared/_Layout.cshtml";
 	List<ExpenseTrackingApp.Models.TransactionPersonal> transactions = ViewData["TransList"] as List<ExpenseTrackingApp.Models.TransactionPersonal>;
 	List<string> categs = ViewData["categories"] as List<string>;
 	int categoryCounter = 0;
 }
 
+<script src="~/Scripts/jquery.dataTables.min.js"></script>
+
 <h2>Transactions</h2>
 <hr class="newstyle" />
 <div class="container">
 	<p>Here you will find all your personal transactions that are not connected to the bank accounts. Clicking on the the repeat button next to the transactions will create a copy of the transaction for quick adding of frequent transactions. </p>
-	<table class="table">
+	<table id="transactionTable" class="table" cellspacing="0" width="100%">
 		<thead>
 			<tr>
 				<th>Amount</th>
 				<th>Description</th>
 				<th>Category</th>
 				<th>Date</th>
+                <th></th>
 			</tr>
 		</thead>
 		<tbody>
@@ -43,3 +46,9 @@
 	</table>
 	<a href="@Url.Action("Add", "AddTransaction")" class="btn btn-primary btn-lg">Add Transaction &raquo;</a>
 </div>
+
+<script>
+	$(document).ready(function () {
+		$('#transactionTable').DataTable();
+	});
+</script>

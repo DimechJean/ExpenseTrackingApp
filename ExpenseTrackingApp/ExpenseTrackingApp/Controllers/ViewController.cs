@@ -10,25 +10,19 @@ namespace ExpenseTrackingApp.Controllers
 {
     public class ViewController : Controller
     {
-        // GET: View
-        //public ActionResult Index()
-        //{
-        //    return View();
-        //}
-
         public ActionResult TransactionCategories()
         {
             List<TransactionCategory> catList = new List<TransactionCategory>();
             HttpCookie auth = Request.Cookies["auth"];
             if(auth == null)
             {
+                TempData["notice"] = "You Need to be Logged to Use this Feature";
                 return RedirectToAction("Login", "UserAccounts");
             }
             string email = auth.Values.Get("Email");
             using (Model1 db = new Model1())
             {
                 UserAccount user = db.UserAccount.Where(m => m.EmailAcc.Equals(email)).FirstOrDefault();
-                //catList = db.TransactionCategory.SqlQuery("Select * from [dbo].[TransactionCategory] Where UserAccount is null or UserAccount = " + user.ID).ToList();
                 foreach (TransactionCategory tc in db.TransactionCategory)
                 {
                     if (tc.UserAccount == null || tc.UserAccount == user.ID)
@@ -48,6 +42,7 @@ namespace ExpenseTrackingApp.Controllers
             HttpCookie auth = Request.Cookies["auth"];
             if(auth == null)
             {
+                TempData["notice"] = "You Need to be Logged to Use this Feature";
                 return RedirectToAction("Login", "UserAccounts");
             }
             using (Model1 db = new Model1())
@@ -79,6 +74,7 @@ namespace ExpenseTrackingApp.Controllers
             HttpCookie auth = Request.Cookies["auth"];
             if(auth == null)
             {
+                TempData["notice"] = "You Need to be Logged to Use this Feature";
                 return RedirectToAction("Login", "UserAccounts");
             }
             string email = auth.Values.Get("Email");
@@ -110,6 +106,7 @@ namespace ExpenseTrackingApp.Controllers
             HttpCookie auth = Request.Cookies["auth"];
             if (auth == null)
             {
+                TempData["notice"] = "You Need to be Logged to Use this Feature";
                 return RedirectToAction("Login", "UserAccounts");
             }
             string email = auth.Values.Get("Email");

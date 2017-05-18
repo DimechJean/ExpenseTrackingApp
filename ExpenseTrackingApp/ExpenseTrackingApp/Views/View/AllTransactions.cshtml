@@ -7,20 +7,28 @@
 	int categoryCounter = 0;
 }
 
+<script src="~/Scripts/jquery.dataTables.min.js"></script>
+
 <h2>All Transactions</h2>
 
 <div>
 	<hr class="newstyle" />
+	@if (TempData["notice"] != null)
+	{	<div class="notice">
+		<p style="color: #4FD2C2">@TempData["notice"]</p>
+	</div>
+	}
 	<p>Here you will find all your bank and personal transactions that are not connected to the bank accounts. Clicking on the the repeat button next to the transactions will create a copy of the transaction for quick adding of frequent transactions. </p>
 	<div>
 		<p><a href="@Url.Action("Add", "AddTransaction")" class="btn btn-primary btn-lg">Add Transaction &raquo;</a></p>
-		<table class="table">
+		<table id ="transactionTable" class="display" cellspacing="0" width="100%">
 			<thead>
 				<tr>
 					<th>Amount</th>
 					<th>Description</th>
 					<th>Category</th>
 					<th>Date</th>
+					<th></th>
 				</tr>
 			</thead>
 			<tbody>
@@ -58,3 +66,9 @@
 			</table>
 	</div>
 </div>
+
+<script>
+	$(document).ready(function () {
+		$('#transactionTable').DataTable();
+	});
+</script>

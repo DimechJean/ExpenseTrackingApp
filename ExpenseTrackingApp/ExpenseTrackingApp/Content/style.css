@@ -1944,7 +1944,9 @@ pre code {
   overflow-y: scroll;
 }
 
-.container {
+
+
+
   margin-right: auto;
   margin-left: auto;
   padding-left: 20px;
@@ -5027,7 +5029,7 @@ tbody.collapse.in {
   color: #777;
 }
 .navbar-default .navbar-brand:hover, .navbar-default .navbar-brand:focus {
-  color: #5e5e5e;
+  color: #FFFFFF;
   background-color: transparent;
 }
 .navbar-default .navbar-text {
@@ -5103,7 +5105,7 @@ tbody.collapse.in {
   border-color: #090909;
 }
 .navbar-inverse .navbar-brand {
-  color: #9d9d9d;
+  color: #FFFFFF;
 }
 .navbar-inverse .navbar-brand:hover, .navbar-inverse .navbar-brand:focus {
   color: #fff;

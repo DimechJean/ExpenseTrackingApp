@@ -29,13 +29,6 @@
                 @Html.ValidationMessageFor(model => model.PasswordAcc, "", new { @class = "text-danger" })
             </div>
         </div>
-
-        <div id="socialLoginList">
-            <p>
-                <button onclick="location.replace('../UserAccounts/Facebook');" type="submit" class="btn btn-default" title="Register With Facebook">Register With Facebook</button>
-            </p>
-        </div>
-
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <input id="submit" type="submit" value="Login" class="btn btn-default" />

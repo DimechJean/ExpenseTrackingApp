@@ -1,18 +1,20 @@
 ﻿@model ExpenseTrackingApp.Models.TransactionOnline
 
 @{
-	ViewBag.Title = "TransactionsOnline";
+	ViewBag.Title = "Bank Transactions";
 	Layout = "~/Views/Shared/_Layout.cshtml";
 	List<ExpenseTrackingApp.Models.TransactionOnline> transactions = ViewData["TransList"] as List<ExpenseTrackingApp.Models.TransactionOnline>;
 	List<string> categs = ViewData["categories"] as List<string>;
 	int categoryCounter = 0;
 }
 
+<script src="~/Scripts/jquery.dataTables.min.js"></script>
+
 <h2>TransactionsOnline</h2>
 
 <hr class="newstyle" />
 	<p>Here you will find all your bank transactions that are not connected to the bank accounts.</p>
-		<table class="table">
+		<table id ="transactionTable" class="table" cellspacing="0" width="100%">
 			<thead>
 				<tr>
 					<th>Amount</th>
@@ -29,8 +31,6 @@
 						<td>@transaction.TransactionDescription</td>
 						<td>@categs.ElementAt(categoryCounter) </td>
 						<td>@transaction.DateAdded.ToShortDateString()</td>
-						<td>
-						</td>
 					</tr>
 					categoryCounter++;
 				}
@@ -38,3 +38,9 @@
 		</table>
 	</div>
 </div>
+
+<script>
+	$(document).ready(function () {
+		$('#transactionTable').DataTable();
+	});
+</script>

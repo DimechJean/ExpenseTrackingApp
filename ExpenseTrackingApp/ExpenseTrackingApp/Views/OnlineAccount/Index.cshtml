@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<ExpenseTrackingApp.Models.OnlineAccount>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Bank Account";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -15,13 +15,13 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model=> model.AccountNumber)
+            @Html.DisplayName("Account Number")
         </th>
         <th>
             @Html.DisplayNameFor(model => model.UserAccount1.EmailAcc)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.AccountDescription)
+            @Html.DisplayName("Description")
         </th>
         <th></th>
     </tr>

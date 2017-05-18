@@ -11,8 +11,15 @@
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
     <div class="form-horizontal">
-        <h4>UserAccount</h4>
-        <hr />
+
+
+		@if (TempData["notice"] != null)
+		{	<div class="notice">
+			<p style="color: crimson">@TempData["notice"]</p>
+		</div>
+		}
+
+        <hr class="newstyle" />
 
         <div class="form-group">
             @Html.LabelFor(model => model.EmailAcc, htmlAttributes: new { @class = "control-label col-md-2 required" })

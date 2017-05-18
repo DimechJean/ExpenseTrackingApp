@@ -36,7 +36,13 @@ namespace ExpenseTrackingApp
                       "~/Content/owl.carousel.min.css",
                       "~/Content/owl.theme.default.min.css",
                       "~/Content/simple-line-icons.css",
-                      "~/Content/style.css"));
+                      "~/Content/style.css",
+                      "~/Content/jquery.dataTables.min.css"));
+
+            bundles.Add(new ScriptBundle("~/bundles/Tablescripts").Include(
+                      "~/Scripts/jquery.dataTables.min.js",
+                      "~/Scripts/jquery-1.12.4.js"));
+
         }
     }
 }

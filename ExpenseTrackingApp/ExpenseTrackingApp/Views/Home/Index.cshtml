@@ -2,84 +2,51 @@
 	ViewBag.Title = "Home Page";
 }
 
-<div class="jumbotron">
-    <h1>Cache</h1>
-    <p class="lead">Welcome to Cache your all-in-one Expense Tracking Application.</p>
-	
-	@{
-		if (Request.Cookies["auth"] != null)
-		{
-			HttpCookie auth = Request.Cookies["auth"];
-    <p><a href="@Url.Action("Add", "AddTransaction")" class="btn btn-primary btn-lg">Add Transaction &raquo;</a></p>
-			}
-		else
-		{
-			<p><a href="@Url.Action("Login", "UserAccounts")" class="btn btn-primary btn-lg">Login &raquo;</a>
-				<a href="@Url.Action("Create", "UserAccounts")" class="btn btn-primary btn-lg">Register &raquo;</a>
-	</p>
-
-		}
-	}
+<div class="jumbotron" style="background:url('../../Content/Images/cachelogo.jpg')no-repeat center;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    height:400px">
 </div>
 
-<div class="row">
-    <div class="col-md-6">
-	<h2>Getting started</h2>
-	<p>
-		To Start using the app first create a Wallet to store your transaction. You can Add multiple wallets to your account.
-	</p>
-	<p><a class="btn btn-default" href="@Url.Action("Create", "PersonalAccount")">Create Wallet &raquo;</a></p>
-	</div>
-	<div class="col-md-6">
-		<h2>Connect to your bank</h2>
-		<p>Connecting to your bank will allow you to import transactions done through your bank account automatically into your account.</p>
-		<p><a class="btn btn-default" href="@Url.Action("Create", "OnlineAccount")">Connect Bank Account &raquo;</a></p>
-	</div>
-    <div class="col-md-4">
-        <h2>Web Hosting</h2>
-        <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
-    </div>
-</div>
-<div class="row">
-	<div class="col-md-4">
-		<h2>Getting started</h2>
-		<p>
-			ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-			enables a clean separation of concerns and gives you full control over markup
-			for enjoyable, agile development.
-		</p>
-		<p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
-	</div>
-	<div class="col-md-4">
-		<h2>Get more libraries</h2>
-		<p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-		<p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
-	</div>
-	<div class="col-md-4">
-		<h2>Web Hosting</h2>
-		<p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-		<p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
-	</div>
-</div>
-<div class="row">
-	<div class="col-md-4">
-		<h2>Getting started</h2>
-		<p>
-			ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-			enables a clean separation of concerns and gives you full control over markup
-			for enjoyable, agile development.
-		</p>
-		<p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
-	</div>
-	<div class="col-md-4">
-		<h2>Get more libraries</h2>
-		<p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-		<p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
-	</div>
-	<div class="col-md-4">
-		<h2>Web Hosting</h2>
-		<p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-		<p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
-	</div>
-</div>
+        <div class="row">
+            <div style="text-align:center;">
+                @{if (Request.Cookies["auth"] != null)
+                    {
+                        HttpCookie auth = Request.Cookies["auth"];
+                        <p><a href="@Url.Action("Add", "AddTransaction")" class="btn btn-primary btn-lg">Add Transaction &raquo;</a></p>
+                    }
+                    else
+                    {
+                        <p>
+                            <a href="@Url.Action("Login", "UserAccounts")" class="btn btn-primary btn-lg">Login &raquo;</a>
+                            <a href="@Url.Action("Create", "UserAccounts")" class="btn btn-primary btn-lg">Register &raquo;</a>
+                        </p>
+
+                    }
+                }
+            </div>
+            <div class="col-md-6">
+			<h2>Getting started</h2>
+			<p>
+				To Start using the app first create a Wallet to store your transaction. You can Add multiple wallets to your account.
+			</p>
+			<p><a class="btn btn-default" href="@Url.Action("Create", "PersonalAccount")">Create Wallet &raquo;</a></p>
+			</div>
+			<div class="col-md-6">
+				<h2>Connect to your bank</h2>
+				<p>Connecting to your bank will allow you to import transactions done through your bank account automatically into your account.</p>
+				<p><a class="btn btn-default" href="@Url.Action("Create", "OnlineAccount")">Connect Bank Account &raquo;</a></p>
+			</div>
+		    <div class="col-md-6">
+		        <h2>Generate a Report Hosting</h2>
+		        <p>You can easily generate Reports of your transactions</p>
+		        <p><a class="btn btn-default" href="@Url.Action("Index", "Reports")">Generate a Report &raquo;</a></p>
+		    </div>
+			<div class="col-md-6">
+				<h2>Reportings</h2>
+				<p>You can also see timely reports and your total oney spent</p>
+				<p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301865">Go to Reportings &raquo;</a></p>
+			</div>
+        </div>
