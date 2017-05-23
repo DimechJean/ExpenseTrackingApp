@@ -96,6 +96,18 @@ namespace ExpenseTrackingApp.Controllers
         {
             if (ModelState.IsValid)
             {
+
+                //OnlineAccount onlineAccount = db.OnlineAccount.Find(id);
+                // edit all transactions associated with this account
+                var trans = db.TransactionOnline.Where(x => x.Account == onlineAccount.ID).ToList();
+                foreach (TransactionOnline to in trans)
+                {
+                    to.TransactionDescription = onlineAccount.AccountDescription;
+                }
+
+
+
+
                 db.Entry(onlineAccount).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");

@@ -244,6 +244,13 @@
     <Content Include="Views\PersonalAccount\Delete.cshtml" />
     <Content Include="Views\PersonalAccount\Edit.cshtml" />
     <Content Include="Views\PersonalAccount\Index.cshtml" />
+    <Content Include="Views\UserAccounts\EditEmail.cshtml" />
+    <Content Include="Views\UserAccounts\EditName.cshtml" />
+    <Content Include="Views\UserAccounts\EditPassword.cshtml" />
+    <Content Include="Views\UserAccounts\EditSurname.cshtml" />
+    <Content Include="Views\UserAccounts\WrongEmail.cshtml" />
+    <Content Include="Views\UserAccounts\WrongPassword.cshtml" />
+    <Content Include="Views\UserAccounts\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -53,7 +53,7 @@
 				@foreach (var transaction in OnlineTransactions)
 				{
 					<tr>
-						<td>@transaction.Amount </td>
+						<td>€ @transaction.Amount </td>
 						<td>@transaction.TransactionDescription</td>
 						<td>@categs.ElementAt(categoryCounter) </td>
 						<td>@transaction.DateAdded.ToShortDateString()</td>

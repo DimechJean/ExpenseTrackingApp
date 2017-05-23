@@ -15,16 +15,16 @@
         <hr />
         <ul class="list-group">
             <li class="list-group-item">
-                <a href="@Url.Action("EditName", "UserAccounts")">Edit Name</a>
+                @Html.ActionLink("Edit Name", "EditName", "UserAccounts")
             </li>
             <li class="list-group-item">
-                <a href="@Url.Action("EditSurname", "UserAccounts")">Surname</a>
+                @Html.ActionLink("Edit Surname", "EditSurname", "UserAccounts")
             </li>
             <li class="list-group-item">
-                <a href="@Url.Action("EditEmail", "UserAccounts")">Edit Email</a>
+                @Html.ActionLink("Edit Email", "Edit Email", "UserAccounts")
             </li>
             <li class="list-group-item">
-                <a href="@Url.Action("EditPassword", "UserAccounts")">Edit Password</a>
+                @Html.ActionLink("Edit Password", "Edit Password", "UserAccounts")
             </li>
         </ul>
     </div>

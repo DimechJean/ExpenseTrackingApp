@@ -550,7 +550,7 @@ namespace ExpenseTrackingApp.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return Redirect("Create");
+            return RedirectToAction("Create", "UserAccounts");
         }
 
         [HttpPost]

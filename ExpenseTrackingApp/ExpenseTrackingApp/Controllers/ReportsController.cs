@@ -34,15 +34,15 @@ namespace ExpenseTrackingApp.Controllers
         public ActionResult Index(Reports report)
         {
             HttpCookie auth = Request.Cookies["auth"];
-            if(auth == null)
+            if (auth == null)
             {
                 TempData["notice"] = "You Need to be Logged to Use this Feature";
                 return RedirectToAction("Login", "UserAccounts");
             }
-            if(report.From > report.To)
+            if (report.From > report.To)
             {
                 TempData["notice"] = "Th Date To cannot be earlier than From";
-                return RedirectToAction("Index","Reports");
+                return RedirectToAction("Index", "Reports");
             }
             string email = auth.Values.Get("Email");
             UserAccount user = db.UserAccount.Where(m => m.EmailAcc.Equals(email)).First();
@@ -58,26 +58,26 @@ namespace ExpenseTrackingApp.Controllers
                     Transactions.Add(tr[i]);
                 }
             }
-            foreach(OnlineAccount o in OAccounts)
+            foreach (OnlineAccount o in OAccounts)
             {
                 List<TransactionOnline> tr = db.TransactionOnline.Where(m => m.DateAdded >= report.From && m.DateAdded <= report.To).Where(m => o.ID.Equals(m.Account)).ToList();
-                for(int i = 0; i < tr.Count; i++)
+                for (int i = 0; i < tr.Count; i++)
                 {
                     TransactionsO.Add(tr[i]);
                 }
             }
-            if(report.From.Year == report.To.Year)
+            if (report.From.Year == report.To.Year)
             {
                 int monthFrom = report.From.Month;
                 int monthTo = report.To.Month;
-                int totalMonths = monthTo - monthFrom ;
-                List<TransactionPersonal>[] transactionsMonth = new List<TransactionPersonal>[totalMonths+1];
+                int totalMonths = monthTo - monthFrom;
+                List<TransactionPersonal>[] transactionsMonth = new List<TransactionPersonal>[totalMonths + 1];
                 List<TransactionOnline>[] transactionsMonthO = new List<TransactionOnline>[totalMonths + 1];
                 int k = monthFrom;
-                for(int i = 0; i <= totalMonths; i++)
+                for (int i = 0; i <= totalMonths; i++)
                 {
                     transactionsMonth[i] = new List<TransactionPersonal>();
-                    for(int j = 0; j < Transactions.Count; j++)
+                    for (int j = 0; j < Transactions.Count; j++)
                     {
                         if (Transactions.ElementAt(j).DateAdded.Month.Equals(k))
                         {
@@ -87,10 +87,10 @@ namespace ExpenseTrackingApp.Controllers
                     k++;
                 }
                 k = monthFrom;
-                for(int i = 0; i <= totalMonths; i++)
+                for (int i = 0; i <= totalMonths; i++)
                 {
                     transactionsMonthO[i] = new List<TransactionOnline>();
-                    for(int j = 0; j < TransactionsO.Count; j++)
+                    for (int j = 0; j < TransactionsO.Count; j++)
                     {
                         if (TransactionsO.ElementAt(j).DateAdded.Month.Equals(k))
                         {
@@ -99,14 +99,14 @@ namespace ExpenseTrackingApp.Controllers
                     }
                     k++;
                 }
-                double[] totalPerMonth = new double[totalMonths+1];
-                for(int i = 0; i <= totalMonths; i++)
+                double[] totalPerMonth = new double[totalMonths + 1];
+                for (int i = 0; i <= totalMonths; i++)
                 {
-                    for(int j = 0; j < transactionsMonth[i].Count; j++)
+                    for (int j = 0; j < transactionsMonth[i].Count; j++)
                     {
                         totalPerMonth[i] += Convert.ToDouble(transactionsMonth[i].ElementAt(j).Amount);
                     }
-                    for(int j = 0; j < transactionsMonthO[i].Count; j++)
+                    for (int j = 0; j < transactionsMonthO[i].Count; j++)
                     {
                         totalPerMonth[i] += Convert.ToDouble(transactionsMonthO[i].ElementAt(j).Amount);
                     }
@@ -118,7 +118,7 @@ namespace ExpenseTrackingApp.Controllers
                 int YearFrom = report.From.Year;
                 int YearTo = report.To.Year;
                 int totalYears = YearTo - YearFrom;
-                List<TransactionPersonal>[] transactionsYear = new List<TransactionPersonal>[totalYears+1];
+                List<TransactionPersonal>[] transactionsYear = new List<TransactionPersonal>[totalYears + 1];
                 List<TransactionOnline>[] transactionsYearO = new List<TransactionOnline>[totalYears + 1];
                 int k = YearFrom;
                 for (int i = 0; i <= totalYears; i++)
@@ -131,7 +131,7 @@ namespace ExpenseTrackingApp.Controllers
                             transactionsYear[i].Add(Transactions[j]);
                         }
                     }
-                    for(int j = 0; j < TransactionsO.Count; j++)
+                    for (int j = 0; j < TransactionsO.Count; j++)
                     {
                         if (TransactionsO[j].DateAdded.Year.Equals(k))
                         {
@@ -140,14 +140,14 @@ namespace ExpenseTrackingApp.Controllers
                     }
                     k++;
                 }
-                double[] totalPerYear = new double[totalYears+1];
+                double[] totalPerYear = new double[totalYears + 1];
                 for (int i = 0; i <= totalYears; i++)
                 {
                     for (int j = 0; j < transactionsYear[i].Count; j++)
                     {
                         totalPerYear[i] += Convert.ToDouble(transactionsYear[i].ElementAt(j).Amount);
                     }
-                    for(int j = 0; j < transactionsYearO[i].Count; j++)
+                    for (int j = 0; j < transactionsYearO[i].Count; j++)
                     {
                         totalPerYear[i] += Convert.ToDouble(transactionsYearO[i].ElementAt(j).Amount);
                     }
@@ -155,15 +155,15 @@ namespace ExpenseTrackingApp.Controllers
                 ViewBag.TableTotal = totalPerYear;
             }
             int noCategories;
-            List<TransactionCategory> Category = db.TransactionCategory.Where(m=>m.UserAccount == user.ID || m.UserAccount == null).ToList();
+            List<TransactionCategory> Category = db.TransactionCategory.Where(m => m.UserAccount == user.ID || m.UserAccount == null).ToList();
             noCategories = Category.Count;
-            List<TransactionPersonal>[] categories = new List<TransactionPersonal>[noCategories]; 
-            for(int i = 0; i < noCategories; i++)
+            List<TransactionPersonal>[] categories = new List<TransactionPersonal>[noCategories];
+            for (int i = 0; i < noCategories; i++)
             {
                 categories[i] = new List<TransactionPersonal>();
-                for(int j = 0; j < Transactions.Count; j++)
+                for (int j = 0; j < Transactions.Count; j++)
                 {
-                    if(Transactions[j].TransactionCategory == i)
+                    if (Transactions[j].TransactionCategory == i)
                     {
                         categories[i].Add(Transactions[j]);
                     }
@@ -180,7 +180,7 @@ namespace ExpenseTrackingApp.Controllers
         public ActionResult Reporting()
         {
             HttpCookie auth = Request.Cookies["auth"];
-            if(auth == null)
+            if (auth == null)
             {
                 TempData["notice"] = "You Need to be Logged to Use this Feature";
                 return RedirectToAction("Login", "UserAccounts");
@@ -206,7 +206,7 @@ namespace ExpenseTrackingApp.Controllers
             double[] totalWeek = new double[Category.Count];
             double[] totalMonth = new double[Category.Count];
             double[] totalYear = new double[Category.Count];
-            for (int j=0;j<Category.Count;j++)
+            for (int j = 0; j < Category.Count; j++)
             {
                 tranDay[j] = new List<TransactionPersonal>();
                 tranWeek[j] = new List<TransactionPersonal>();
@@ -216,30 +216,30 @@ namespace ExpenseTrackingApp.Controllers
                 tranWeekO[j] = new List<TransactionOnline>();
                 tranMonthO[j] = new List<TransactionOnline>();
                 tranYearO[j] = new List<TransactionOnline>();
-                for(int i = 0; i < transactionDay.Count; i++)
+                for (int i = 0; i < transactionDay.Count; i++)
                 {
-                    if(transactionDay.ElementAt(i).TransactionCategory == Category[j].ID)
+                    if (transactionDay.ElementAt(i).TransactionCategory == Category[j].ID)
                     {
                         tranDay[j].Add(transactionDay.ElementAt(i));
                     }
                 }
                 for (int i = 0; i < transactionWeek.Count; i++)
                 {
-                    if(transactionWeek.ElementAt(i).TransactionCategory == Category[j].ID)
+                    if (transactionWeek.ElementAt(i).TransactionCategory == Category[j].ID)
                     {
                         tranWeek[j].Add(transactionWeek.ElementAt(i));
                     }
                 }
-                for(int i = 0; i < transactionDayO.Count; i++)
+                for (int i = 0; i < transactionDayO.Count; i++)
                 {
-                    if(transactionDayO.ElementAt(i).TransactionCategory == Category[j].ID)
+                    if (transactionDayO.ElementAt(i).TransactionCategory == Category[j].ID)
                     {
                         tranDayO[j].Add(transactionDayO.ElementAt(i));
                     }
                 }
-                for(int i = 0; i < transactionWeekO.Count; i++)
+                for (int i = 0; i < transactionWeekO.Count; i++)
                 {
-                    if(transactionWeekO.ElementAt(i).TransactionCategory == Category[j].ID)
+                    if (transactionWeekO.ElementAt(i).TransactionCategory == Category[j].ID)
                     {
                         tranWeekO[j].Add(transactionWeekO.ElementAt(i));
                     }
@@ -273,10 +273,10 @@ namespace ExpenseTrackingApp.Controllers
                     }
                 }
             }
-            for(int i = 0; i < Category.Count; i++)
+            for (int i = 0; i < Category.Count; i++)
             {
                 double total = 0;
-                for(int j = 0; j < tranDay[i].Count; j++)
+                for (int j = 0; j < tranDay[i].Count; j++)
                 {
                     total += Convert.ToDouble(tranDay[i][j].Amount);
                 }
@@ -290,7 +290,7 @@ namespace ExpenseTrackingApp.Controllers
                 {
                     total += Convert.ToDouble(tranWeek[i][j].Amount);
                 }
-                for(int j = 0; j < tranWeekO[i].Count; j++)
+                for (int j = 0; j < tranWeekO[i].Count; j++)
                 {
                     total += Convert.ToDouble(tranWeekO[i][j].Amount);
                 }
@@ -310,7 +310,7 @@ namespace ExpenseTrackingApp.Controllers
                 {
                     total += Convert.ToDouble(tranYear[i][j].Amount);
                 }
-                for (int j = 0; j< tranYearO[i].Count; j++)
+                for (int j = 0; j < tranYearO[i].Count; j++)
                 {
                     total += Convert.ToDouble(tranYearO[i][j].Amount);
                 }
@@ -330,19 +330,15 @@ namespace ExpenseTrackingApp.Controllers
             string email = cookie.Values.Get("Email");
             UserAccount user = db.UserAccount.Where(m => m.EmailAcc == email).FirstOrDefault();
             DateTime now = DateTime.Now;
-            int delta = DayOfWeek.Monday - now.DayOfWeek;
-            if (delta > 0)
-            {
-                delta -= 7;
-            }
-            DateTime monday = now.AddDays(delta);
-            int day = monday.Day + 6;
-            now = new DateTime(monday.Year, monday.Month, day);
+            DateTime first = now.AddDays(-(int)now.DayOfWeek + 1);
+            first = new DateTime(first.Year, first.Month, first.Day);
+            DateTime end = first.AddDays(6);
+            end = new DateTime(end.Year, end.Month, end.Day);
             List<PersonalAccount> Accounts = db.PersonalAccount.Where(m => m.UserAccount == user.ID).ToList();
             List<TransactionPersonal> transactionsWeek = new List<TransactionPersonal>();
             foreach (PersonalAccount a in Accounts)
             {
-                List<TransactionPersonal> tr = db.TransactionPersonal.Where(m => m.DateAdded >= monday && m.DateAdded <= now).Where(m => a.ID.Equals(m.Account)).ToList();
+                List<TransactionPersonal> tr = db.TransactionPersonal.Where(m => m.DateAdded >= first && m.DateAdded <= end).Where(m => a.ID.Equals(m.Account)).ToList();
                 for (int i = 0; i < tr.Count; i++)
                 {
                     transactionsWeek.Add(tr[i]);
@@ -356,19 +352,13 @@ namespace ExpenseTrackingApp.Controllers
             string email = cookie.Values.Get("Email");
             UserAccount user = db.UserAccount.Where(m => m.EmailAcc == email).FirstOrDefault();
             DateTime now = DateTime.Now;
-            int delta = DayOfWeek.Monday - now.DayOfWeek;
-            if (delta > 0)
-            {
-                delta -= 7;
-            }
-            DateTime monday = now.AddDays(delta);
-            int day = monday.Day + 6;
-            now = new DateTime(monday.Year, monday.Month, day);
+            DateTime first = now.AddDays(-(int)now.DayOfWeek);
+            DateTime end = first.AddDays(6);
             List<OnlineAccount> Accounts = db.OnlineAccount.Where(m => m.UserAccount == user.ID).ToList();
             List<TransactionOnline> transactionsWeek = new List<TransactionOnline>();
             foreach (OnlineAccount a in Accounts)
             {
-                List<TransactionOnline> tr = db.TransactionOnline.Where(m => m.DateAdded >= monday && m.DateAdded <= now).Where(m => a.ID.Equals(m.Account)).ToList();
+                List<TransactionOnline> tr = db.TransactionOnline.Where(m => m.DateAdded >= first && m.DateAdded <= end).Where(m => a.ID.Equals(m.Account)).ToList();
                 for (int i = 0; i < tr.Count; i++)
                 {
                     transactionsWeek.Add(tr[i]);
@@ -423,7 +413,7 @@ namespace ExpenseTrackingApp.Controllers
             string email = cookie.Values.Get("Email");
             UserAccount user = db.UserAccount.Where(m => m.EmailAcc == email).FirstOrDefault();
             List<PersonalAccount> Accounts = db.PersonalAccount.Where(m => m.UserAccount == user.ID).ToList();
-            DateTime thisYear = new DateTime(DateTime.Now.Year,12,31);
+            DateTime thisYear = new DateTime(DateTime.Now.Year, 12, 31);
             DateTime startYear = new DateTime(thisYear.Year, 1, 1);
             List<TransactionPersonal> transactionsYear = new List<TransactionPersonal>();
             foreach (PersonalAccount a in Accounts)
